@@ -1,8 +1,8 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
-import bcrypt from "bcryptjs";
-import { prisma } from "@/lib/db";
+import { verifyPassword } from "@/lib/auth";
+import { db } from "@/lib/db";
 
 const handler = NextAuth({
   providers: [
@@ -17,12 +17,12 @@ const handler = NextAuth({
           return null;
         }
 
-        // Check if this is the admin user
+        // Check if this is the admin user (for backwards compatibility)
         const adminEmail = process.env.ADMIN_EMAIL;
         const adminPasswordHash = process.env.ADMIN_PASSWORD_HASH;
 
         if (credentials.email === adminEmail && adminPasswordHash) {
-          const isValidPassword = await bcrypt.compare(
+          const isValidPassword = await verifyPassword(
             credentials.password,
             adminPasswordHash
           );
@@ -37,7 +37,42 @@ const handler = NextAuth({
           }
         }
 
-        return null;
+        // Check database for regular users
+        try {
+          const user = await db.getUserByEmail(credentials.email);
+          
+          if (!user || !user.password) {
+            return null;
+          }
+
+          // Check if email is verified
+          if (user.emailVerified === 0) {
+            throw new Error("Email not verified. Please check your email for verification link.");
+          }
+
+          const isValidPassword = await verifyPassword(
+            credentials.password,
+            user.password
+          );
+
+          if (!isValidPassword) {
+            return null;
+          }
+
+          return {
+            id: user.id,
+            email: user.email,
+            name: user.name || undefined,
+            role: user.role,
+            image: user.image || undefined,
+          };
+        } catch (error) {
+          console.error("Auth error:", error);
+          if (error instanceof Error && error.message.includes("Email not verified")) {
+            throw error;
+          }
+          return null;
+        }
       },
     }),
     GoogleProvider({

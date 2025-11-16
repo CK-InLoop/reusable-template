@@ -30,7 +30,7 @@ export default function UserActions() {
       {isAdmin && (
         <Link
           href="/dashboard"
-          className="hidden rounded-full border border-slate-300 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-600 transition hover:border-red-500 hover:text-red-600 sm:inline-flex"
+          className="hidden rounded-full border border-slate-300 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-600 transition hover:border-blue-500 hover:text-blue-600 sm:inline-flex"
         >
           Dashboard
         </Link>
@@ -41,7 +41,7 @@ export default function UserActions() {
         </span>
         <button
           onClick={() => signOut()}
-          className="rounded-full bg-red-600 px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-white transition hover:bg-red-700"
+          className="rounded-full bg-blue-600 px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-white transition hover:bg-blue-700"
         >
           Sign Out
         </button>

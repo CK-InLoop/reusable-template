@@ -24,8 +24,8 @@ export default function ProductSidebar() {
 
   return (
     <aside className="flex flex-col rounded-lg border border-slate-200 bg-white shadow-sm">
-      {/* Red header bar */}
-      <div className="flex items-center gap-3 rounded-t-lg bg-[#ef4444] px-4 py-3">
+      {/* Blue header bar */}
+      <div className="flex items-center gap-3 rounded-t-lg bg-[#0b4f82] px-4 py-3">
         <svg
           className="h-5 w-5 text-white"
           fill="none"

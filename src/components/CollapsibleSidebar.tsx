@@ -1,7 +1,7 @@
 import { getHomePage } from "@/lib/details";
-import ProductSidebarClient from "./ProductSidebarClient";
+import CollapsibleSidebarClient from "./CollapsibleSidebarClient";
 
-export default function ProductSidebar() {
+export default function CollapsibleSidebar() {
   const homePage = getHomePage();
 
   // Extract product categories from text_blocks
@@ -21,6 +21,6 @@ export default function ProductSidebar() {
     )
   );
 
-  return <ProductSidebarClient categories={categories} />;
+  return <CollapsibleSidebarClient categories={categories} />;
 }
 

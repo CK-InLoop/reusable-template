@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import SiteLayout from "@/components/SiteLayout";
-import ProductSidebar from "@/components/ProductSidebar";
+import CollapsibleSidebar from "@/components/CollapsibleSidebar";
 import { getHomePage, getPageByUrl } from "@/lib/details";
 import { formatText } from "@/lib/text";
 import { getImagePath } from "@/lib/images";
@@ -57,9 +57,8 @@ export default function Home() {
   return (
     <SiteLayout activePath="/">
       <section className="grid gap-6 lg:grid-cols-[280px_1fr]">
-        <aside className="hidden lg:block">
-          <ProductSidebar />
-        </aside>
+        {/* Desktop sidebar - rendered by CollapsibleSidebar */}
+        <CollapsibleSidebar />
 
         <div className="space-y-8">
           {/* Hero Section - Text Left, Image Right */}

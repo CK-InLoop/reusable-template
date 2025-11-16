@@ -3,6 +3,7 @@ import Link from "next/link";
 import SiteLayout from "@/components/SiteLayout";
 import { getHomePage, getPageByUrl } from "@/lib/details";
 import { formatText } from "@/lib/text";
+import { getImagePath } from "@/lib/images";
 
 const productsPage = getPageByUrl("products");
 const homePage = getHomePage();
@@ -14,7 +15,7 @@ const productMenu = productsPage?.text_blocks.filter((text) =>
   )
 ) ?? [];
 const galleryItems = (productsPage?.image_urls ?? []).map((image, index) => ({
-  image,
+  image: getImagePath(image),
   title:
     productHighlights[index % productHighlights.length] ??
     formatText(homePage.text_blocks[(index % 4) + 2] ?? "Process Equipment"),
@@ -23,26 +24,26 @@ const galleryItems = (productsPage?.image_urls ?? []).map((image, index) => ({
 export default function ProductsPage() {
   return (
     <SiteLayout activePath="/products">
-      <section className="rounded-3xl bg-white p-8 shadow-2xl shadow-slate-200/80 ring-1 ring-slate-100 lg:p-12">
-        <span className="text-[11px] font-semibold uppercase tracking-[0.4em] text-slate-400">
+      <section className="rounded-lg border border-[#e2e8f0] bg-white p-6 shadow-sm lg:p-8">
+        <span className="text-xs font-semibold uppercase tracking-wider text-[#64748b]">
           Product Portfolio
         </span>
-        <div className="mt-6 grid gap-10 lg:grid-cols-[1.15fr_1fr] lg:items-center">
-          <div className="space-y-6 text-base leading-relaxed text-slate-600">
-            <h1 className="text-3xl font-black tracking-tight text-slate-900 md:text-4xl">
+        <div className="mt-6 grid gap-8 lg:grid-cols-[1.15fr_1fr] lg:items-center">
+          <div className="space-y-6 text-base leading-relaxed text-[#171717]">
+            <h1 className="text-3xl font-bold tracking-tight text-[#0b4f82] md:text-4xl">
               {formatText(productHighlights[0] ?? "Process & Storage Systems")}
             </h1>
-            <p>
+            <p className="text-[#64748b]">
               {formatText(
                 productHighlights[1] ??
                   "Tailored equipment, treatment solutions, and turnkey systems designed for industrial excellence."
               )}
             </p>
-            <div className="flex flex-wrap gap-3 text-[11px] uppercase tracking-[0.35em] text-slate-500">
+            <div className="flex flex-wrap gap-3 text-xs uppercase tracking-wider text-[#64748b]">
               {productMenu.map((item) => (
                 <span
                   key={item}
-                  className="rounded-full border border-slate-200 px-4 py-2 text-slate-700 transition hover:border-emerald-300 hover:text-emerald-600"
+                  className="rounded-md border border-[#e2e8f0] px-4 py-2 text-[#171717] transition hover:border-[#0b4f82] hover:text-[#0b4f82]"
                 >
                   {formatText(item)}
                 </span>
@@ -51,49 +52,40 @@ export default function ProductsPage() {
             <div className="flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/services"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-emerald-500 px-7 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-200/70 transition hover:bg-emerald-400"
+                className="inline-flex items-center justify-center gap-2 rounded-md bg-[#0b4f82] px-6 py-3 text-sm font-semibold text-white shadow-md transition hover:bg-[#0b4f82]/90"
               >
                 Explore Services
               </Link>
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-200 px-7 py-3 text-sm font-semibold text-slate-700 transition hover:border-amber-400 hover:text-amber-500"
+                className="inline-flex items-center justify-center gap-2 rounded-md border border-[#e2e8f0] px-6 py-3 text-sm font-semibold text-[#0b4f82] transition hover:border-[#0b4f82] hover:bg-[#0b4f82]/5"
               >
                 Request Catalog
               </Link>
             </div>
           </div>
-          <div className="relative h-72 overflow-hidden rounded-3xl bg-slate-100 shadow-xl shadow-slate-200/80 ring-1 ring-slate-100 sm:h-80">
+          <div className="relative h-72 overflow-hidden rounded-lg bg-[#f8fafc] shadow-sm sm:h-80">
             <Image
-              src={galleryItems[0]?.image ?? homePage.image_urls[1]}
+              src={galleryItems[0]?.image ?? getImagePath(homePage.image_urls[1])}
               alt={formatText(productHighlights[0] ?? "Industrial Products")}
               fill
               unoptimized
-              className="object-cover opacity-90"
+              className="object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/30 via-slate-900/10 to-transparent mix-blend-multiply" />
-            <div className="absolute bottom-6 left-6 right-6 rounded-2xl border border-white/60 bg-white/95 p-5 text-slate-800 shadow-lg">
-              <p className="text-xs uppercase tracking-[0.35em] text-slate-400">
-                Engineered Solutions
-              </p>
-              <p className="mt-2 text-sm font-semibold leading-relaxed">
-                {formatText(productHighlights[1] ?? "Tailored to your process requirements.")}
-              </p>
-            </div>
           </div>
         </div>
       </section>
 
-      <section className="mt-16">
+      <section className="mt-12">
         <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
           <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.4em] text-slate-400">
+            <p className="text-xs font-semibold uppercase tracking-wider text-[#64748b]">
               Featured Equipment
             </p>
-            <h2 className="mt-2 text-2xl font-semibold text-slate-900 md:text-3xl">
+            <h2 className="mt-2 text-2xl font-bold text-[#0b4f82] md:text-3xl">
               Stainless steel vessels, mixers, and turnkey treatment systems.
             </h2>
-            <p className="mt-3 max-w-2xl text-sm text-slate-600 md:text-base">
+            <p className="mt-3 max-w-2xl text-sm text-[#64748b] md:text-base">
               {formatText(
                 homePage.text_blocks.find((text) =>
                   text.startsWith("Wedesign and manufacture")
@@ -104,33 +96,32 @@ export default function ProductsPage() {
           </div>
         </div>
 
-        <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {galleryItems.slice(1).map((item, index) => (
             <article
               key={`${item.image}-${index}`}
-              className="group flex flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white/90 shadow-lg shadow-slate-200/70 transition hover:border-emerald-300 hover:shadow-2xl"
+              className="group flex flex-col overflow-hidden rounded-lg border border-[#e2e8f0] bg-white shadow-sm transition hover:border-[#0b4f82] hover:shadow-md"
             >
-              <div className="relative h-48 overflow-hidden">
+              <div className="relative h-48 overflow-hidden bg-[#f8fafc]">
                 <Image
                   src={item.image}
                   alt={formatText(item.title)}
                   fill
                   unoptimized
-                  className="object-cover transition duration-700 group-hover:scale-105"
+                  className="object-cover transition duration-300 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/35 via-transparent to-transparent" />
               </div>
-              <div className="flex flex-1 flex-col px-6 py-5">
-                <h3 className="text-base font-semibold text-slate-900">
+              <div className="flex flex-1 flex-col px-5 py-4">
+                <h3 className="text-base font-semibold text-[#171717]">
                   {formatText(item.title)}
                 </h3>
-                <p className="mt-2 text-sm text-slate-600">
+                <p className="mt-2 text-sm text-[#64748b]">
                   {formatText(
                     homePage.text_blocks[(index % 4) + 7] ??
                       "Engineered for precision and durability in demanding environments."
                   )}
                 </p>
-                <span className="mt-4 inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.35em] text-emerald-500">
+                <span className="mt-4 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#0b4f82]">
                   Learn More <span aria-hidden="true">›</span>
                 </span>
               </div>

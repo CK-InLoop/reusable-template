@@ -1,10 +1,9 @@
 import Link from "next/link";
-import Image from "next/image";
 import { getHomePage, getMenuItems } from "@/lib/details";
 import { MENU_PATHS } from "@/lib/navigation";
 import { formatText } from "@/lib/text";
-import ServiceIcons from "./ServiceIcons";
 import { getImagePath } from "@/lib/images";
+import HeaderNav from "./HeaderNav";
 
 type SiteLayoutProps = {
   children: React.ReactNode;
@@ -20,6 +19,16 @@ export default function SiteLayout({
   const companyName = formatText(homePage.text_blocks[0] ?? "PAKMON");
   const heroTagline = formatText(homePage.text_blocks[1] ?? "");
   const logoUrl = getImagePath(homePage.image_urls[0]);
+  const brochureLinks = [
+    {
+      label: "Gas Systems Brochure",
+      href: "/catalogs?type=gas",
+    },
+    {
+      label: "Pressure Vessels Brochure",
+      href: "/catalogs?type=pressure",
+    },
+  ];
 
   return (
     <div className="relative min-h-screen bg-white text-[#171717]">
@@ -51,65 +60,13 @@ export default function SiteLayout({
         </div>
       </div>
 
-      {/* Header with Logo and Service Icons */}
-      <header className="border-b border-[#e2e8f0] bg-white">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4">
-          <Link href="/" className="flex items-center gap-3">
-            <div className="relative h-12 w-12 flex-shrink-0">
-              <Image
-                src={logoUrl}
-                alt={companyName}
-                fill
-                className="object-contain"
-                unoptimized
-              />
-            </div>
-            <div className="hidden sm:block">
-              <p className="text-lg font-bold text-[#0b4f82]">
-                {companyName}
-              </p>
-            </div>
-          </Link>
-          <div className="hidden lg:block">
-            <ServiceIcons />
-          </div>
-        </div>
-      </header>
-
-      {/* Dark Navigation Bar */}
-      <nav className="sticky top-0 z-30 bg-[#0b4f82] shadow-md">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-3">
-          <div className="flex items-center gap-8 text-sm font-medium text-white">
-            {menuItems.map((item) => {
-              const href = item.href;
-              const isActive =
-                href === activePath ||
-                (href !== "/" && activePath.startsWith(href));
-
-              return (
-                <Link
-                  key={item.label}
-                  href={href === "/" ? "/" : MENU_PATHS[item.label]}
-                  className={`uppercase tracking-wider transition ${
-                    isActive
-                      ? "text-[#ffb400]"
-                      : "text-white hover:text-[#ffb400]"
-                  }`}
-                >
-                  {formatText(item.label)}
-                </Link>
-              );
-            })}
-          </div>
-
-          <Link
-            href={MENU_PATHS["CONTACT US"]}
-            className="hidden items-center gap-2 rounded-md bg-[#ffb400] px-4 py-2 text-sm font-semibold text-[#171717] transition hover:bg-[#ffb400]/90 sm:inline-flex"
-          >
-            Contact
-          </Link>
-        </div>
-      </nav>
+      <HeaderNav
+        companyName={companyName}
+        logoUrl={logoUrl}
+        menuItems={menuItems}
+        brochureLinks={brochureLinks}
+        activePath={activePath}
+      />
 
       <main className="relative mx-auto max-w-7xl px-4 py-8 lg:px-8 lg:py-12">
         {children}

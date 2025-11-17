@@ -40,14 +40,15 @@ export default function ProductsPage() {
               )}
             </p>
             <div className="flex flex-wrap gap-3 text-xs uppercase tracking-wider text-[#64748b]">
-              {productMenu.map((item) => (
-                <span
-                  key={item}
-                  className="rounded-md border border-[#e2e8f0] px-4 py-2 text-[#171717] transition hover:border-[#0b4f82] hover:text-[#0b4f82]"
-                >
-                  {formatText(item)}
-                </span>
-              ))}
+            {productMenu.map((item, index) => (
+  <span
+    key={index}
+    className="rounded-md border border-[#e2e8f0] px-4 py-2"
+  >
+    {formatText(item)}
+  </span>
+))}
+
             </div>
             <div className="flex flex-col gap-3 sm:flex-row">
               <Link

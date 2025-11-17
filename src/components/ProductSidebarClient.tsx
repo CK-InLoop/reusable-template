@@ -15,7 +15,7 @@ export default function ProductSidebarClient({
       {/* Blue header bar */}
       <div className="flex items-center gap-3 rounded-t-lg bg-[#0b4f82] px-4 py-3 flex-shrink-0">
         <svg
-          className="h-5 w-5 text-white"
+          className="h-5 w-5 self-start text-white"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"

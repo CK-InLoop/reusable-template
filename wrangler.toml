@@ -5,11 +5,11 @@ compatibility_date = "2024-01-01"
 [[d1_databases]]
 binding = "DB"
 database_name = "reusable-template-db"
-database_id = "" # Set this after creating the database via `wrangler d1 create reusable-template-db`
+database_id = "10e16b63-ff7b-4fe2-87b3-100ce6e0e293" # Set this after creating the database via `wrangler d1 create reusable-template-db`
 
 [env.production]
 [[env.production.d1_databases]]
 binding = "DB"
 database_name = "reusable-template-db"
-database_id = "" # Set this for production database
+database_id = "10e16b63-ff7b-4fe2-87b3-100ce6e0e293" # Set this for production database
 

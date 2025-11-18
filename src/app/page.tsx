@@ -7,13 +7,11 @@ import { getHomePage, getPageByUrl } from "@/lib/details";
 import { formatText } from "@/lib/text";
 import { getImagePath } from "@/lib/images";
 
-
-
-
 const homePage = getHomePage();
 const corporatePage = getPageByUrl("corporate");
 const productsPage = getPageByUrl("products");
 
+// page content
 const companyName = homePage.text_blocks[0] ?? "PAKMON";
 const heroTagline = homePage.text_blocks[1] ?? "";
 const heroSummary =

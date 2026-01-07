@@ -63,11 +63,7 @@ export default async function SuppliersPage({ searchParams }: SuppliersPageProps
                         </div>
                       )}
 
-                      <div className="p-4 flex items-center justify-center flex-1">
-                        <span className="text-sm font-semibold text-[#0b4f82] text-center line-clamp-2">
-                          {formatText(supplierName)}
-                        </span>
-                      </div>
+                      {/* Name removed as requested */}
                     </Link>
                   );
                 })}

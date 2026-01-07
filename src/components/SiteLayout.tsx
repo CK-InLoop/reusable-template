@@ -68,7 +68,7 @@ export default function SiteLayout({
         activePath={activePath}
       />
 
-      <main className="relative mx-auto max-w-7xl px-4 py-8 lg:px-8 lg:py-12">
+      <main className="relative mx-auto max-w-7xl px-4 pb-8 pt-4 lg:px-8 lg:pb-12">
         {children}
       </main>
 

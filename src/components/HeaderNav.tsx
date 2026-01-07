@@ -109,15 +109,15 @@ export default function HeaderNav({
       </header>
 
       <nav className="sticky top-0 z-40 bg-[#0b4f82] shadow-md">
-        <div className="mx-auto hidden max-w-7xl items-center justify-between gap-6 px-4 py-3 text-sm font-medium text-white lg:flex">
+        <div className="mx-auto hidden max-w-7xl items-center justify-between gap-6 px-4 text-sm font-medium text-white lg:flex">
           {/* Left side - Category dropdown */}
-          <div className="relative group">
+          <div className="relative group h-full">
             <button
               type="button"
-              className="flex items-center gap-2 rounded-md bg-[#0a3d6b] px-4 py-2 uppercase tracking-wider transition hover:bg-[#083050]"
+              className="flex h-14 w-[280px] items-center gap-3 bg-[#0a3d6b] px-6 text-base font-bold uppercase tracking-wider transition hover:bg-[#083050]"
             >
               <svg
-                className="h-4 w-4"
+                className="h-5 w-5"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -132,7 +132,7 @@ export default function HeaderNav({
               Category
             </button>
             {/* Category dropdown panel */}
-            <div className="invisible absolute left-0 top-full z-50 mt-0 w-56 origin-top-left scale-95 rounded-b-lg border border-t-0 border-slate-200 bg-white opacity-0 shadow-2xl transition duration-200 group-hover:visible group-hover:scale-100 group-hover:opacity-100">
+            <div className="invisible absolute left-0 top-full z-50 mt-0 w-full origin-top-left scale-95 border-b border-x border-slate-200 bg-white opacity-0 shadow-2xl transition duration-200 group-hover:visible group-hover:scale-100 group-hover:opacity-100">
               <Link href="/suppliers?category=Oil" className="flex w-full items-center justify-between px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-50 hover:text-[#0b4f82] border-b border-slate-100">
                 <span>Oil</span>
                 <svg className="h-4 w-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -161,7 +161,7 @@ export default function HeaderNav({
           </div>
 
           {/* Right side - Menu items and Catalogs */}
-          <div className="flex items-center gap-8">
+          <div className="flex items-center gap-8 py-4">
             {menuItems.map((item) => {
               const href = item.href;
               const isActive = isActiveLink(href);

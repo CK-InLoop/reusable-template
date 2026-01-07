@@ -58,65 +58,67 @@ export default function Home() {
 
   return (
     <SiteLayout activePath="/">
-      <section className="grid gap-6 lg:grid-cols-[280px_1fr]">
-        {/* Desktop sidebar - rendered by CollapsibleSidebar */}
-        <CollapsibleSidebar />
+      <section className="bg-gray-100 pb-8 w-[100vw] ml-[calc(50%-50vw)]">
+        <div className="mx-auto max-w-6xl px-4 grid gap-6 lg:grid-cols-[280px_1fr]">
+          {/* Desktop sidebar - rendered by CollapsibleSidebar */}
+          <CollapsibleSidebar />
 
-        <div className="space-y-8">
-          <FeaturedCarousel />
-          {/* Hero Section - Text Left, Image Right */}
-          <div className="grid gap-8 rounded-lg border border-[#e2e8f0] bg-white p-6 shadow-sm lg:grid-cols-2 lg:items-center lg:p-8">
-            <div className="space-y-4">
-              <h1 className="text-3xl font-bold text-[#0b4f82] md:text-4xl">
-                {formatText(companyName)}
-              </h1>
-              <p className="text-lg font-semibold text-[#171717]">
-                {formatText(heroTagline)}
-              </p>
-              <p className="text-base leading-relaxed text-[#64748b]">
-                {formatText(heroSummary)}
-              </p>
-              <div className="flex flex-col gap-3 sm:flex-row">
-                <Link
-                  href="/products"
-                  className="inline-flex items-center justify-center rounded-md bg-[#ffb400] px-6 py-3 text-sm font-semibold text-[#171717] shadow-md transition hover:bg-[#ffb400]/90"
-                >
-                  {formatText("PRODUCTS")}
-                </Link>
-                <Link
-                  href="/corporate"
-                  className="inline-flex items-center justify-center rounded-md border border-[#e2e8f0] px-6 py-3 text-sm font-semibold text-[#0b4f82] transition hover:border-[#0b4f82] hover:bg-[#0b4f82]/5"
-                >
-                  {formatText("CORPORATE")}
-                </Link>
-              </div>
-            </div>
-            <div className="relative h-64 overflow-hidden rounded-lg bg-[#f8fafc] sm:h-80">
-              <Image
-                src={heroImage}
-                alt={formatText(companyName)}
-                fill
-                unoptimized
-                className="object-cover"
-              />
-            </div>
-          </div>
-
-          {/* Highlights Grid */}
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {heroHighlights.map((highlight) => (
-              <div
-                key={highlight}
-                className="group rounded-lg border border-[#e2e8f0] bg-white p-4 shadow-sm transition hover:border-[#0b4f82] hover:shadow-md"
-              >
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#0b4f82]/10 text-[#0b4f82] transition group-hover:bg-[#0b4f82] group-hover:text-white">
-                  <span className="text-lg font-semibold">★</span>
-                </div>
-                <p className="mt-3 text-sm font-medium leading-relaxed text-[#171717]">
-                  {formatText(highlight)}
+          <div className="space-y-8">
+            <FeaturedCarousel />
+            {/* Hero Section - Text Left, Image Right */}
+            <div className="grid gap-8 rounded-lg border border-[#e2e8f0] bg-white p-6 shadow-sm lg:grid-cols-2 lg:items-center lg:p-8">
+              <div className="space-y-4">
+                <h1 className="text-3xl font-bold text-[#0b4f82] md:text-4xl">
+                  {formatText(companyName)}
+                </h1>
+                <p className="text-lg font-semibold text-[#171717]">
+                  {formatText(heroTagline)}
                 </p>
+                <p className="text-base leading-relaxed text-[#64748b]">
+                  {formatText(heroSummary)}
+                </p>
+                <div className="flex flex-col gap-3 sm:flex-row">
+                  <Link
+                    href="/products"
+                    className="inline-flex items-center justify-center rounded-md bg-[#ffb400] px-6 py-3 text-sm font-semibold text-[#171717] shadow-md transition hover:bg-[#ffb400]/90"
+                  >
+                    {formatText("PRODUCTS")}
+                  </Link>
+                  <Link
+                    href="/corporate"
+                    className="inline-flex items-center justify-center rounded-md border border-[#e2e8f0] px-6 py-3 text-sm font-semibold text-[#0b4f82] transition hover:border-[#0b4f82] hover:bg-[#0b4f82]/5"
+                  >
+                    {formatText("CORPORATE")}
+                  </Link>
+                </div>
               </div>
-            ))}
+              <div className="relative h-64 overflow-hidden rounded-lg bg-[#f8fafc] sm:h-80">
+                <Image
+                  src={heroImage}
+                  alt={formatText(companyName)}
+                  fill
+                  unoptimized
+                  className="object-cover"
+                />
+              </div>
+            </div>
+
+            {/* Highlights Grid */}
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {heroHighlights.map((highlight) => (
+                <div
+                  key={highlight}
+                  className="group rounded-lg border border-[#e2e8f0] bg-white p-4 shadow-sm transition hover:border-[#0b4f82] hover:shadow-md"
+                >
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#0b4f82]/10 text-[#0b4f82] transition group-hover:bg-[#0b4f82] group-hover:text-white">
+                    <span className="text-lg font-semibold">★</span>
+                  </div>
+                  <p className="mt-3 text-sm font-medium leading-relaxed text-[#171717]">
+                    {formatText(highlight)}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -170,7 +172,7 @@ export default function Home() {
             <p className="mt-3 max-w-2xl text-sm text-[#64748b] md:text-base">
               {formatText(
                 productHighlights[1] ??
-                  "Water Traetment and Air Treatment solutions"
+                "Water Traetment and Air Treatment solutions"
               )}
             </p>
           </div>
@@ -255,7 +257,7 @@ export default function Home() {
             <p className="mt-4 max-w-2xl text-sm text-[#64748b] md:text-base">
               {formatText(
                 corporateIntro[0] ??
-                  "Our Highly skilled technical based hands on experienced people drive our innovation gear."
+                "Our Highly skilled technical based hands on experienced people drive our innovation gear."
               )}
             </p>
             <div className="mt-8 grid gap-4 sm:grid-cols-2">

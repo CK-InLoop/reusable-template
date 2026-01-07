@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { formatText } from "@/lib/text";
 
 type ProductSidebarClientProps = {
@@ -15,6 +15,8 @@ export default function ProductSidebarClient({
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const router = useRouter();
+  const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const activeCategory = searchParams.get("category");
   const activeSubCategory = searchParams.get("subCategory");
@@ -28,6 +30,36 @@ export default function ProductSidebarClient({
   const toggleSection = (name: string) => {
     setExpandedSection((current) => (current === name ? null : name));
   };
+
+  const handleSubCategoryHover = useCallback((sectionName: string, sub: string) => {
+    // Clear any existing timeout
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+    }
+
+    // Set a short delay to prevent accidental navigation
+    hoverTimeoutRef.current = setTimeout(() => {
+      const href = `/suppliers?category=${encodeURIComponent(sectionName)}&subCategory=${encodeURIComponent(sub)}`;
+      router.push(href);
+    }, 150);
+  }, [router]);
+
+  const handleSubCategoryLeave = useCallback(() => {
+    // Clear timeout if mouse leaves before delay completes
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = null;
+    }
+  }, []);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current);
+      }
+    };
+  }, []);
 
   return (
     <aside className="flex flex-col rounded-lg border border-slate-200 bg-white shadow-sm h-full">
@@ -66,9 +98,8 @@ export default function ProductSidebarClient({
               >
                 <span>{formatText(section.name)}</span>
                 <svg
-                  className={`h-4 w-4 text-slate-400 flex-shrink-0 transition-transform ${
-                    isExpanded ? "rotate-90" : ""
-                  }`}
+                  className={`h-4 w-4 text-slate-400 flex-shrink-0 transition-transform ${isExpanded ? "rotate-90" : ""
+                    }`}
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -85,26 +116,23 @@ export default function ProductSidebarClient({
               {isExpanded && (
                 <div className="pb-2">
                   {section.subCategories.map((sub) => {
-                    const href = `/suppliers?category=${encodeURIComponent(
-                      section.name
-                    )}&subCategory=${encodeURIComponent(sub)}`;
                     const isActive =
                       pathname.startsWith("/suppliers") &&
                       activeCategory === section.name &&
                       activeSubCategory === sub;
 
                     return (
-                      <Link
+                      <div
                         key={sub}
-                        href={href}
-                        className={`block px-6 py-2 text-sm transition hover:bg-slate-50 hover:text-[#0b4f82] ${
-                          isActive
-                            ? "text-[#0b4f82] font-semibold"
-                            : "text-slate-600"
-                        }`}
+                        onMouseEnter={() => handleSubCategoryHover(section.name, sub)}
+                        onMouseLeave={handleSubCategoryLeave}
+                        className={`block px-6 py-2 text-sm transition cursor-pointer hover:bg-slate-50 hover:text-[#0b4f82] ${isActive
+                          ? "text-[#0b4f82] font-semibold bg-slate-50"
+                          : "text-slate-600"
+                          }`}
                       >
                         {formatText(sub)}
-                      </Link>
+                      </div>
                     );
                   })}
                 </div>
@@ -116,4 +144,3 @@ export default function ProductSidebarClient({
     </aside>
   );
 }
-

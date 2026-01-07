@@ -121,4 +121,10 @@ export const db = {
       where: { id },
     });
   },
+
+  async getAllProducts() {
+    return await (prisma as any).products.findMany({
+      orderBy: { createdAt: "desc" },
+    });
+  },
 };

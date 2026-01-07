@@ -171,7 +171,7 @@ export default function ProductSidebarClient({
       {/* Flyout Panel */}
       {hoveredSubCategory && (
         <div
-          className="absolute left-[100%] top-0 h-[600px] w-[800px] bg-white border border-[#0b4f82] shadow-xl rounded-r-lg z-10 overflow-auto p-6 pl-8 ml-1"
+          className="absolute left-[100%] top-0 h-[600px] w-[800px] bg-white border border-[#0b4f82] shadow-xl rounded-r-lg z-10 overflow-auto p-6 pl-10 pt-8 ml-1"
           onMouseEnter={onFlyoutMouseEnter}
           onMouseLeave={onFlyoutMouseLeave}
         >

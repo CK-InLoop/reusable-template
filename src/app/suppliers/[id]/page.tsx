@@ -84,6 +84,21 @@ export default async function SupplierPage({
                 <p className="line-clamp-2">{(supplier as any).address}</p>
               )}
             </div>
+
+            <div className="flex flex-col gap-3 pt-2 sm:flex-row">
+              <Link
+                href="/services"
+                className="inline-flex items-center justify-center gap-2 rounded-md bg-[#0b4f82] px-6 py-3 text-sm font-semibold text-white shadow-md transition hover:bg-[#0b4f82]/90"
+              >
+                Explore Services
+              </Link>
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center gap-2 rounded-md border border-[#e2e8f0] px-6 py-3 text-sm font-semibold text-[#0b4f82] transition hover:border-[#0b4f82] hover:bg-[#0b4f82]/5"
+              >
+                Request Catalog
+              </Link>
+            </div>
           </div>
 
           <div className="relative h-72 overflow-hidden rounded-lg bg-[#f8fafc] shadow-sm sm:h-80" />

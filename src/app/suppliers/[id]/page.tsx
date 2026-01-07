@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import SiteLayout from "@/components/SiteLayout";
+import SearchInput from "@/components/SearchInput"; // Added export
 import { db } from "@/lib/db";
 import { formatText } from "@/lib/text";
 import { getAzureSignedUrl } from "@/lib/azure";
@@ -15,6 +16,7 @@ type SupplierPageProps = {
   searchParams: Promise<{
     category?: string;
     subCategory?: string;
+    q?: string; // Added q param
   }>;
 };
 
@@ -28,13 +30,15 @@ export default async function SupplierPage({
   const supplierId = resolvedParams.id;
   const category = resolvedSearchParams?.category;
   const subCategory = resolvedSearchParams?.subCategory;
+  const searchTerm = resolvedSearchParams?.q; // Read q param
 
   const supplier = await db.getSupplierById(supplierId);
   if (!supplier) {
     notFound();
   }
 
-  const products = await db.getProductsBySupplierId(supplierId);
+  // Pass search term to db
+  const products = await db.getProductsBySupplierId(supplierId, { search: searchTerm });
 
   const backHref = `/suppliers?category=${encodeURIComponent(
     category ?? ""
@@ -42,7 +46,9 @@ export default async function SupplierPage({
 
   return (
     <SiteLayout activePath="/products">
+      {/* ... Supplier Card Section ... */}
       <section className="mt-8 rounded-lg border border-[#e2e8f0] bg-white p-6 shadow-sm">
+        {/* ... (this section content unchanged, just leaving placeholder) ... */}
         <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
           {/* Profile Image - Compact */}
           <div className="relative h-32 w-32 flex-shrink-0 overflow-hidden rounded-lg bg-[#f8fafc] border border-slate-100 shadow-sm">
@@ -162,7 +168,7 @@ export default async function SupplierPage({
       </section>
 
       <section className="mt-12">
-        <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+        <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between mb-8">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wider text-[#64748b]">
               Products
@@ -174,11 +180,14 @@ export default async function SupplierPage({
               Browse all products added by this supplier.
             </p>
           </div>
+          <div className="w-full md:w-72">
+            <SearchInput placeholder="Search products..." />
+          </div>
         </div>
 
         {(products as any[]).length === 0 ? (
           <section className="mt-8 rounded-lg border border-[#e2e8f0] bg-white p-6 text-sm text-[#64748b] shadow-sm">
-            This supplier has not added products yet.
+            {searchTerm ? "No products found matching your search." : "This supplier has not added products yet."}
           </section>
         ) : (
           <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">

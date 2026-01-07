@@ -101,9 +101,18 @@ export const db = {
     });
   },
 
-  async getProductsBySupplierId(supplierId: string) {
+  async getProductsBySupplierId(supplierId: string, filters?: { search?: string }) {
+    const where: Record<string, any> = { supplierId };
+
+    if (filters?.search) {
+      where.OR = [
+        { name: { contains: filters.search, mode: 'insensitive' } },
+        { description: { contains: filters.search, mode: 'insensitive' } },
+      ];
+    }
+
     return await (prisma as any).products.findMany({
-      where: { supplierId },
+      where,
       orderBy: { createdAt: "desc" },
     });
   },
@@ -122,8 +131,17 @@ export const db = {
     });
   },
 
-  async getAllProducts() {
+  async getAllProducts(filters?: { search?: string }) {
+    const where: Record<string, any> = {};
+    if (filters?.search) {
+      where.OR = [
+        { name: { contains: filters.search, mode: 'insensitive' } },
+        { description: { contains: filters.search, mode: 'insensitive' } },
+      ];
+    }
+
     return await (prisma as any).products.findMany({
+      where,
       orderBy: { createdAt: "desc" },
     });
   },

@@ -1,30 +1,45 @@
 import Link from "next/link";
 import Image from "next/image";
 import SiteLayout from "@/components/SiteLayout";
+import SearchInput from "@/components/SearchInput";
 import { db } from "@/lib/db";
 import { formatText } from "@/lib/text";
 import { getAzureSignedUrl } from "@/lib/azure";
 
 export const dynamic = "force-dynamic";
 
-export default async function ProductsPage() {
-  const products = await db.getAllProducts();
+type ProductsPageProps = {
+  searchParams: Promise<{
+    q?: string;
+  }>;
+};
+
+export default async function ProductsPage({ searchParams }: ProductsPageProps) {
+  const resolvedSearchParams = await searchParams;
+  const searchTerm = resolvedSearchParams?.q;
+
+  const products = await db.getAllProducts({ search: searchTerm });
 
   return (
     <SiteLayout activePath="/products">
       <section className="mx-auto max-w-7xl px-4 pb-12 pt-8">
-        <div className="mb-8 flex flex-col gap-2">
-          <h1 className="text-3xl font-bold text-[#0b4f82] md:text-4xl">
-            Our Products
-          </h1>
-          <p className="max-w-3xl text-[#64748b]">
-            Explore our comprehensive range of industrial equipment and solutions.
-          </p>
+        <div className="mb-8 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <div className="flex flex-col gap-2">
+            <h1 className="text-3xl font-bold text-[#0b4f82] md:text-4xl">
+              Our Products
+            </h1>
+            <p className="max-w-3xl text-[#64748b]">
+              Explore our comprehensive range of industrial equipment and solutions.
+            </p>
+          </div>
+          <div className="w-full md:w-72">
+            <SearchInput placeholder="Search all products..." />
+          </div>
         </div>
 
         {products.length === 0 ? (
           <div className="rounded-lg border border-[#e2e8f0] bg-white p-6 text-sm text-[#64748b] shadow-sm">
-            No products found.
+            {searchTerm ? "No products found matching your search." : "No products found."}
           </div>
         ) : (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">

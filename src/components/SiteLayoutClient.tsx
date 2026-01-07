@@ -27,6 +27,18 @@ export default function SiteLayoutClient({
 }: SiteLayoutClientProps) {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
+    // Lock body scroll when sidebar is open
+    useEffect(() => {
+        if (isSidebarOpen) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "unset";
+        }
+        return () => {
+            document.body.style.overflow = "unset";
+        };
+    }, [isSidebarOpen]);
+
     // Close sidebar on path change
     useEffect(() => {
         setIsSidebarOpen(false);
@@ -80,17 +92,18 @@ export default function SiteLayoutClient({
             />
 
             <main className="relative mx-auto max-w-6xl px-4 pb-8 lg:pb-12">
-                {!isHomePage && isSidebarOpen ? (
-                    <div className="grid gap-6 lg:grid-cols-[280px_1fr]">
-                        <div className="hidden lg:block">
-                            <CollapsibleSidebar />
+                {children}
+
+                {!isHomePage && isSidebarOpen && (
+                    <div className="absolute left-4 top-0 z-50 w-[280px] min-h-[600px] bg-white border border-[#e2e8f0] shadow-2xl rounded-lg">
+                        <div className="p-4 border-b border-[#e2e8f0] bg-[#f8fafc] flex justify-between items-center lg:hidden">
+                            <span className="font-bold text-[#0b4f82] uppercase tracking-wider">Categories</span>
+                            <button onClick={() => toggleSidebar()} className="text-slate-400 hover:text-[#0b4f82]">
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                            </button>
                         </div>
-                        <div className="min-w-0">
-                            {children}
-                        </div>
+                        <CollapsibleSidebar />
                     </div>
-                ) : (
-                    children
                 )}
             </main>
 

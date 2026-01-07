@@ -28,13 +28,13 @@ export default async function SuppliersPage({ searchParams }: SuppliersPageProps
         <div className="mx-auto max-w-6xl px-4 grid gap-10 lg:grid-cols-[280px_1fr]">
           <CollapsibleSidebar />
 
-          <div className="space-y-6 pt-6">
+          <div className="space-y-6 pt-6 pl-4 lg:pl-6">
             {suppliers.length === 0 ? (
               <section className="rounded-lg border border-[#e2e8f0] bg-white p-6 text-sm text-[#64748b] shadow-sm">
                 No suppliers found for this category.
               </section>
             ) : (
-              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+              <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                 {suppliers.map((supplier: any) => {
                   const supplierName = supplier.companyName || supplier.name || "Supplier";
                   const href = `/suppliers/${encodeURIComponent(supplier.id)}?category=${encodeURIComponent(category ?? "")}&subCategory=${encodeURIComponent(subCategory ?? "")}`;
@@ -43,7 +43,7 @@ export default async function SuppliersPage({ searchParams }: SuppliersPageProps
                     <Link
                       key={supplier.id}
                       href={href}
-                      className="group flex flex-col rounded-lg border border-[#e2e8f0] bg-white transition hover:border-[#0b4f82] hover:shadow-md overflow-hidden"
+                      className="group flex flex-col rounded-lg border border-[#0b4f82] bg-white transition hover:shadow-md overflow-hidden"
                     >
                       {supplier.profileImage ? (
                         <div className="relative h-32 w-full bg-slate-50">

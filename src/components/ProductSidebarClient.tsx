@@ -171,7 +171,7 @@ export default function ProductSidebarClient({
       {/* Flyout Panel */}
       {hoveredSubCategory && (
         <div
-          className="absolute left-[100%] top-0 h-[600px] w-[800px] bg-white border border-slate-200 shadow-xl rounded-r-lg z-10 overflow-auto p-6 ml-1"
+          className="absolute left-[100%] top-0 h-[600px] w-[800px] bg-white border border-[#0b4f82] shadow-xl rounded-r-lg z-10 overflow-auto p-6 pl-8 ml-1"
           onMouseEnter={onFlyoutMouseEnter}
           onMouseLeave={onFlyoutMouseLeave}
         >
@@ -182,12 +182,12 @@ export default function ProductSidebarClient({
           ) : flyoutSuppliers.length === 0 ? (
             <div className="text-slate-500 text-sm">No suppliers found in this category.</div>
           ) : (
-            <div className="grid grid-cols-4 gap-4">
+            <div className="grid grid-cols-4 gap-10">
               {flyoutSuppliers.map((supplier) => (
                 <Link
                   key={supplier.id}
                   href={`/suppliers/${supplier.id}?category=${encodeURIComponent(hoveredSubCategory.category)}&subCategory=${encodeURIComponent(hoveredSubCategory.sub)}`}
-                  className="group flex flex-col rounded-lg border border-slate-200 overflow-hidden hover:border-[#0b4f82] hover:shadow-md transition bg-white"
+                  className="group flex flex-col rounded-lg border border-[#0b4f82] overflow-hidden hover:shadow-md transition bg-white"
                 >
                   <div className="relative h-24 w-full bg-slate-50">
                     {supplier.profileImage ? (

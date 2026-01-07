@@ -34,7 +34,7 @@ export default async function SuppliersPage({ searchParams }: SuppliersPageProps
                 No suppliers found for this category.
               </section>
             ) : (
-              <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
+              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                 {suppliers.map((supplier: any) => {
                   const supplierName = supplier.companyName || supplier.name || "Supplier";
                   const href = `/suppliers/${encodeURIComponent(supplier.id)}?category=${encodeURIComponent(category ?? "")}&subCategory=${encodeURIComponent(subCategory ?? "")}`;
@@ -43,25 +43,31 @@ export default async function SuppliersPage({ searchParams }: SuppliersPageProps
                     <Link
                       key={supplier.id}
                       href={href}
-                      className="group flex items-center justify-center rounded-lg border border-[#e2e8f0] bg-white p-4 transition hover:border-[#0b4f82] hover:shadow-md"
+                      className="group flex flex-col rounded-lg border border-[#e2e8f0] bg-white transition hover:border-[#0b4f82] hover:shadow-md overflow-hidden"
                     >
                       {supplier.profileImage ? (
-                        <div className="relative h-20 w-full">
+                        <div className="relative h-32 w-full bg-slate-50">
                           <Image
                             src={getAzureSignedUrl(supplier.profileImage)}
                             alt={formatText(supplierName)}
                             fill
-                            className="object-contain transition group-hover:scale-105"
+                            className="object-cover transition group-hover:scale-105"
                             sizes="(min-width: 1024px) 200px, (min-width: 640px) 150px, 100px"
                           />
                         </div>
                       ) : (
-                        <div className="flex h-20 w-full items-center justify-center">
-                          <span className="text-sm font-semibold text-[#0b4f82] text-center">
-                            {formatText(supplierName)}
+                        <div className="flex h-32 w-full items-center justify-center bg-slate-50">
+                          <span className="text-2xl font-bold text-[#e2e8f0]">
+                            {supplierName.charAt(0).toUpperCase()}
                           </span>
                         </div>
                       )}
+
+                      <div className="p-4 flex items-center justify-center flex-1">
+                        <span className="text-sm font-semibold text-[#0b4f82] text-center line-clamp-2">
+                          {formatText(supplierName)}
+                        </span>
+                      </div>
                     </Link>
                   );
                 })}

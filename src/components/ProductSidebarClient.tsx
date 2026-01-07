@@ -187,7 +187,7 @@ export default function ProductSidebarClient({
                 <Link
                   key={supplier.id}
                   href={`/suppliers/${supplier.id}?category=${encodeURIComponent(hoveredSubCategory.category)}&subCategory=${encodeURIComponent(hoveredSubCategory.sub)}`}
-                  className="group flex flex-col rounded-lg border border-[#0b4f82] overflow-hidden hover:shadow-md transition bg-white"
+                  className="group flex flex-col rounded-lg border border-[#0b4f82] overflow-hidden hover:shadow-md transition bg-white max-w-[140px]"
                 >
                   <div className="relative h-20 w-full bg-slate-50">
                     {supplier.profileImage ? (

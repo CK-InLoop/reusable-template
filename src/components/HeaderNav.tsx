@@ -15,6 +15,65 @@ type HeaderNavProps = {
   activePath: string;
 };
 
+const SECTIONS = [
+  {
+    name: "Oil",
+    subCategories: [
+      "NG Factory Pipelines and SKIDS Installation",
+      "LNG STORAGE TANKS AND SYSTEM INSTALLATION",
+      "NITROGEN & OXYGEN GENERATORS",
+    ],
+  },
+  {
+    name: "Dairy",
+    subCategories: [
+      "Dairy plants",
+      "Water treatment plants",
+      "CIP Plants",
+      "Pilot plant/Mini plant",
+      "Factory relocation",
+      "SS storage tanks & mixers",
+      "Cleaning stations",
+      "IBC Dosing Stations",
+      "Platforms",
+      "SS pipings",
+    ],
+  },
+  {
+    name: "Industrial",
+    subCategories: [
+      "Home and persona care plants",
+      "Sulphonation plant",
+      "Lab plant",
+      "Tank farms",
+      "Utility & pipings",
+    ],
+  },
+  {
+    name: "Consulting",
+    subCategories: [
+      "AMC Contracts",
+      "Fan Balance and Monitoring",
+      "Thermal Inspections",
+      "Vibration Checks",
+      "Central Lubrication System",
+      "Tightening Checks",
+      "6S Trainings",
+      "TPM (Total Productive Maintenance)",
+      "Focused Improvements",
+      "Autonomous Maintenance",
+      "Planned Maintenance",
+      "Energy Savings Risk Assessment",
+      "Cost Reductions",
+      "Early Equipment Management",
+      "HSE Risk Assessments and Predictions",
+      "Efficiency Monitoring – FOL",
+      "Low Cost Automations",
+      "Supply Chain – Raw Materials",
+    ],
+  },
+];
+
 export default function HeaderNav({
   companyName,
   logoUrl,
@@ -50,7 +109,7 @@ export default function HeaderNav({
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-8">
           <Link
             href="/"
-            className="flex items-center gap-3"
+            className="flex items-center gap-6 whitespace-nowrap"
             onClick={closeMenu}
             aria-label="Go to homepage"
           >
@@ -133,30 +192,43 @@ export default function HeaderNav({
             </button>
             {/* Category dropdown panel */}
             <div className="invisible absolute left-0 top-full z-50 mt-0 w-full origin-top-left scale-95 border-b border-x border-slate-200 bg-white opacity-0 shadow-2xl transition duration-200 group-hover:visible group-hover:scale-100 group-hover:opacity-100">
-              <Link href="/suppliers?category=Oil" className="flex w-full items-center justify-between px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-50 hover:text-[#0b4f82] border-b border-slate-100">
-                <span>Oil</span>
-                <svg className="h-4 w-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </Link>
-              <Link href="/suppliers?category=Dairy" className="flex w-full items-center justify-between px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-50 hover:text-[#0b4f82] border-b border-slate-100">
-                <span>Dairy</span>
-                <svg className="h-4 w-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </Link>
-              <Link href="/suppliers?category=Industrial" className="flex w-full items-center justify-between px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-50 hover:text-[#0b4f82] border-b border-slate-100">
-                <span>Industrial</span>
-                <svg className="h-4 w-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </Link>
-              <Link href="/suppliers?category=Consulting" className="flex w-full items-center justify-between px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-50 hover:text-[#0b4f82]">
-                <span>Consulting</span>
-                <svg className="h-4 w-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </Link>
+              {SECTIONS.map((section) => (
+                <div key={section.name} className="group/item relative border-b border-slate-100 last:border-b-0">
+                  <Link
+                    href={`/suppliers?category=${encodeURIComponent(section.name)}`}
+                    className="flex w-full items-center justify-between px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-50 hover:text-[#0b4f82]"
+                  >
+                    <span>{section.name}</span>
+                    <svg
+                      className="h-4 w-4 text-slate-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </Link>
+                  {/* Subcategory Menu */}
+                  <div className="invisible absolute left-full top-0 z-50 w-96 origin-top-left -translate-x-1 border border-slate-200 bg-white opacity-0 shadow-xl transition duration-200 group-hover/item:visible group-hover/item:opacity-100">
+                    <div className="max-h-[80vh] overflow-y-auto py-2">
+                      {section.subCategories.map((sub, idx) => (
+                        <Link
+                          key={idx}
+                          href={`/suppliers?category=${encodeURIComponent(section.name)}&subCategory=${encodeURIComponent(sub)}`}
+                          className="block px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-[#0b4f82]"
+                        >
+                          {sub}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 

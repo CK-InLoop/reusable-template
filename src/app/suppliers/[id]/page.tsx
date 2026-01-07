@@ -42,68 +42,10 @@ export default async function SupplierPage({
 
   return (
     <SiteLayout activePath="/products">
-      <section className="rounded-lg border border-[#e2e8f0] bg-white p-6 shadow-sm lg:p-8">
-        <span className="text-xs font-semibold uppercase tracking-wider text-[#64748b]">
-          Supplier
-        </span>
-
-        <div className="mt-1 grid gap-8 lg:grid-cols-[1.15fr_1fr] lg:items-center">
-          <div className="space-y-4 text-base leading-relaxed text-[#171717]">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <h1 className="text-3xl font-bold tracking-tight text-[#0b4f82] md:text-4xl">
-                {formatText(
-                  (supplier as any).companyName ||
-                  (supplier as any).name ||
-                  "Supplier"
-                )}
-              </h1>
-
-              <Link
-                href={backHref}
-                className="inline-flex items-center justify-center rounded-md border border-[#e2e8f0] bg-white px-4 py-2 text-sm font-semibold text-[#0b4f82] transition hover:border-[#0b4f82] hover:bg-[#0b4f82]/5"
-              >
-                Back to suppliers
-              </Link>
-            </div>
-
-            <div className="flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-wider">
-              {(supplier as any).category && (
-                <span className="rounded-full bg-[#0b4f82]/10 px-3 py-1 text-[#0b4f82]">
-                  {formatText((supplier as any).category)}
-                </span>
-              )}
-              {(supplier as any).subCategory && (
-                <span className="rounded-full bg-[#ffb400]/15 px-3 py-1 text-[#0b4f82]">
-                  {formatText((supplier as any).subCategory)}
-                </span>
-              )}
-            </div>
-
-            <div className="space-y-1 text-sm text-[#64748b]">
-              {(supplier as any).email && <p>{(supplier as any).email}</p>}
-              {(supplier as any).phone && <p>{(supplier as any).phone}</p>}
-              {(supplier as any).address && (
-                <p className="line-clamp-2">{(supplier as any).address}</p>
-              )}
-            </div>
-
-            <div className="flex flex-col gap-3 pt-2 sm:flex-row">
-              <Link
-                href="/services"
-                className="inline-flex items-center justify-center gap-2 rounded-md bg-[#0b4f82] px-6 py-3 text-sm font-semibold text-white shadow-md transition hover:bg-[#0b4f82]/90"
-              >
-                Explore Services
-              </Link>
-              <Link
-                href="/contact"
-                className="inline-flex items-center justify-center gap-2 rounded-md border border-[#e2e8f0] px-6 py-3 text-sm font-semibold text-[#0b4f82] transition hover:border-[#0b4f82] hover:bg-[#0b4f82]/5"
-              >
-                Request Catalog
-              </Link>
-            </div>
-          </div>
-
-          <div className="relative h-72 overflow-hidden rounded-lg bg-[#f8fafc] shadow-sm sm:h-80">
+      <section className="rounded-lg border border-[#e2e8f0] bg-white p-6 shadow-sm">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
+          {/* Profile Image - Compact */}
+          <div className="relative h-32 w-32 flex-shrink-0 overflow-hidden rounded-lg bg-[#f8fafc] border border-slate-100 shadow-sm">
             {(supplier as any).profileImage ? (
               <img
                 src={getAzureSignedUrl((supplier as any).profileImage)}
@@ -117,7 +59,7 @@ export default async function SupplierPage({
             ) : (
               <div className="flex h-full w-full items-center justify-center text-[#94a3b8]">
                 <svg
-                  className="h-24 w-24"
+                  className="h-12 w-12"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -132,6 +74,89 @@ export default async function SupplierPage({
                 </svg>
               </div>
             )}
+          </div>
+
+          {/* Supplier Info */}
+          <div className="flex-1 space-y-3">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+              <div>
+                <h1 className="text-2xl font-bold tracking-tight text-[#0b4f82]">
+                  {formatText(
+                    (supplier as any).companyName ||
+                    (supplier as any).name ||
+                    "Supplier"
+                  )}
+                </h1>
+                <div className="mt-1 flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-wider">
+                  {(supplier as any).category && (
+                    <span className="rounded-md bg-[#0b4f82]/10 px-2 py-0.5 text-[#0b4f82]">
+                      {formatText((supplier as any).category)}
+                    </span>
+                  )}
+                  {(supplier as any).subCategory && (
+                    <span className="rounded-md bg-[#ffb400]/15 px-2 py-0.5 text-[#0b4f82]">
+                      {formatText((supplier as any).subCategory)}
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              <Link
+                href={backHref}
+                className="text-sm font-medium text-[#64748b] transition hover:text-[#0b4f82]"
+              >
+                &larr; Back to suppliers
+              </Link>
+            </div>
+
+            {(supplier as any).description && (
+              <p className="max-w-4xl text-sm leading-relaxed text-[#64748b] line-clamp-3">
+                {(supplier as any).description}
+              </p>
+            )}
+
+            <div className="grid max-w-2xl gap-x-8 gap-y-1 text-sm text-[#64748b] sm:grid-cols-2">
+              {(supplier as any).email && (
+                <div className="flex items-center gap-2">
+                  <svg className="h-4 w-4 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                  <span>{(supplier as any).email}</span>
+                </div>
+              )}
+              {(supplier as any).phone && (
+                <div className="flex items-center gap-2">
+                  <svg className="h-4 w-4 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                  </svg>
+                  <span>{(supplier as any).phone}</span>
+                </div>
+              )}
+              {(supplier as any).address && (
+                <div className="col-span-full flex items-start gap-2 pt-1 sm:col-span-2">
+                  <svg className="h-4 w-4 mt-0.5 opacity-70 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  <span className="line-clamp-1">{(supplier as any).address}</span>
+                </div>
+              )}
+            </div>
+
+            <div className="flex gap-3 pt-3">
+              <Link
+                href="/services"
+                className="inline-flex items-center justify-center rounded-md bg-[#0b4f82] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[#0b4f82]/90"
+              >
+                Explore Services
+              </Link>
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center rounded-md border border-[#e2e8f0] px-4 py-2 text-sm font-semibold text-[#0b4f82] transition hover:border-[#0b4f82] hover:bg-[#0b4f82]/5"
+              >
+                Request Catalog
+              </Link>
+            </div>
           </div>
         </div>
       </section>

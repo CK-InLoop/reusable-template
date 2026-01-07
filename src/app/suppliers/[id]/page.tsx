@@ -42,7 +42,7 @@ export default async function SupplierPage({
 
   return (
     <SiteLayout activePath="/products">
-      <section className="rounded-lg border border-[#e2e8f0] bg-white p-6 shadow-sm">
+      <section className="mt-8 rounded-lg border border-[#e2e8f0] bg-white p-6 shadow-sm">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
           {/* Profile Image - Compact */}
           <div className="relative h-32 w-32 flex-shrink-0 overflow-hidden rounded-lg bg-[#f8fafc] border border-slate-100 shadow-sm">

@@ -171,7 +171,7 @@ export default function ProductSidebarClient({
       {/* Flyout Panel */}
       {hoveredSubCategory && (
         <div
-          className="absolute left-[100%] top-0 h-[600px] w-[800px] bg-white border border-[#0b4f82] shadow-xl rounded-r-lg z-10 overflow-auto p-6 pl-10 pt-8 ml-1"
+          className="absolute left-[100%] top-0 h-[700px] w-[700px] bg-white border border-[#0b4f82] shadow-xl rounded-r-lg z-10 overflow-auto p-10 ml-1"
           onMouseEnter={onFlyoutMouseEnter}
           onMouseLeave={onFlyoutMouseLeave}
         >
@@ -189,7 +189,7 @@ export default function ProductSidebarClient({
                   href={`/suppliers/${supplier.id}?category=${encodeURIComponent(hoveredSubCategory.category)}&subCategory=${encodeURIComponent(hoveredSubCategory.sub)}`}
                   className="group flex flex-col rounded-lg border border-[#0b4f82] overflow-hidden hover:shadow-md transition bg-white"
                 >
-                  <div className="relative h-24 w-full bg-slate-50">
+                  <div className="relative h-20 w-full bg-slate-50">
                     {supplier.profileImage ? (
                       <img
                         src={getAzureSignedUrl(supplier.profileImage)}

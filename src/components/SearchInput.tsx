@@ -35,7 +35,7 @@ export default function SearchInput({ placeholder = "Search..." }: { placeholder
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
                 placeholder={placeholder}
-                className="w-full rounded-md border border-[#e2e8f0] py-2 pl-10 pr-4 text-sm outline-none transition focus:border-[#0b4f82] focus:ring-1 focus:ring-[#0b4f82]"
+                className="w-full rounded-md border border-[#e2e8f0] bg-white py-2 pl-10 pr-4 text-sm outline-none transition focus:border-[#0b4f82] focus:ring-1 focus:ring-[#0b4f82]"
             />
             <div className="absolute left-3 top-2.5 text-[#94a3b8]">
                 <svg

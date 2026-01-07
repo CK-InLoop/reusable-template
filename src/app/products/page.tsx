@@ -22,7 +22,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
 
   return (
     <SiteLayout activePath="/products">
-      <section className="bg-gray-100 pb-12 pt-8 w-[100vw] ml-[calc(50%-50vw)]">
+      <section className="bg-gray-50 pb-12 pt-8 w-[100vw] ml-[calc(50%-50vw)]">
         <div className="mx-auto max-w-7xl px-4">
           <div className="mb-8 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div className="flex flex-col gap-2">

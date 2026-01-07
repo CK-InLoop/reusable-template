@@ -34,7 +34,7 @@ export default function SiteLayout({
     <div className="relative min-h-screen bg-white text-[#171717]">
       {/* Top Service Bar */}
       <div className="border-b border-[#e2e8f0] bg-[#f8fafc]">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 text-sm text-[#64748b]">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-2 text-sm text-[#64748b]">
           <span className="hidden sm:inline">
             {formatText("Process Equipments Design,Manufacture Installations and Commissioning")}
           </span>
@@ -68,12 +68,12 @@ export default function SiteLayout({
         activePath={activePath}
       />
 
-      <main className="relative mx-auto max-w-7xl px-4 pb-8 pt-4 lg:px-8 lg:pb-12">
+      <main className="relative mx-auto max-w-6xl px-4 pb-8 pt-4 lg:px-8 lg:pb-12">
         {children}
       </main>
 
       <footer className="border-t border-[#e2e8f0] bg-[#f8fafc] py-12">
-        <div className="mx-auto max-w-7xl px-4">
+        <div className="mx-auto max-w-6xl px-4">
           <div className="flex flex-col gap-8 text-sm text-[#64748b] md:flex-row md:items-start md:justify-between">
             <div className="max-w-xl space-y-4">
               <p className="text-lg font-semibold text-[#171717]">

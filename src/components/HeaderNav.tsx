@@ -47,7 +47,7 @@ export default function HeaderNav({
       )}
 
       <header className="border-b border-[#e2e8f0] bg-white">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-8">
           <Link
             href="/"
             className="flex items-center gap-3"
@@ -109,7 +109,7 @@ export default function HeaderNav({
       </header>
 
       <nav className="sticky top-0 z-40 bg-[#0b4f82] shadow-md">
-        <div className="mx-auto hidden max-w-7xl items-center justify-between gap-6 px-4 text-sm font-medium text-white lg:flex">
+        <div className="mx-auto hidden max-w-6xl items-center justify-between gap-6 px-4 text-sm font-medium text-white lg:flex">
           {/* Left side - Category dropdown */}
           <div className="relative group h-full">
             <button
@@ -161,7 +161,7 @@ export default function HeaderNav({
           </div>
 
           {/* Right side - Menu items and Catalogs */}
-          <div className="flex items-center gap-8 py-4">
+          <div className="flex items-center gap-6 py-4">
             {menuItems.map((item) => {
               const href = item.href;
               const isActive = isActiveLink(href);
@@ -170,7 +170,7 @@ export default function HeaderNav({
                 <Link
                   key={item.label}
                   href={href}
-                  className={`uppercase tracking-wider transition ${isActive
+                  className={`uppercase tracking-wider whitespace-nowrap transition ${isActive
                     ? "text-[#ffb400]"
                     : "text-white hover:text-[#ffb400]"
                     }`}

@@ -3,7 +3,7 @@ export default function ServiceIcons() {
     {
       icon: (
         <svg
-          className="h-6 w-6"
+          className="h-8 w-8"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -21,7 +21,7 @@ export default function ServiceIcons() {
     {
       icon: (
         <svg
-          className="h-6 w-6"
+          className="h-8 w-8"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -39,7 +39,7 @@ export default function ServiceIcons() {
     {
       icon: (
         <svg
-          className="h-6 w-6"
+          className="h-8 w-8"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -57,7 +57,7 @@ export default function ServiceIcons() {
     {
       icon: (
         <svg
-          className="h-6 w-6"
+          className="h-8 w-8"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -82,7 +82,7 @@ export default function ServiceIcons() {
           className="flex flex-col items-center gap-1 text-center"
         >
           <div className="text-[#0b4f82]">{service.icon}</div>
-          <span className="text-[10px] font-medium text-slate-600">
+          <span className="text-xs font-medium text-slate-600">
             {service.label}
           </span>
         </div>

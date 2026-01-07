@@ -13,6 +13,7 @@ type HeaderNavProps = {
   menuItems: { label: string; href: string }[];
   brochureLinks?: { label: string; href: string }[];
   activePath: string;
+  onToggleSidebar?: () => void;
 };
 
 const SECTIONS = [
@@ -80,6 +81,7 @@ export default function HeaderNav({
   menuItems,
   brochureLinks = [],
   activePath,
+  onToggleSidebar,
 }: HeaderNavProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCatalogsOpen, setIsCatalogsOpen] = useState(false);
@@ -171,8 +173,14 @@ export default function HeaderNav({
         <div className="mx-auto hidden max-w-6xl items-center justify-between gap-6 px-4 text-sm font-medium text-white lg:flex">
           {/* Left side - Category button */}
           <div className="h-full">
-            <Link
-              href="/"
+            <button
+              type="button"
+              onClick={(e) => {
+                if (onToggleSidebar) {
+                  e.preventDefault();
+                  onToggleSidebar();
+                }
+              }}
               className="flex h-14 w-[280px] items-center gap-3 bg-[#0a3d6b] px-6 text-base font-bold uppercase tracking-wider transition hover:bg-[#083050]"
             >
               <svg
@@ -189,7 +197,7 @@ export default function HeaderNav({
                 />
               </svg>
               Category
-            </Link>
+            </button>
           </div>
 
           {/* Right side - Menu items and Catalogs */}

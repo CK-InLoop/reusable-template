@@ -158,8 +158,9 @@ export default async function SupplierPage({
         ) : (
           <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {(products as any[]).map((product: any) => (
-              <article
+              <Link
                 key={product.id}
+                href={`/suppliers/${supplierId}/products/${product.id}`}
                 className="group flex flex-col overflow-hidden rounded-lg border border-[#e2e8f0] bg-white shadow-sm transition hover:border-[#0b4f82] hover:shadow-md"
               >
                 <div className="relative h-48 overflow-hidden bg-[#f8fafc]">
@@ -215,10 +216,10 @@ export default async function SupplierPage({
                     )}
                   </div>
                   <span className="mt-4 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#0b4f82]">
-                    Learn More <span aria-hidden="true">›</span>
+                    View Details <span aria-hidden="true">›</span>
                   </span>
                 </div>
-              </article>
+              </Link>
             ))}
           </div>
         )}

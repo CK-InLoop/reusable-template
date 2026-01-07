@@ -75,7 +75,7 @@ export const db = {
       updateData.emailVerificationExpires = new Date(data.emailVerificationExpires);
     }
     if (data.emailVerified !== undefined) {
-        updateData.emailVerified = Boolean(data.emailVerified);
+      updateData.emailVerified = Boolean(data.emailVerified);
     }
 
     return await prisma.user.update({
@@ -113,6 +113,12 @@ export const db = {
     return await (prisma as any).products.findMany({
       where: { supplierId: { in: supplierIds } },
       orderBy: { createdAt: "desc" },
+    });
+  },
+
+  async getProductById(id: string) {
+    return await (prisma as any).products.findUnique({
+      where: { id },
     });
   },
 };

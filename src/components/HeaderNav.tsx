@@ -24,11 +24,13 @@ export default function HeaderNav({
 }: HeaderNavProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCatalogsOpen, setIsCatalogsOpen] = useState(false);
+  const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
 
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
   const closeMenu = () => {
     setIsMenuOpen(false);
     setIsCatalogsOpen(false);
+    setIsCategoriesOpen(false);
   };
   const isActiveLink = (href: string) =>
     href === activePath ||
@@ -108,6 +110,28 @@ export default function HeaderNav({
 
       <nav className="sticky top-0 z-40 bg-[#0b4f82] shadow-md">
         <div className="mx-auto hidden max-w-7xl items-center justify-between gap-6 px-4 py-3 text-sm font-medium text-white lg:flex">
+          {/* Left side - Category button */}
+          <Link
+            href="/suppliers"
+            className="flex items-center gap-2 rounded-md bg-[#0a3d6b] px-4 py-2 uppercase tracking-wider transition hover:bg-[#083050]"
+          >
+            <svg
+              className="h-4 w-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
+            Category
+          </Link>
+
+          {/* Right side - Menu items and Catalogs */}
           <div className="flex items-center gap-8">
             {menuItems.map((item) => {
               const href = item.href;
@@ -117,11 +141,10 @@ export default function HeaderNav({
                 <Link
                   key={item.label}
                   href={href}
-                  className={`uppercase tracking-wider transition ${
-                    isActive
-                      ? "text-[#ffb400]"
-                      : "text-white hover:text-[#ffb400]"
-                  }`}
+                  className={`uppercase tracking-wider transition ${isActive
+                    ? "text-[#ffb400]"
+                    : "text-white hover:text-[#ffb400]"
+                    }`}
                 >
                   {formatText(item.label)}
                 </Link>
@@ -134,7 +157,7 @@ export default function HeaderNav({
                   className="flex items-center gap-1 uppercase tracking-wider transition hover:text-[#ffb400]"
                   aria-haspopup="true"
                 >
-                  Catalogs
+                  Catalog
                   <svg
                     className="h-3 w-3"
                     viewBox="0 0 12 12"
@@ -150,7 +173,7 @@ export default function HeaderNav({
                     />
                   </svg>
                 </button>
-                <div className="invisible absolute left-0 top-full z-50 mt-3 w-64 translate-y-2 rounded-xl border border-white/20 bg-[#0b4f82] p-3 opacity-0 shadow-2xl transition duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
+                <div className="invisible absolute right-0 top-full z-50 mt-3 w-64 translate-y-2 rounded-xl border border-white/20 bg-[#0b4f82] p-3 opacity-0 shadow-2xl transition duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
                   <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-white/70">
                     Available Brochures
                   </p>
@@ -165,9 +188,6 @@ export default function HeaderNav({
                         <span className="block text-sm font-semibold text-white">
                           {link.label}
                         </span>
-                        {/* <span className="mt-1 text-xs text-white/70">
-                          {link.description}
-                        </span> */}
                       </Link>
                     ))}
                   </div>
@@ -175,32 +195,65 @@ export default function HeaderNav({
               </div>
             )}
           </div>
-
-          <Link
-            href={MENU_PATHS["CONTACT US"]}
-            className="inline-flex items-center gap-2 rounded-md bg-[#ffb400] px-4 py-2 text-sm font-semibold text-[#171717] transition hover:bg-[#ffb400]/90"
-          >
-            Contact
-          </Link>
         </div>
 
         <div
           id="site-mobile-menu"
-          className={`lg:hidden border-t border-white/20 bg-[#0b4f82] px-4 transition-[max-height,opacity] duration-300 ease-out ${
-            isMenuOpen ? "max-h-[640px] opacity-100" : "max-h-0 opacity-0"
-          }`}
+          className={`lg:hidden border-t border-white/20 bg-[#0b4f82] px-4 transition-[max-height,opacity] duration-300 ease-out ${isMenuOpen ? "max-h-[640px] opacity-100" : "max-h-0 opacity-0"
+            }`}
         >
           <div className="flex flex-col gap-3 py-4 text-white">
+            {/* Category Section for Mobile */}
+            <div className="rounded-lg bg-white/5">
+              <button
+                type="button"
+                onClick={() => setIsCategoriesOpen((prev) => !prev)}
+                className="flex w-full items-center justify-between rounded-lg px-4 py-3 text-sm font-semibold uppercase tracking-widest transition hover:bg-white/10"
+                aria-expanded={isCategoriesOpen}
+              >
+                <span className="flex items-center gap-2">
+                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  </svg>
+                  Category
+                </span>
+                <svg
+                  className={`h-4 w-4 transition-transform ${isCategoriesOpen ? "rotate-180" : ""}`}
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M2 4l4 4 4-4"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+              <div
+                className={`grid overflow-hidden px-4 transition-[max-height,opacity] duration-200 ${isCategoriesOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                  }`}
+              >
+                <div className="space-y-2 pb-4 pt-2">
+                  <Link href="/suppliers?category=Oil" onClick={closeMenu} className="block rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white transition hover:bg-white/20">Oil</Link>
+                  <Link href="/suppliers?category=Dairy" onClick={closeMenu} className="block rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white transition hover:bg-white/20">Dairy</Link>
+                  <Link href="/suppliers?category=Industrial" onClick={closeMenu} className="block rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white transition hover:bg-white/20">Industrial</Link>
+                  <Link href="/suppliers?category=Consulting" onClick={closeMenu} className="block rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white transition hover:bg-white/20">Consulting</Link>
+                </div>
+              </div>
+            </div>
+
             {menuItems.map((item) => (
               <Link
                 key={item.label}
                 href={item.href}
                 onClick={closeMenu}
-                className={`rounded-lg px-4 py-3 text-sm font-semibold uppercase tracking-widest transition ${
-                  isActiveLink(item.href)
-                    ? "bg-white/15 text-[#ffb400]"
-                    : "hover:bg-white/10"
-                }`}
+                className={`rounded-lg px-4 py-3 text-sm font-semibold uppercase tracking-widest transition ${isActiveLink(item.href)
+                  ? "bg-white/15 text-[#ffb400]"
+                  : "hover:bg-white/10"
+                  }`}
               >
                 {formatText(item.label)}
               </Link>
@@ -231,9 +284,8 @@ export default function HeaderNav({
                   </svg>
                 </button>
                 <div
-                  className={`grid overflow-hidden px-4 transition-[max-height,opacity] duration-200 ${
-                    isCatalogsOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-                  }`}
+                  className={`grid overflow-hidden px-4 transition-[max-height,opacity] duration-200 ${isCatalogsOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                    }`}
                 >
                   <div className="space-y-2 pb-4 pt-2">
                     {brochureLinks.map((link) => (
@@ -250,14 +302,6 @@ export default function HeaderNav({
                 </div>
               </div>
             )}
-
-            <Link
-              href={MENU_PATHS["CONTACT US"]} 
-              onClick={closeMenu}
-              className="mt-2 inline-flex items-center justify-center rounded-lg bg-[#ffb400] px-4 py-3 text-sm font-semibold uppercase tracking-wider text-[#171717] transition hover:bg-[#ffb400]/90"
-            >
-              Contact
-            </Link>
           </div>
         </div>
       </nav>

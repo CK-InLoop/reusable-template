@@ -79,7 +79,7 @@ export default function ProductSidebarClient({
           />
         </svg>
         <h2 className="text-sm font-semibold uppercase tracking-wide text-white">
-          Categories
+          Category
         </h2>
       </div>
 

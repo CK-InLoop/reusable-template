@@ -127,9 +127,8 @@ export default function NavbarClient({
                   <Link
                     key={item.label}
                     href={href}
-                    className={`transition hover:text-blue-600 ${
-                      isActive ? "text-blue-600" : ""
-                    }`}
+                    className={`transition hover:text-blue-600 ${isActive ? "text-blue-600" : ""
+                      }`}
                   >
                     {formatText(item.label)}
                   </Link>
@@ -193,11 +192,10 @@ export default function NavbarClient({
           {/* Mobile Menu with Animation */}
           <div
             id="mobile-menu"
-            className={`lg:hidden border-t border-slate-200 bg-white overflow-hidden transition-all duration-300 ease-in-out ${
-              mobileMenuOpen
-                ? "max-h-[100vh] opacity-100"
-                : "max-h-0 opacity-0"
-            }`}
+            className={`lg:hidden border-t border-slate-200 bg-white overflow-hidden transition-all duration-300 ease-in-out ${mobileMenuOpen
+              ? "max-h-[100vh] opacity-100"
+              : "max-h-0 opacity-0"
+              }`}
             aria-hidden={!mobileMenuOpen}
           >
             <div className="py-4 space-y-1">
@@ -212,11 +210,10 @@ export default function NavbarClient({
                     key={item.label}
                     href={href}
                     onClick={closeMenu}
-                    className={`block px-4 py-3 text-sm font-semibold uppercase tracking-widest transition min-h-[44px] flex items-center ${
-                      isActive
-                        ? "text-blue-600 bg-blue-50 border-l-4 border-blue-600"
-                        : "text-slate-600 hover:text-blue-600 hover:bg-blue-50"
-                    }`}
+                    className={`block px-4 py-3 text-sm font-semibold uppercase tracking-widest transition min-h-[44px] flex items-center ${isActive
+                      ? "text-blue-600 bg-blue-50 border-l-4 border-blue-600"
+                      : "text-slate-600 hover:text-blue-600 hover:bg-blue-50"
+                      }`}
                     style={{
                       animationDelay: `${index * 50}ms`,
                     }}

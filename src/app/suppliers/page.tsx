@@ -44,17 +44,6 @@ export default async function SuppliersPage({ searchParams }: SuppliersPageProps
         <CollapsibleSidebar />
 
         <div className="space-y-6">
-          <section className="rounded-lg border border-[#e2e8f0] bg-white p-6 shadow-sm lg:p-8">
-            <p className="text-xs font-semibold uppercase tracking-wider text-[#64748b]">
-              Supplier Directory
-            </p>
-            <h1 className="mt-2 text-2xl font-bold text-[#0b4f82] md:text-3xl">
-              {title}
-            </h1>
-            <p className="mt-3 max-w-2xl text-sm text-[#64748b] md:text-base">
-              Browse suppliers and their available products.
-            </p>
-          </section>
 
           {suppliers.length === 0 ? (
             <section className="rounded-lg border border-[#e2e8f0] bg-white p-6 text-sm text-[#64748b] shadow-sm">
@@ -103,11 +92,10 @@ export default async function SuppliersPage({ searchParams }: SuppliersPageProps
 
                         {status && (
                           <span
-                            className={`rounded-full px-4 py-1 text-xs font-semibold uppercase tracking-wider ${
-                              status === "APPROVED"
-                                ? "bg-green-100 text-green-700"
-                                : "bg-[#ffb400]/15 text-[#0b4f82]"
-                            }`}
+                            className={`rounded-full px-4 py-1 text-xs font-semibold uppercase tracking-wider ${status === "APPROVED"
+                              ? "bg-green-100 text-green-700"
+                              : "bg-[#ffb400]/15 text-[#0b4f82]"
+                              }`}
                           >
                             {formatText(status)}
                           </span>

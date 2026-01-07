@@ -175,12 +175,6 @@ export default function ProductSidebarClient({
           onMouseEnter={onFlyoutMouseEnter}
           onMouseLeave={onFlyoutMouseLeave}
         >
-          <div className="mb-4 pb-2 border-b border-slate-100">
-            <h3 className="text-lg font-bold text-[#0b4f82]">
-              {formatText(hoveredSubCategory.sub)} <span className="text-slate-400 font-normal text-sm ml-2">in {formatText(hoveredSubCategory.category)}</span>
-            </h3>
-          </div>
-
           {loadingFlyout ? (
             <div className="flex items-center justify-center h-40">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#0b4f82]"></div>

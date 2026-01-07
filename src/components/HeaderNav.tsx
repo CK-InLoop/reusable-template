@@ -172,7 +172,7 @@ export default function HeaderNav({
           {/* Left side - Category button */}
           <div className="h-full">
             <Link
-              href="/suppliers"
+              href="/"
               className="flex h-14 w-[280px] items-center gap-3 bg-[#0a3d6b] px-6 text-base font-bold uppercase tracking-wider transition hover:bg-[#083050]"
             >
               <svg

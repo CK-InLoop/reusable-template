@@ -45,14 +45,14 @@ export default async function SupplierPage({
           Supplier
         </span>
 
-        <div className="mt-6 grid gap-8 lg:grid-cols-[1.15fr_1fr] lg:items-center">
+        <div className="mt-1 grid gap-8 lg:grid-cols-[1.15fr_1fr] lg:items-center">
           <div className="space-y-4 text-base leading-relaxed text-[#171717]">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <h1 className="text-3xl font-bold tracking-tight text-[#0b4f82] md:text-4xl">
                 {formatText(
                   (supplier as any).companyName ||
-                    (supplier as any).name ||
-                    "Supplier"
+                  (supplier as any).name ||
+                  "Supplier"
                 )}
               </h1>
 

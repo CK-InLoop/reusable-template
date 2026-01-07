@@ -182,7 +182,7 @@ export default function ProductSidebarClient({
           ) : flyoutSuppliers.length === 0 ? (
             <div className="text-slate-500 text-sm">No suppliers found in this category.</div>
           ) : (
-            <div className="grid grid-cols-4 gap-10">
+            <div className="grid grid-cols-3 gap-10">
               {flyoutSuppliers.map((supplier) => (
                 <Link
                   key={supplier.id}

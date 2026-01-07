@@ -21,43 +21,47 @@ export default async function AccessoriesPage() {
   return (
     <SiteLayout activePath="/accessories">
       {/* Hero Card - Keep this as is */}
-      <section className="rounded-lg border border-[#e2e8f0] bg-white p-6 shadow-sm lg:p-8">
-        <span className="text-xs font-semibold uppercase tracking-wider text-[#64748b]">
-          Accessories & Fabrications
-        </span>
-        <div className="mt-6 grid gap-8 lg:grid-cols-[1.15fr_1fr] lg:items-center">
-          <div className="space-y-6 text-base leading-relaxed text-[#171717]">
-            <h1 className="text-3xl font-bold tracking-tight text-[#0b4f82] md:text-4xl">
-              Custom stainless-steel fabrications built for long-term service.
-            </h1>
-            <p className="text-[#64748b]">
-              {formatText(
-                homePage.text_blocks.find((text) =>
-                  text.startsWith("SS Tanks, Storage Vessels")
-                ) ??
-                "From CIP skids to blending system components, we design and manufacture precision accessories for your process lines."
-              )}
-            </p>
-            <div className="grid gap-4 sm:grid-cols-2">
-              {accessoryHighlights.map((item) => (
-                <div
-                  key={item}
-                  className="rounded-lg border border-[#e2e8f0] bg-[#f8fafc] p-4 text-sm font-semibold text-[#171717] transition hover:border-[#0b4f82] hover:bg-white hover:shadow-sm"
-                >
-                  {formatText(item)}
+      <section className="bg-gray-100 pb-12 pt-8 w-[100vw] ml-[calc(50%-50vw)]">
+        <div className="mx-auto max-w-7xl px-4">
+          <section className="rounded-lg border border-[#e2e8f0] bg-white p-6 shadow-sm lg:p-8">
+            <span className="text-xs font-semibold uppercase tracking-wider text-[#64748b]">
+              Accessories & Fabrications
+            </span>
+            <div className="mt-6 grid gap-8 lg:grid-cols-[1.15fr_1fr] lg:items-center">
+              <div className="space-y-6 text-base leading-relaxed text-[#171717]">
+                <h1 className="text-3xl font-bold tracking-tight text-[#0b4f82] md:text-4xl">
+                  Custom stainless-steel fabrications built for long-term service.
+                </h1>
+                <p className="text-[#64748b]">
+                  {formatText(
+                    homePage.text_blocks.find((text) =>
+                      text.startsWith("SS Tanks, Storage Vessels")
+                    ) ??
+                    "From CIP skids to blending system components, we design and manufacture precision accessories for your process lines."
+                  )}
+                </p>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  {accessoryHighlights.map((item) => (
+                    <div
+                      key={item}
+                      className="rounded-lg border border-[#e2e8f0] bg-[#f8fafc] p-4 text-sm font-semibold text-[#171717] transition hover:border-[#0b4f82] hover:bg-white hover:shadow-sm"
+                    >
+                      {formatText(item)}
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
+              <div className="relative h-72 overflow-hidden rounded-lg bg-[#f8fafc] shadow-sm sm:h-80">
+                <Image
+                  src={getImagePath(homePage.image_urls[5])}
+                  alt="Accessory Fabrication"
+                  fill
+                  unoptimized
+                  className="object-cover"
+                />
+              </div>
             </div>
-          </div>
-          <div className="relative h-72 overflow-hidden rounded-lg bg-[#f8fafc] shadow-sm sm:h-80">
-            <Image
-              src={getImagePath(homePage.image_urls[5])}
-              alt="Accessory Fabrication"
-              fill
-              unoptimized
-              className="object-cover"
-            />
-          </div>
+          </section>
         </div>
       </section>
 

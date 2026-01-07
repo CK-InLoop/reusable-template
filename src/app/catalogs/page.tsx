@@ -54,39 +54,42 @@ export default async function CatalogsPage({ searchParams }: CatalogsPageProps) 
 
   return (
     <SiteLayout activePath="/catalogs">
-      <section className="space-y-6 rounded-2xl border border-[#e2e8f0] bg-white/70 p-6 shadow-sm lg:p-10">
-        <div className="flex flex-col gap-3 text-center sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-wider text-[#64748b]">
-              Digital Product Library
-            </p>
-            <h1 className="text-2xl font-bold text-[#0b4f82] sm:text-3xl">
-              Explore Our Brochures
-            </h1>
-          </div>
-          <div className="flex flex-wrap items-center justify-center gap-3 sm:justify-end">
-            {(
-              [
-                { key: "gas", label: "Gas Systems" },
-                { key: "pressure", label: "Pressure Vessels" },
-              ] as { key: CatalogType; label: string }[]
-            ).map((option) => {
-              const isActive = option.key === selectedType;
-              return (
-                <Link
-                  key={option.key}
-                  href={`/catalogs?type=${option.key}`}
-                  className={`rounded-full border px-6 py-2 text-sm font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0b4f82] focus-visible:ring-offset-2 ${
-                    isActive
-                      ? "border-transparent bg-[#0b4f82] text-white"
-                      : "border-[#e2e8f0] text-[#0b4f82] hover:border-[#0b4f82]"
-                  }`}
-                >
-                  {option.label}
-                </Link>
-              );
-            })}
-          </div>
+      <section className="bg-gray-100 pb-12 pt-8 w-[100vw] ml-[calc(50%-50vw)]">
+        <div className="mx-auto max-w-7xl px-4">
+          <section className="space-y-6 rounded-2xl border border-[#e2e8f0] bg-white/70 p-6 shadow-sm lg:p-10">
+            <div className="flex flex-col gap-3 text-center sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wider text-[#64748b]">
+                  Digital Product Library
+                </p>
+                <h1 className="text-2xl font-bold text-[#0b4f82] sm:text-3xl">
+                  Explore Our Brochures
+                </h1>
+              </div>
+              <div className="flex flex-wrap items-center justify-center gap-3 sm:justify-end">
+                {(
+                  [
+                    { key: "gas", label: "Gas Systems" },
+                    { key: "pressure", label: "Pressure Vessels" },
+                  ] as { key: CatalogType; label: string }[]
+                ).map((option) => {
+                  const isActive = option.key === selectedType;
+                  return (
+                    <Link
+                      key={option.key}
+                      href={`/catalogs?type=${option.key}`}
+                      className={`rounded-full border px-6 py-2 text-sm font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0b4f82] focus-visible:ring-offset-2 ${isActive
+                          ? "border-transparent bg-[#0b4f82] text-white"
+                          : "border-[#e2e8f0] text-[#0b4f82] hover:border-[#0b4f82]"
+                        }`}
+                    >
+                      {option.label}
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
         </div>
       </section>
 

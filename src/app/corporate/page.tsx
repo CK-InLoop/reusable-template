@@ -23,7 +23,7 @@ const leadershipImages = (corporatePage?.image_urls ?? [])
 export default function CorporatePage() {
   return (
     <SiteLayout activePath="/corporate">
-      <section className="grid gap-8 lg:grid-cols-[1.2fr_1fr] bg-gray-100 pb-12 pt-8 w-[100vw] ml-[calc(50%-50vw)] px-[calc(50vw-50%)]">
+      <section className="bg-gray-100 pb-12 pt-8 w-[100vw] ml-[calc(50%-50vw)] px-[calc(50vw-50%)]">
         <div className="mx-auto max-w-7xl px-4 grid gap-8 lg:grid-cols-[1.2fr_1fr] w-full">
           <div className="rounded-lg border border-[#e2e8f0] bg-white p-6 shadow-sm lg:p-8">
             <span className="text-xs font-semibold uppercase tracking-wider text-[#64748b]">

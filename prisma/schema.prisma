@@ -1,5 +1,15 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+
 model User {
-  id        String   @id @default(cuid())
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   email     String   @unique
   password  String?
   name      String?
@@ -7,3 +17,56 @@ model User {
   role      String   @default("user")
   createdAt DateTime @default(now())
 } 
+
+model suppliers {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId       String?  @db.ObjectId
+  name         String?
+  email        String?
+  password     String?
+  companyName  String?
+  phone        String?
+  contactPhone String?
+  address      String?
+  city         String?
+  state        String?
+  pincode      String?
+  gstNumber    String?
+  description  String?
+  profileImage String?
+  verified     Boolean? @default(false)
+  status       String?  @default("PENDING")
+  category     String?
+  subCategory  String?
+  createdAt    DateTime @default(now()) @db.Date
+  updatedAt    DateTime @updatedAt @db.Date
+}
+
+model products {
+  id               String   @id @default(auto()) @map("_id") @db.ObjectId
+  supplierId       String?  @db.ObjectId
+  name             String?
+  title            String?
+  category         String?
+  description      String?
+  shortDescription String?
+  fullDescription  String?
+  specifications   String?
+  price            Float?
+  priceRange       String?
+  capacity         String?
+  unit             String?
+  minOrderQty      Float?
+  availability     String?  @default("available")
+  tags             String[] @default([])
+  images           String[] @default([])
+  documents        String[] @default([])
+  pdfFiles         String[] @default([])
+  youtubeUrl       String?
+  status           String?  @default("PENDING")
+  rejectionReason  String?
+  views            Int?     @default(0)
+  recommendations  Int?     @default(0)
+  createdAt        DateTime @default(now()) @db.Date
+  updatedAt        DateTime @updatedAt @db.Date
+}

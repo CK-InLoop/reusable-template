@@ -1,5 +1,5 @@
 {
-  "name": "reuse",
+  "name": "pakmon-supplier",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@cloudflare/workers-types": "^4.20241127.0",
+    "@prisma/client": "6.2.0",
     "@types/bcryptjs": "^2.4.6",
     "bcryptjs": "^3.0.2",
     "next": "15.4.1",
@@ -24,6 +25,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "prisma": "6.2.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

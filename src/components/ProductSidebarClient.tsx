@@ -1,15 +1,34 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname, useSearchParams } from "next/navigation";
 import { formatText } from "@/lib/text";
 
 type ProductSidebarClientProps = {
-  categories: string[];
+  sections: { name: string; subCategories: string[] }[];
 };
 
 export default function ProductSidebarClient({
-  categories,
+  sections,
 }: ProductSidebarClientProps) {
+  const [expandedSection, setExpandedSection] = useState<string | null>(null);
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const activeCategory = searchParams.get("category");
+  const activeSubCategory = searchParams.get("subCategory");
+
+  useEffect(() => {
+    if (activeCategory) {
+      setExpandedSection(activeCategory);
+    }
+  }, [activeCategory]);
+
+  const toggleSection = (name: string) => {
+    setExpandedSection((current) => (current === name ? null : name));
+  };
+
   return (
     <aside className="flex flex-col rounded-lg border border-slate-200 bg-white shadow-sm h-full">
       {/* Blue header bar */}
@@ -28,34 +47,71 @@ export default function ProductSidebarClient({
           />
         </svg>
         <h2 className="text-sm font-semibold uppercase tracking-wide text-white">
-          ALL PRODUCTS
+          Categories
         </h2>
       </div>
 
       {/* Category list */}
       <div className="divide-y divide-slate-100 flex-1 overflow-y-auto">
-        {categories.map((category, index) => (
-          <Link
-            key={index}
-            href="/products"
-            className="flex items-center justify-between px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-50 hover:text-[#0b4f82] min-h-[44px]"
-          >
-            <span>{formatText(category)}</span>
-            <svg
-              className="h-4 w-4 text-slate-400 flex-shrink-0"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-          </Link>
-        ))}
+        {sections.map((section) => {
+          const isExpanded = expandedSection === section.name;
+
+          return (
+            <div key={section.name} className="py-1">
+              <button
+                type="button"
+                onClick={() => toggleSection(section.name)}
+                className="flex w-full items-center justify-between px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-50 hover:text-[#0b4f82] min-h-[44px]"
+                aria-expanded={isExpanded}
+              >
+                <span>{formatText(section.name)}</span>
+                <svg
+                  className={`h-4 w-4 text-slate-400 flex-shrink-0 transition-transform ${
+                    isExpanded ? "rotate-90" : ""
+                  }`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </button>
+
+              {isExpanded && (
+                <div className="pb-2">
+                  {section.subCategories.map((sub) => {
+                    const href = `/suppliers?category=${encodeURIComponent(
+                      section.name
+                    )}&subCategory=${encodeURIComponent(sub)}`;
+                    const isActive =
+                      pathname.startsWith("/suppliers") &&
+                      activeCategory === section.name &&
+                      activeSubCategory === sub;
+
+                    return (
+                      <Link
+                        key={sub}
+                        href={href}
+                        className={`block px-6 py-2 text-sm transition hover:bg-slate-50 hover:text-[#0b4f82] ${
+                          isActive
+                            ? "text-[#0b4f82] font-semibold"
+                            : "text-slate-600"
+                        }`}
+                      >
+                        {formatText(sub)}
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
     </aside>
   );

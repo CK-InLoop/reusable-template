@@ -5,11 +5,11 @@ import { usePathname } from "next/navigation";
 import ProductSidebarClient from "./ProductSidebarClient";
 
 type CollapsibleSidebarClientProps = {
-  categories: string[];
+  sections: { name: string; subCategories: string[] }[];
 };
 
 export default function CollapsibleSidebarClient({
-  categories,
+  sections,
 }: CollapsibleSidebarClientProps) {
   const [isOpen, setIsOpen] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
@@ -108,7 +108,7 @@ export default function CollapsibleSidebarClient({
 
       {/* Desktop Sidebar - Always visible in grid */}
       <aside className="hidden lg:block">
-        <ProductSidebarClient categories={categories} />
+        <ProductSidebarClient sections={sections} />
       </aside>
 
       {/* Mobile Sidebar - Collapsible overlay */}
@@ -122,7 +122,7 @@ export default function CollapsibleSidebarClient({
         aria-label="Product categories"
       >
         <div className="h-full overflow-y-auto">
-          <ProductSidebarClient categories={categories} />
+          <ProductSidebarClient sections={sections} />
         </div>
       </aside>
     </>

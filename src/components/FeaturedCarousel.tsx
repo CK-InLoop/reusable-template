@@ -31,6 +31,18 @@ export default function FeaturedCarousel({ slides }: FeaturedCarouselProps) {
         description: "",
         link: "/products",
       },
+      {
+        image: "/assets/pakmon 1.jpeg",
+        title: "Stock Image 1",
+        description: "",
+        link: "/products",
+      },
+      {
+        image: "/assets/pakmon 2.jpeg",
+        title: "Stock Image 3",
+        description: "",
+        link: "/products",
+      },
     ];
   }, [slides]);
 
@@ -46,16 +58,16 @@ export default function FeaturedCarousel({ slides }: FeaturedCarouselProps) {
 
   // Auto-slide every 3 seconds with sliding animation
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (!isAnimating) {
-        setIsAnimating(true);
-        setCurrent((prev) => (prev + 1) % carouselSlides.length);
-        setTimeout(() => setIsAnimating(false), 600);
-      }
-    }, 3000);
+    if (isAnimating) return;
 
-    return () => clearInterval(interval);
-  }, [carouselSlides.length, isAnimating]);
+    const timer = setTimeout(() => {
+      setIsAnimating(true);
+      setCurrent((prev) => (prev + 1) % carouselSlides.length);
+      setTimeout(() => setIsAnimating(false), 600);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, [carouselSlides.length, isAnimating, current]);
 
   return (
     <section className="rounded-lg border border-[#e2e8f0] bg-white p-4 shadow-sm lg:p-6">
@@ -90,7 +102,7 @@ export default function FeaturedCarousel({ slides }: FeaturedCarouselProps) {
           <div className="flex gap-2 rounded-full border border-white/40 bg-black/30 px-4 py-2 backdrop-blur">
             {carouselSlides.map((slide, index) => (
               <button
-                key={slide.title}
+                key={`${slide.title}-${index}`}
                 onClick={() => goToSlide(index)}
                 className={`h-2.5 w-8 rounded-full transition ${current === index
                   ? "bg-[#ffb400]"

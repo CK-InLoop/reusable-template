@@ -110,26 +110,55 @@ export default function HeaderNav({
 
       <nav className="sticky top-0 z-40 bg-[#0b4f82] shadow-md">
         <div className="mx-auto hidden max-w-7xl items-center justify-between gap-6 px-4 py-3 text-sm font-medium text-white lg:flex">
-          {/* Left side - Category button */}
-          <Link
-            href="/suppliers"
-            className="flex items-center gap-2 rounded-md bg-[#0a3d6b] px-4 py-2 uppercase tracking-wider transition hover:bg-[#083050]"
-          >
-            <svg
-              className="h-4 w-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+          {/* Left side - Category dropdown */}
+          <div className="relative group">
+            <button
+              type="button"
+              className="flex items-center gap-2 rounded-md bg-[#0a3d6b] px-4 py-2 uppercase tracking-wider transition hover:bg-[#083050]"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            </svg>
-            Category
-          </Link>
+              <svg
+                className="h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+              Category
+            </button>
+            {/* Category dropdown panel */}
+            <div className="invisible absolute left-0 top-full z-50 mt-0 w-56 origin-top-left scale-95 rounded-b-lg border border-t-0 border-slate-200 bg-white opacity-0 shadow-2xl transition duration-200 group-hover:visible group-hover:scale-100 group-hover:opacity-100">
+              <Link href="/suppliers?category=Oil" className="flex w-full items-center justify-between px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-50 hover:text-[#0b4f82] border-b border-slate-100">
+                <span>Oil</span>
+                <svg className="h-4 w-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
+              <Link href="/suppliers?category=Dairy" className="flex w-full items-center justify-between px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-50 hover:text-[#0b4f82] border-b border-slate-100">
+                <span>Dairy</span>
+                <svg className="h-4 w-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
+              <Link href="/suppliers?category=Industrial" className="flex w-full items-center justify-between px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-50 hover:text-[#0b4f82] border-b border-slate-100">
+                <span>Industrial</span>
+                <svg className="h-4 w-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
+              <Link href="/suppliers?category=Consulting" className="flex w-full items-center justify-between px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-50 hover:text-[#0b4f82]">
+                <span>Consulting</span>
+                <svg className="h-4 w-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
+            </div>
+          </div>
 
           {/* Right side - Menu items and Catalogs */}
           <div className="flex items-center gap-8">

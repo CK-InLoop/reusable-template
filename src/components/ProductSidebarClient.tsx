@@ -20,6 +20,7 @@ export default function ProductSidebarClient({
   const router = useRouter();
   const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const navTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const isClickNavigating = useRef(false);
 
   const activeCategory = searchParams.get("category");
   const activeSubCategory = searchParams.get("subCategory");
@@ -58,14 +59,25 @@ export default function ProductSidebarClient({
   };
 
   const onSubMouseEnter = (href: string) => {
+    isClickNavigating.current = false;
     if (navTimeoutRef.current) clearTimeout(navTimeoutRef.current);
     navTimeoutRef.current = setTimeout(() => {
-      router.push(href);
+      router.push(href + "&preview=true");
     }, 200);
   };
 
   const onSubMouseLeave = () => {
     if (navTimeoutRef.current) clearTimeout(navTimeoutRef.current);
+
+    if (isClickNavigating.current) return;
+
+    if (searchParams.get("preview") === "true") {
+      router.push("/");
+    }
+  };
+
+  const onSubClick = () => {
+    isClickNavigating.current = true;
   };
 
   return (
@@ -119,6 +131,7 @@ export default function ProductSidebarClient({
                       <Link
                         key={sub}
                         href={subHref}
+                        onClick={onSubClick}
                         onMouseEnter={() => onSubMouseEnter(subHref)}
                         onMouseLeave={onSubMouseLeave}
                         className={`block px-6 py-2 text-sm transition cursor-pointer hover:bg-slate-50 hover:text-[#0b4f82] ${isActive

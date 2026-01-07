@@ -24,10 +24,10 @@ export default async function SuppliersPage({ searchParams }: SuppliersPageProps
 
   return (
     <SiteLayout activePath="/products">
-      <section className="grid gap-6 lg:grid-cols-[280px_1fr]">
+      <section className="grid gap-10 lg:grid-cols-[280px_1fr]">
         <CollapsibleSidebar />
 
-        <div className="space-y-6">
+        <div className="space-y-6 pt-6">
           {suppliers.length === 0 ? (
             <section className="rounded-lg border border-[#e2e8f0] bg-white p-6 text-sm text-[#64748b] shadow-sm">
               No suppliers found for this category.

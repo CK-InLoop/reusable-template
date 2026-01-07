@@ -169,10 +169,10 @@ export default function HeaderNav({
 
       <nav className="sticky top-0 z-40 bg-[#0b4f82] shadow-md">
         <div className="mx-auto hidden max-w-6xl items-center justify-between gap-6 px-4 text-sm font-medium text-white lg:flex">
-          {/* Left side - Category dropdown */}
-          <div className="relative group h-full">
-            <button
-              type="button"
+          {/* Left side - Category button */}
+          <div className="h-full">
+            <Link
+              href="/suppliers"
               className="flex h-14 w-[280px] items-center gap-3 bg-[#0a3d6b] px-6 text-base font-bold uppercase tracking-wider transition hover:bg-[#083050]"
             >
               <svg
@@ -189,47 +189,7 @@ export default function HeaderNav({
                 />
               </svg>
               Category
-            </button>
-            {/* Category dropdown panel */}
-            <div className="invisible absolute left-0 top-full z-50 mt-0 w-full origin-top-left scale-95 border-b border-x border-slate-200 bg-white opacity-0 shadow-2xl transition duration-200 group-hover:visible group-hover:scale-100 group-hover:opacity-100">
-              {SECTIONS.map((section) => (
-                <div key={section.name} className="group/item relative border-b border-slate-100 last:border-b-0">
-                  <Link
-                    href={`/suppliers?category=${encodeURIComponent(section.name)}`}
-                    className="flex w-full items-center justify-between px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-50 hover:text-[#0b4f82]"
-                  >
-                    <span>{section.name}</span>
-                    <svg
-                      className="h-4 w-4 text-slate-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
-                  </Link>
-                  {/* Subcategory Menu */}
-                  <div className="invisible absolute left-full top-0 z-50 w-96 origin-top-left -translate-x-1 border border-slate-200 bg-white opacity-0 shadow-xl transition duration-200 group-hover/item:visible group-hover/item:opacity-100">
-                    <div className="max-h-[80vh] overflow-y-auto py-2">
-                      {section.subCategories.map((sub, idx) => (
-                        <Link
-                          key={idx}
-                          href={`/suppliers?category=${encodeURIComponent(section.name)}&subCategory=${encodeURIComponent(sub)}`}
-                          className="block px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-[#0b4f82]"
-                        >
-                          {sub}
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+            </Link>
           </div>
 
           {/* Right side - Menu items and Catalogs */}

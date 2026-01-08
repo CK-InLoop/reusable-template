@@ -6,6 +6,7 @@ import FeaturedCarousel from "@/components/FeaturedCarousel";
 import { getHomePage, getPageByUrl } from "@/lib/details";
 import { formatText } from "@/lib/text";
 import { getImagePath } from "@/lib/images";
+import { db } from "@/lib/db";
 
 const homePage = getHomePage();
 const corporatePage = getPageByUrl("corporate");
@@ -53,8 +54,19 @@ const productGallery = (productsPage?.image_urls ?? []).slice(1, 7).map(
   })
 );
 
-export default function Home() {
+export default async function Home() {
   const heroImage = getImagePath(homePage.image_urls[1]);
+
+  // Fetch carousel images from database
+  const carouselImages = await db.getCarouselImages();
+  const carouselSlides = carouselImages.length > 0
+    ? carouselImages.map((img: any) => ({
+      image: img.imageUrl,
+      title: img.title || "Carousel Slide",
+      description: img.description || "",
+      link: img.link || "/products",
+    }))
+    : undefined; // Will use default slides if undefined
 
   return (
     <SiteLayout activePath="/">
@@ -64,7 +76,7 @@ export default function Home() {
           <CollapsibleSidebar />
 
           <div className="space-y-8">
-            <FeaturedCarousel />
+            <FeaturedCarousel slides={carouselSlides} />
             {/* Hero Section - Text Left, Image Right */}
             <div className="grid gap-8 rounded-lg border border-[#e2e8f0] bg-white p-6 shadow-sm lg:grid-cols-2 lg:items-center lg:p-8">
               <div className="space-y-4">

@@ -168,4 +168,23 @@ export const db = {
       take: limit,
     });
   },
+
+  async getCarouselImages() {
+    try {
+      return await (prisma as any).carousel_images.findMany({
+        where: { isActive: true },
+        orderBy: { order: 'asc' },
+        select: {
+          id: true,
+          imageUrl: true,
+          title: true,
+          description: true,
+          link: true,
+        },
+      });
+    } catch (error) {
+      console.error('Error fetching carousel images:', error);
+      return [];
+    }
+  },
 };

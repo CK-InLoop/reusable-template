@@ -52,8 +52,13 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
                 return (
                   <article
                     key={product.id}
-                    className="group flex flex-col overflow-hidden rounded-lg border border-[#e2e8f0] bg-white shadow-sm transition hover:border-[#0b4f82] hover:shadow-md"
+                    className="group flex flex-col overflow-hidden rounded-lg border border-[#e2e8f0] bg-white shadow-sm transition hover:border-[#0b4f82] hover:shadow-md relative"
                   >
+                    <Link
+                      href={`/suppliers/${product.supplierId}/products/${product.id}`}
+                      className="absolute inset-0 z-10"
+                      aria-label={`View ${product.name}`}
+                    />
                     <div className="relative h-48 overflow-hidden bg-[#f8fafc]">
                       {mainImage ? (
                         <Image
@@ -78,12 +83,11 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
                       </p>
 
                       <div className="mt-4 pt-4 border-t border-slate-100">
-                        <Link
-                          href={`/suppliers/${product.supplierId}/products/${product.id}`}
-                          className="inline-flex items-center text-sm font-semibold text-[#0b4f82] hover:text-[#0a3d6b]"
+                        <div
+                          className="inline-flex items-center text-sm font-semibold text-[#0b4f82] group-hover:text-[#0a3d6b]"
                         >
                           View Product <span className="ml-1">→</span>
-                        </Link>
+                        </div>
                       </div>
                     </div>
                   </article>

@@ -145,4 +145,27 @@ export const db = {
       orderBy: { createdAt: "desc" },
     });
   },
+
+  async getSimilarProducts(currentProductId: string, category?: string, supplierId?: string, limit: number = 4) {
+    // Find products in the same category or from the same supplier, excluding the current product
+    const where: Record<string, any> = {
+      id: { not: currentProductId },
+    };
+
+    // Prioritize same category, fallback to same supplier
+    if (category) {
+      where.OR = [
+        { category: category },
+        ...(supplierId ? [{ supplierId: supplierId }] : []),
+      ];
+    } else if (supplierId) {
+      where.supplierId = supplierId;
+    }
+
+    return await (prisma as any).products.findMany({
+      where,
+      orderBy: { createdAt: "desc" },
+      take: limit,
+    });
+  },
 };

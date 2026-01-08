@@ -4,7 +4,7 @@ export default function CollapsibleSidebar() {
   // Extract product categories from text_blocks
   const sections = [
     {
-      name: "Oil",
+      name: "OIL & GAS Piping Systems",
       subCategories: [
         "NG Factory Pipelines and SKIDS Installation",
         "LNG STORAGE TANKS AND SYSTEM INSTALLATION",
@@ -12,7 +12,7 @@ export default function CollapsibleSidebar() {
       ],
     },
     {
-      name: "Dairy",
+      name: "Dairy & Food",
       subCategories: [
         "Dairy plants",
         "Water treatment plants",
@@ -37,7 +37,7 @@ export default function CollapsibleSidebar() {
       ],
     },
     {
-      name: "Consulting",
+      name: "Consulting & Services",
       subCategories: [
         "AMC Contracts",
         "Fan Balance and Monitoring",

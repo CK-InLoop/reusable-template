@@ -18,7 +18,7 @@ type HeaderNavProps = {
 
 const SECTIONS = [
   {
-    name: "Oil",
+    name: "OIL & GAS Piping Systems",
     subCategories: [
       "NG Factory Pipelines and SKIDS Installation",
       "LNG STORAGE TANKS AND SYSTEM INSTALLATION",
@@ -26,7 +26,7 @@ const SECTIONS = [
     ],
   },
   {
-    name: "Dairy",
+    name: "Dairy & Food",
     subCategories: [
       "Dairy plants",
       "Water treatment plants",
@@ -51,7 +51,7 @@ const SECTIONS = [
     ],
   },
   {
-    name: "Consulting",
+    name: "Consulting & Services",
     subCategories: [
       "AMC Contracts",
       "Fan Balance and Monitoring",
@@ -306,10 +306,10 @@ export default function HeaderNav({
                   }`}
               >
                 <div className="space-y-2 pb-4 pt-2">
-                  <Link href="/suppliers?category=Oil" onClick={closeMenu} className="block rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white transition hover:bg-white/20">Oil</Link>
-                  <Link href="/suppliers?category=Dairy" onClick={closeMenu} className="block rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white transition hover:bg-white/20">Dairy</Link>
+                  <Link href="/suppliers?category=OIL & GAS Piping Systems" onClick={closeMenu} className="block rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white transition hover:bg-white/20">OIL & GAS Piping Systems</Link>
+                  <Link href="/suppliers?category=Dairy & Food" onClick={closeMenu} className="block rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white transition hover:bg-white/20">Dairy & Food</Link>
                   <Link href="/suppliers?category=Industrial" onClick={closeMenu} className="block rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white transition hover:bg-white/20">Industrial</Link>
-                  <Link href="/suppliers?category=Consulting" onClick={closeMenu} className="block rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white transition hover:bg-white/20">Consulting</Link>
+                  <Link href="/suppliers?category=Consulting & Services" onClick={closeMenu} className="block rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white transition hover:bg-white/20">Consulting & Services</Link>
                 </div>
               </div>
             </div>

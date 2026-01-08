@@ -79,10 +79,10 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
 
                       <div className="mt-4 pt-4 border-t border-slate-100">
                         <Link
-                          href={`/suppliers/${product.supplierId}`}
+                          href={`/suppliers/${product.supplierId}/products/${product.id}`}
                           className="inline-flex items-center text-sm font-semibold text-[#0b4f82] hover:text-[#0a3d6b]"
                         >
-                          View Supplier <span className="ml-1">→</span>
+                          View Product <span className="ml-1">→</span>
                         </Link>
                       </div>
                     </div>

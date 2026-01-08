@@ -40,14 +40,9 @@ const handler = NextAuth({
         // Check database for regular users
         try {
           const user = await db.getUserByEmail(credentials.email);
-          
+
           if (!user || !user.password) {
             return null;
-          }
-
-          // Check if email is verified
-          if (user.emailVerified === 0) {
-            throw new Error("Email not verified. Please check your email for verification link.");
           }
 
           const isValidPassword = await verifyPassword(

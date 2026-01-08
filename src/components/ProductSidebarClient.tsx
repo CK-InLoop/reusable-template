@@ -202,6 +202,11 @@ export default function ProductSidebarClient({
                       </div>
                     )}
                   </div>
+                  <div className="p-2 text-center bg-white border-t border-slate-100">
+                    <span className="text-xs font-semibold text-[#0b4f82] line-clamp-2 leading-tight block">
+                      {supplier.companyName || supplier.name}
+                    </span>
+                  </div>
                 </Link>
               ))}
             </div>

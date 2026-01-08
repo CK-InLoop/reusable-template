@@ -1,4 +1,11 @@
+import { Suspense } from "react";
 import CollapsibleSidebarClient from "./CollapsibleSidebarClient";
+
+function SidebarSkeleton() {
+  return (
+    <div className="w-full h-96 bg-gray-100 animate-pulse rounded-lg"></div>
+  );
+}
 
 export default function CollapsibleSidebar() {
   // Extract product categories from text_blocks
@@ -61,6 +68,10 @@ export default function CollapsibleSidebar() {
     },
   ];
 
-  return <CollapsibleSidebarClient sections={sections} />;
+  return (
+    <Suspense fallback={<SidebarSkeleton />}>
+      <CollapsibleSidebarClient sections={sections} />
+    </Suspense>
+  );
 }
 

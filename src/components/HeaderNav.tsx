@@ -121,7 +121,7 @@ export default function HeaderNav({
                 alt={companyName}
                 fill
                 className="object-contain"
-                sizes="48px"
+                sizes="64px"
                 priority
               />
             </div>

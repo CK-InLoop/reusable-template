@@ -114,23 +114,6 @@ export default async function Home() {
                 />
               </div>
             </div>
-
-            {/* Highlights Grid */}
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {heroHighlights.map((highlight) => (
-                <div
-                  key={highlight}
-                  className="group rounded-lg border border-[#e2e8f0] bg-white p-4 shadow-sm transition hover:border-[#0b4f82] hover:shadow-md"
-                >
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#0b4f82]/10 text-[#0b4f82] transition group-hover:bg-[#0b4f82] group-hover:text-white">
-                    <span className="text-lg font-semibold">★</span>
-                  </div>
-                  <p className="mt-3 text-sm font-medium leading-relaxed text-[#171717]">
-                    {formatText(highlight)}
-                  </p>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </section>
@@ -169,61 +152,105 @@ export default async function Home() {
         </div>
       </section>
 
-      <section
-        id="products"
-        className="mt-12 rounded-lg border border-[#e2e8f0] bg-white p-6 shadow-sm lg:p-8"
-      >
+      {/* Corporate Profile Section */}
+      <section className="mt-12 bg-gray-100 pb-12 pt-8 w-[100vw] ml-[calc(50%-50vw)] px-[calc(50vw-50%)]">
+        <div className="mx-auto max-w-7xl px-4 grid gap-8 lg:grid-cols-[1.2fr_1fr] w-full">
+          <div className="rounded-lg border border-[#e2e8f0] bg-white p-6 shadow-sm lg:p-8">
+            <span className="text-xs font-semibold uppercase tracking-wider text-[#64748b]">
+              Corporate Profile
+            </span>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight text-[#0b4f82] md:text-4xl">
+              {formatText(companyName)}
+            </h2>
+            <div className="mt-6 space-y-4 text-base leading-relaxed text-[#171717]">
+              {corporateIntro.map((paragraph) => (
+                <p key={paragraph} className="text-[#64748b]">
+                  {formatText(paragraph)}
+                </p>
+              ))}
+            </div>
+          </div>
+
+          <div className="relative flex h-full flex-col overflow-hidden rounded-lg border border-[#e2e8f0] bg-white text-[#171717] shadow-sm">
+            <div className="relative h-72 w-full flex-1 bg-[#f8fafc]">
+              <Image
+                src={heroImage}
+                alt={formatText(companyName)}
+                fill
+                unoptimized
+                className="object-cover"
+              />
+            </div>
+            <div className="space-y-4 px-6 py-8">
+              <p className="text-xs uppercase tracking-wider text-[#64748b]">
+                Vision & Mission
+              </p>
+              <p className="text-sm leading-relaxed text-[#64748b]">
+                {formatText(corporateIntro[1] ?? "")}
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Strategic Commitments Section */}
+      <section className="mt-12 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] p-6 shadow-sm lg:p-8">
+        <p className="text-xs font-semibold uppercase tracking-wider text-[#0b4f82]">
+          Strategic Commitments
+        </p>
+        <div className="mt-6 grid gap-4 md:grid-cols-2">
+          {corporateSupportList.map((item) => (
+            <div
+              key={item}
+              className="rounded-lg border border-[#e2e8f0] bg-white p-4 text-sm font-medium text-[#171717] shadow-sm transition hover:border-[#0b4f82] hover:shadow-md"
+            >
+              {formatText(item)}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Leadership In Action Section */}
+      <section className="mt-12">
         <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wider text-[#64748b]">
-              Product Focus
+              Leadership In Action
             </p>
             <h2 className="mt-2 text-2xl font-bold text-[#0b4f82] md:text-3xl">
-              {formatText(productHighlights[0] ?? "Product Portfolio")}
+              Our team drives innovation, safety, and excellence.
             </h2>
             <p className="mt-3 max-w-2xl text-sm text-[#64748b] md:text-base">
               {formatText(
-                productHighlights[1] ??
-                "Water Traetment and Air Treatment solutions"
+                corporateIntro[0] ??
+                "Our experienced people keep the innovation engine running for engineering and environmental good practices."
               )}
             </p>
           </div>
-          <Link
-            href="/services"
-            className="inline-flex items-center gap-2 rounded-md bg-[#0b4f82] px-6 py-3 text-sm font-semibold text-white shadow-md transition hover:bg-[#0b4f82]/90"
-          >
-            {formatText("SERVICES")}
-          </Link>
         </div>
 
         <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {productGallery.map((item, index) => (
-            <article
+          {productGallery.slice(0, 3).map((item, index) => (
+            <figure
               key={`${item.image}-${index}`}
-              className="group flex flex-col overflow-hidden rounded-lg border border-[#e2e8f0] bg-white shadow-sm transition hover:border-[#0b4f82] hover:shadow-md"
+              className="group overflow-hidden rounded-lg border border-[#e2e8f0] bg-white shadow-sm transition hover:border-[#0b4f82] hover:shadow-md"
             >
-              <div className="relative h-48 overflow-hidden bg-[#f8fafc]">
+              <div className="relative h-56 w-full bg-[#f8fafc]">
                 <Image
                   src={item.image}
-                  alt={formatText(item.title)}
+                  alt="Corporate team"
                   fill
                   unoptimized
                   className="object-cover transition duration-300 group-hover:scale-105"
                 />
               </div>
-              <div className="flex flex-1 flex-col px-5 py-4">
-                <h3 className="text-base font-semibold text-[#171717]">
-                  {formatText(item.title)}
-                </h3>
-                <p className="mt-2 text-sm text-[#64748b]">
-                  {formatText(heroSummary)}
+              <figcaption className="space-y-2 px-5 py-4 text-sm text-[#64748b]">
+                <p className="text-base font-semibold text-[#171717]">
+                  {formatText(corporateSupportList[index] ?? "Expertise & Support")}
                 </p>
-                <span className="mt-4 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#0b4f82]">
-                  {formatText("ACCESSORIES Fabrications")}
-                  <span aria-hidden="true">›</span>
-                </span>
-              </div>
-            </article>
+                <p>{formatText(corporateIntro[index % corporateIntro.length] ?? "")}</p>
+              </figcaption>
+            </figure>
           ))}
         </div>
       </section>

@@ -170,7 +170,7 @@ export default function HeaderNav({
       </header>
 
       <nav className="sticky top-0 z-40 bg-[#0b4f82] shadow-md">
-        <div className="mx-auto hidden max-w-6xl items-center justify-between gap-6 px-4 text-sm font-medium text-white lg:flex">
+        <div className="mx-auto hidden max-w-6xl items-center justify-start gap-6 px-4 text-sm font-medium text-white lg:flex">
           {/* Left side - Category button */}
           <div className="h-full">
             <button

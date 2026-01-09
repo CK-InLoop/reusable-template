@@ -318,12 +318,12 @@ export default async function ProductPage({ params }: ProductPageProps) {
                         <div>
                             <h2 className="text-xl font-bold text-[#0b4f82]">Supplied By</h2>
                             <div className="mt-4 flex items-center gap-4">
-                                <div className="h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg bg-[#f8fafc]">
+                                <div className="h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg bg-white border border-slate-200">
                                     {(supplier as any).profileImage ? (
                                         <img
                                             src={getAzureSignedUrl((supplier as any).profileImage)}
                                             alt={formatText((supplier as any).companyName || (supplier as any).name || "Supplier")}
-                                            className="h-full w-full object-cover"
+                                            className="h-full w-full object-contain"
                                         />
                                     ) : (
                                         <div className="flex h-full w-full items-center justify-center text-[#94a3b8]">

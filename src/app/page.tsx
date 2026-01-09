@@ -43,6 +43,11 @@ const corporateSupportList =
     ? corporatePage.text_blocks.slice(corporateSupportIndex)
     : [];
 
+// Leadership images from corporate page (same as corporate page)
+const leadershipImages = (corporatePage?.image_urls ?? [])
+  .slice(1)
+  .map((img) => getImagePath(img));
+
 const productHighlights = productsPage?.text_blocks.slice(1, 3) ?? [];
 const productGallery = (productsPage?.image_urls ?? []).slice(1, 7).map(
   (image, index) => ({
@@ -230,14 +235,14 @@ export default async function Home() {
         </div>
 
         <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {productGallery.slice(0, 3).map((item, index) => (
+          {leadershipImages.slice(0, 3).map((image, index) => (
             <figure
-              key={`${item.image}-${index}`}
+              key={`${image}-${index}`}
               className="group overflow-hidden rounded-lg border border-[#e2e8f0] bg-white shadow-sm transition hover:border-[#0b4f82] hover:shadow-md"
             >
               <div className="relative h-56 w-full bg-[#f8fafc]">
                 <Image
-                  src={item.image}
+                  src={image}
                   alt="Corporate team"
                   fill
                   unoptimized

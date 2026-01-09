@@ -111,11 +111,11 @@ export default function HeaderNav({
         <div className="mx-auto flex max-w-7xl items-center justify-between pr-4 py-0">
           <Link
             href="/"
-            className="flex items-center gap-2 whitespace-nowrap -ml-15"
+            className="flex items-center gap-2 whitespace-nowrap -ml-12"
             onClick={closeMenu}
             aria-label="Go to homepage"
           >
-            <div className="relative h-30 w-30 flex-shrink-0 mr-5 -my-4">
+            <div className="relative h-30 w-30 flex-shrink-0 mr-4 -my-4">
               <Image
                 src={logoUrl}
                 alt={companyName}
@@ -126,7 +126,7 @@ export default function HeaderNav({
               />
             </div>
             <div className="hidden sm:block">
-              <p className="text-sm font-bold text-[#0b4f82]">
+              <p className="text-lg font-bold text-[#0b4f82] -ml-4">
                 {companyName}
               </p>
             </div>

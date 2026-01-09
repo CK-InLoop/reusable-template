@@ -108,25 +108,25 @@ export default function HeaderNav({
       )}
 
       <header className="border-b border-[#e2e8f0] bg-white">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-8">
+        <div className="mx-auto flex max-w-7xl items-center justify-between pl-0 pr-4 py-3">
           <Link
             href="/"
-            className="flex items-center gap-6 whitespace-nowrap"
+            className="flex items-center gap-4 whitespace-nowrap"
             onClick={closeMenu}
             aria-label="Go to homepage"
           >
-            <div className="relative h-12 w-12 flex-shrink-0">
+            <div className="relative h-20 w-20 flex-shrink-0">
               <Image
                 src={logoUrl}
                 alt={companyName}
                 fill
                 className="object-contain"
-                sizes="64px"
+                sizes="80px"
                 priority
               />
             </div>
-            <div className="hidden sm:block">
-              <p className="text-lg font-bold text-[#0b4f82]">
+            <div className="hidden sm:block ml-2">
+              <p className="text-base font-bold text-[#0b4f82]">
                 {companyName}
               </p>
             </div>

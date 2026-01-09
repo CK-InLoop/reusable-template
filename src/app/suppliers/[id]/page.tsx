@@ -92,7 +92,7 @@ export default async function SupplierPage({
             </h1>
             <textarea
               id="inquiry-message"
-              placeholder="Your message (optional)"
+              placeholder="Have a question? Drop it here…"
               className="w-full max-w-md h-10 px-3 py-2 text-sm border border-slate-200 rounded-md resize-none focus:outline-none focus:ring-1 focus:ring-[#0b4f82] focus:border-[#0b4f82]"
             />
           </div>

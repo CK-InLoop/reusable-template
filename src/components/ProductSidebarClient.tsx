@@ -252,11 +252,11 @@ export default function ProductSidebarClient({
                 {/* Inquiry Container */}
                 <div className="w-[180px] flex-shrink-0 border-l border-slate-200 pl-4">
                   <div className="bg-slate-50 rounded-lg p-3 space-y-3">
-                    <h4 className="text-xs font-semibold text-[#0b4f82] uppercase tracking-wide">Quick Inquiry</h4>
+                    <h4 className="text-xs font-semibold text-[#0b4f82] uppercase tracking-wide text-center">Quick Inquiry</h4>
                     <textarea
                       value={inquiryMessage}
                       onChange={(e) => setInquiryMessage(e.target.value)}
-                      placeholder="Your message (optional)"
+                      placeholder="Have a question? Drop it here…"
                       className="w-full h-20 px-2 py-2 text-xs border border-slate-200 rounded-md resize-none focus:outline-none focus:ring-1 focus:ring-[#0b4f82] focus:border-[#0b4f82]"
                     />
                     <a

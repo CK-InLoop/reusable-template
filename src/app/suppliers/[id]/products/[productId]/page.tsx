@@ -136,13 +136,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
                             </h1>
                         </div>
 
-                        {/* Category & Tags */}
+                        {/* Tags */}
                         <div className="flex flex-wrap gap-2">
-                            {product.category && (
-                                <span className="rounded-full bg-[#0b4f82]/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#0b4f82]">
-                                    {formatText(product.category)}
-                                </span>
-                            )}
                             {product.tags && product.tags.length > 0 && product.tags.map((tag: string, index: number) => (
                                 <span
                                     key={index}

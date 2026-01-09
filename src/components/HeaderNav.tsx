@@ -201,7 +201,7 @@ export default function HeaderNav({
           </div>
 
           {/* Right side - Menu items and Catalogs */}
-          <div className="flex items-center gap-10 py-4">
+          <div className="flex items-center gap-10 py-4 ml-15">
             {menuItems.map((item) => {
               const href = item.href;
               const isActive = isActiveLink(href);

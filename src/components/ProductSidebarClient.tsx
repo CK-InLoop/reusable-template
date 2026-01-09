@@ -34,7 +34,24 @@ export default function ProductSidebarClient({
   const activeCategory = searchParams.get("category");
   const activeSubCategory = searchParams.get("subCategory");
 
-  // NOTE: Removed auto-expansion from URL - sidebar starts collapsed, only expands on click
+  // Ref for the sidebar container to detect outside clicks
+  const sidebarRef = useRef<HTMLDivElement>(null);
+
+  // Close subcategory panel when clicking outside sidebar
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (sidebarRef.current && !sidebarRef.current.contains(event.target as Node)) {
+        setExpandedSection(null);
+        setHoveredSubCategory(null);
+        setFlyoutSuppliers([]);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   // Clean up timeouts
   useEffect(() => {
@@ -102,7 +119,7 @@ export default function ProductSidebarClient({
   const expandedSectionData = sections.find(s => s.name === expandedSection);
 
   return (
-    <div className="relative h-full flex" onMouseLeave={onFlyoutMouseLeave}>
+    <div ref={sidebarRef} className="relative h-full flex" onMouseLeave={onFlyoutMouseLeave}>
       {/* Categories Panel (Left) */}
       <aside className="flex flex-col w-[200px] min-w-[280px] rounded-l-lg border border-slate-200 bg-white shadow-sm h-full z-20 relative">
         <div className="divide-y divide-slate-100 flex-1 overflow-y-auto">
@@ -141,11 +158,6 @@ export default function ProductSidebarClient({
       {/* Subcategories Panel (Middle) - Opens to the right of categories */}
       {expandedSectionData && (
         <aside className="flex flex-col w-[280px] min-w-[280px] border-y border-r border-slate-200 bg-white shadow-sm h-full z-15 relative">
-          <div className="px-4 py-3 border-b border-slate-200 bg-slate-50">
-            <h3 className="text-sm font-semibold text-[#0b4f82]">
-              {formatText(expandedSectionData.name)}
-            </h3>
-          </div>
           <div className="flex-1 overflow-y-auto py-2">
             {expandedSectionData.subCategories.map((sub) => {
               if (sub.isHeading) {

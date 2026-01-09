@@ -67,7 +67,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                     >
                         ← Back to Supplier
                     </Link>
-                </div>
+                </div>``
 
                 {/* Product Hero */}
                 <div className="grid gap-8 lg:grid-cols-2">

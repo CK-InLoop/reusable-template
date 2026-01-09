@@ -102,7 +102,7 @@ export default function SiteLayoutClient({
                             onClick={() => setIsSidebarOpen(false)}
                         />
                         {/* Sidebar Panel */}
-                        <div className="absolute left-4 top-0 z-50 w-[280px] min-h-[600px] bg-white border border-[#e2e8f0] shadow-2xl rounded-lg">
+                        <div className="absolute left-4 top-0 z-50 w-[280px] h-fit bg-white border border-[#e2e8f0] shadow-2xl rounded-lg">
                             <CollapsibleSidebar />
                         </div>
                     </>

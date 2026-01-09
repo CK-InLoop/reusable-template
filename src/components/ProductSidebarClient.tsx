@@ -34,11 +34,7 @@ export default function ProductSidebarClient({
   const activeCategory = searchParams.get("category");
   const activeSubCategory = searchParams.get("subCategory");
 
-  useEffect(() => {
-    if (activeCategory && variant === "accordion") {
-      setExpandedSection(activeCategory);
-    }
-  }, [activeCategory, variant]);
+  // NOTE: Removed auto-expansion from URL - sidebar starts collapsed, only expands on click
 
   // Clean up timeouts
   useEffect(() => {
@@ -50,6 +46,9 @@ export default function ProductSidebarClient({
 
   const toggleSection = (name: string) => {
     setExpandedSection((current) => (current === name ? null : name));
+    // Clear hovered subcategory when changing sections
+    setHoveredSubCategory(null);
+    setFlyoutSuppliers([]);
   };
 
   const fetchSuppliers = useCallback(async (category: string, sub: string) => {
@@ -99,29 +98,28 @@ export default function ProductSidebarClient({
     setFlyoutSuppliers([]);
   };
 
+  // Get the currently expanded section for rendering subcategories panel
+  const expandedSectionData = sections.find(s => s.name === expandedSection);
+
   return (
     <div className="relative h-full flex" onMouseLeave={onFlyoutMouseLeave}>
-      <aside className={`flex flex-col w-full rounded-lg border border-slate-200 bg-white shadow-sm h-full z-20 relative ${variant === "accordion" ? "overflow-hidden" : ""}`}>
-        {/* Category list */}
+      {/* Categories Panel (Left) */}
+      <aside className="flex flex-col w-[200px] min-w-[280px] rounded-l-lg border border-slate-200 bg-white shadow-sm h-full z-20 relative">
         <div className="divide-y divide-slate-100 flex-1 overflow-y-auto">
           {sections.map((section) => {
             const isExpanded = expandedSection === section.name;
 
             return (
-              <div
-                key={section.name}
-                className="relative py-1"
-              >
+              <div key={section.name} className="py-1">
                 <button
                   type="button"
                   onClick={() => toggleSection(section.name)}
-                  className={`flex w-full items-center justify-between px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-50 hover:text-[#0b4f82] min-h-[44px] ${isExpanded ? "bg-slate-50 text-[#0b4f82]" : ""}`}
+                  className={`flex w-full items-center justify-between px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-50 hover:text-[#0b4f82] min-h-[44px] ${isExpanded ? "bg-[#0b4f82] text-white" : ""}`}
                   aria-expanded={isExpanded}
                 >
                   <span>{formatText(section.name)}</span>
                   <svg
-                    className={`h-4 w-4 text-slate-400 flex-shrink-0 transition-transform ${isExpanded ? "rotate-90" : ""
-                      }`}
+                    className={`h-4 w-4 flex-shrink-0 transition-transform ${isExpanded ? "text-white" : "text-slate-400"}`}
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -134,92 +132,107 @@ export default function ProductSidebarClient({
                     />
                   </svg>
                 </button>
-
-                {isExpanded && (
-                  <div className="pb-2 bg-slate-50/50">
-                    {section.subCategories.map((sub) => {
-                      if (sub.isHeading) {
-                        return (
-                          <div key={sub.name} className="px-6 pt-3 pb-1 text-xs font-bold text-slate-500 uppercase tracking-wider">
-                            {sub.name}
-                          </div>
-                        );
-                      }
-                      const isActive =
-                        pathname.startsWith("/suppliers") &&
-                        activeCategory === section.name &&
-                        activeSubCategory === sub.name;
-
-                      const isHovered = hoveredSubCategory?.category === section.name && hoveredSubCategory?.sub === sub.name;
-
-                      const subHref = `/suppliers?category=${encodeURIComponent(section.name)}&subCategory=${encodeURIComponent(sub.name)}`;
-
-                      return (
-                        <Link
-                          key={sub.name}
-                          href={subHref}
-                          onMouseEnter={() => onSubMouseEnter(section.name, sub.name)}
-                          onMouseLeave={onSubMouseLeave}
-                          className={`block px-6 py-2 text-sm transition cursor-pointer hover:bg-slate-100 hover:text-[#0b4f82] ${isActive || isHovered
-                            ? "text-[#0b4f82] font-semibold bg-slate-100"
-                            : "text-slate-600"
-                            }`}
-                        >
-                          {formatText(sub.name)}
-                        </Link>
-                      );
-                    })}
-                  </div>
-                )}
               </div>
             );
           })}
         </div>
       </aside>
 
-      {/* Flyout Panel */}
+      {/* Subcategories Panel (Middle) - Opens to the right of categories */}
+      {expandedSectionData && (
+        <aside className="flex flex-col w-[280px] min-w-[280px] border-y border-r border-slate-200 bg-white shadow-sm h-full z-15 relative">
+          <div className="px-4 py-3 border-b border-slate-200 bg-slate-50">
+            <h3 className="text-sm font-semibold text-[#0b4f82]">
+              {formatText(expandedSectionData.name)}
+            </h3>
+          </div>
+          <div className="flex-1 overflow-y-auto py-2">
+            {expandedSectionData.subCategories.map((sub) => {
+              if (sub.isHeading) {
+                return (
+                  <div key={sub.name} className="px-4 pt-4 pb-1 text-xs font-bold text-slate-500 uppercase tracking-wider">
+                    {sub.name}
+                  </div>
+                );
+              }
+              const isActive =
+                pathname.startsWith("/suppliers") &&
+                activeCategory === expandedSectionData.name &&
+                activeSubCategory === sub.name;
+
+              const isHovered = hoveredSubCategory?.category === expandedSectionData.name && hoveredSubCategory?.sub === sub.name;
+
+              const subHref = `/suppliers?category=${encodeURIComponent(expandedSectionData.name)}&subCategory=${encodeURIComponent(sub.name)}`;
+
+              return (
+                <Link
+                  key={sub.name}
+                  href={subHref}
+                  onMouseEnter={() => onSubMouseEnter(expandedSectionData.name, sub.name)}
+                  onMouseLeave={onSubMouseLeave}
+                  className={`block px-4 py-2 text-sm transition cursor-pointer hover:bg-slate-100 hover:text-[#0b4f82] ${isActive || isHovered
+                    ? "text-[#0b4f82] font-semibold bg-slate-100"
+                    : "text-slate-600"
+                    }`}
+                >
+                  {formatText(sub.name)}
+                </Link>
+              );
+            })}
+          </div>
+        </aside>
+      )}
+
+      {/* Supplier Flyout Panel (Right) - Opens when hovering subcategory */}
       {hoveredSubCategory && (
         <div
-          className="absolute left-[100%] top-0 h-[700px] w-[700px] bg-white border border-[#0b4f82] shadow-xl rounded-r-lg z-10 overflow-auto p-10 ml-1"
+          className="flex flex-col w-[500px] min-w-[500px] border-y border-r border-[#0b4f82] bg-white shadow-xl rounded-r-lg h-full z-10 overflow-auto"
           onMouseEnter={onFlyoutMouseEnter}
           onMouseLeave={onFlyoutMouseLeave}
         >
-          {loadingFlyout ? (
-            <div className="flex items-center justify-center h-40">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#0b4f82]"></div>
-            </div>
-          ) : flyoutSuppliers.length === 0 ? (
-            <div className="text-slate-500 text-sm">No suppliers found in this category.</div>
-          ) : (
-            <div className="grid grid-cols-3 gap-10">
-              {flyoutSuppliers.map((supplier) => (
-                <Link
-                  key={supplier.id}
-                  href={`/suppliers/${supplier.id}?category=${encodeURIComponent(hoveredSubCategory.category)}&subCategory=${encodeURIComponent(hoveredSubCategory.sub)}`}
-                  className="group flex flex-col rounded-lg border border-[#0b4f82] overflow-hidden hover:shadow-md transition bg-white max-w-[140px]"
-                >
-                  <div className="relative h-20 w-full bg-slate-50">
-                    {supplier.profileImage ? (
-                      <img
-                        src={getAzureSignedUrl(supplier.profileImage)}
-                        alt={supplier.companyName || supplier.name}
-                        className="h-full w-full object-cover"
-                      />
-                    ) : (
-                      <div className="flex h-full w-full items-center justify-center bg-slate-100 text-slate-300">
-                        <span className="text-xl font-bold">{(supplier.companyName || supplier.name || "S").charAt(0)}</span>
-                      </div>
-                    )}
-                  </div>
-                  <div className="p-2 text-center bg-white border-t border-slate-100">
-                    <span className="text-xs font-semibold text-[#0b4f82] line-clamp-2 leading-tight block">
-                      {supplier.companyName || supplier.name}
-                    </span>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          )}
+          <div className="px-4 py-3 border-b border-slate-200 bg-[#0b4f82]">
+            <h3 className="text-sm font-semibold text-white">
+              {formatText(hoveredSubCategory.sub)}
+            </h3>
+          </div>
+          <div className="flex-1 overflow-y-auto p-4">
+            {loadingFlyout ? (
+              <div className="flex items-center justify-center h-40">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#0b4f82]"></div>
+              </div>
+            ) : flyoutSuppliers.length === 0 ? (
+              <div className="text-slate-500 text-sm">No suppliers found in this category.</div>
+            ) : (
+              <div className="grid grid-cols-3 gap-4">
+                {flyoutSuppliers.map((supplier) => (
+                  <Link
+                    key={supplier.id}
+                    href={`/suppliers/${supplier.id}?category=${encodeURIComponent(hoveredSubCategory.category)}&subCategory=${encodeURIComponent(hoveredSubCategory.sub)}`}
+                    className="group flex flex-col rounded-lg border border-[#0b4f82] overflow-hidden hover:shadow-md transition bg-white"
+                  >
+                    <div className="relative h-20 w-full bg-slate-50">
+                      {supplier.profileImage ? (
+                        <img
+                          src={getAzureSignedUrl(supplier.profileImage)}
+                          alt={supplier.companyName || supplier.name}
+                          className="h-full w-full object-cover"
+                        />
+                      ) : (
+                        <div className="flex h-full w-full items-center justify-center bg-slate-100 text-slate-300">
+                          <span className="text-xl font-bold">{(supplier.companyName || supplier.name || "S").charAt(0)}</span>
+                        </div>
+                      )}
+                    </div>
+                    <div className="p-2 text-center bg-white border-t border-slate-100">
+                      <span className="text-xs font-semibold text-[#0b4f82] line-clamp-2 leading-tight block">
+                        {supplier.companyName || supplier.name}
+                      </span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       )}
     </div>

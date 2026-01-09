@@ -95,15 +95,17 @@ export default function SiteLayoutClient({
                 {children}
 
                 {!isHomePage && isSidebarOpen && (
-                    <div className="absolute left-4 top-0 z-50 w-[280px] min-h-[600px] bg-white border border-[#e2e8f0] shadow-2xl rounded-lg">
-                        <div className="p-4 border-b border-[#e2e8f0] bg-[#f8fafc] flex justify-between items-center lg:hidden">
-                            <span className="font-bold text-[#0b4f82] uppercase tracking-wider">Categories</span>
-                            <button onClick={() => toggleSidebar()} className="text-slate-400 hover:text-[#0b4f82]">
-                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
-                            </button>
+                    <>
+                        {/* Backdrop - Click to close */}
+                        <div
+                            className="fixed inset-0 z-40 bg-black/20"
+                            onClick={() => setIsSidebarOpen(false)}
+                        />
+                        {/* Sidebar Panel */}
+                        <div className="absolute left-4 top-0 z-50 w-[280px] min-h-[600px] bg-white border border-[#e2e8f0] shadow-2xl rounded-lg">
+                            <CollapsibleSidebar />
                         </div>
-                        <CollapsibleSidebar />
-                    </div>
+                    </>
                 )}
             </main>
 

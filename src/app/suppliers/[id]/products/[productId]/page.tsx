@@ -248,12 +248,32 @@ export default async function ProductPage({ params }: ProductPageProps) {
                     </>
                 )}
 
-                {/* PDF Documents */}
+                {/* YouTube Video */}
+                {product.youtubeUrl && (
+                    <>
+                        <hr className="my-8 border-[#e2e8f0]" />
+                        <div>
+                            <h2 className="text-xl font-bold text-[#0b4f82]">Product Video</h2>
+                            <div className="mt-4 aspect-video overflow-hidden rounded-lg bg-[#f8fafc]">
+                                <iframe
+                                    src={product.youtubeUrl.replace("watch?v=", "embed/")}
+                                    title="Product Video"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowFullScreen
+                                    className="h-full w-full"
+                                />
+                            </div>
+                        </div>
+                    </>
+                )}
+
+                {/* PDF Documents - Only shown if product has PDFs */}
                 {product.pdfFiles && product.pdfFiles.length > 0 && (
                     <>
                         <hr className="my-8 border-[#e2e8f0]" />
                         <div>
-                            <h2 className="text-xl font-bold text-[#0b4f82]">Documents</h2>
+                            <h2 className="text-xl font-bold text-[#0b4f82]">Product Documents</h2>
+                            <p className="mt-1 text-sm text-[#64748b]">Download product specifications, datasheets, and brochures</p>
                             <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                                 {product.pdfFiles.map((pdf: string, index: number) => (
                                     <a
@@ -287,29 +307,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
                                             <p className="text-sm font-semibold text-[#171717] truncate">
                                                 Document {index + 1}
                                             </p>
-                                            <p className="text-xs text-[#64748b]">PDF • Click to view</p>
+                                            <p className="text-xs text-[#64748b]">PDF • Click to View</p>
                                         </div>
                                     </a>
                                 ))}
-                            </div>
-                        </div>
-                    </>
-                )}
-
-                {/* YouTube Video */}
-                {product.youtubeUrl && (
-                    <>
-                        <hr className="my-8 border-[#e2e8f0]" />
-                        <div>
-                            <h2 className="text-xl font-bold text-[#0b4f82]">Product Video</h2>
-                            <div className="mt-4 aspect-video overflow-hidden rounded-lg bg-[#f8fafc]">
-                                <iframe
-                                    src={product.youtubeUrl.replace("watch?v=", "embed/")}
-                                    title="Product Video"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowFullScreen
-                                    className="h-full w-full"
-                                />
                             </div>
                         </div>
                     </>

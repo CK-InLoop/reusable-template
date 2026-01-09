@@ -6,8 +6,10 @@ import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { formatText } from "@/lib/text";
 import { getAzureSignedUrl } from "@/lib/azure";
 
+type SubCategoryItem = { name: string; isHeading?: boolean };
+
 type ProductSidebarClientProps = {
-  sections: { name: string; subCategories: string[] }[];
+  sections: { name: string; subCategories: SubCategoryItem[] }[];
   variant?: "flyout" | "accordion";
 };
 
@@ -136,27 +138,34 @@ export default function ProductSidebarClient({
                 {isExpanded && (
                   <div className="pb-2 bg-slate-50/50">
                     {section.subCategories.map((sub) => {
+                      if (sub.isHeading) {
+                        return (
+                          <div key={sub.name} className="px-6 pt-3 pb-1 text-xs font-bold text-slate-500 uppercase tracking-wider">
+                            {sub.name}
+                          </div>
+                        );
+                      }
                       const isActive =
                         pathname.startsWith("/suppliers") &&
                         activeCategory === section.name &&
-                        activeSubCategory === sub;
+                        activeSubCategory === sub.name;
 
-                      const isHovered = hoveredSubCategory?.category === section.name && hoveredSubCategory?.sub === sub;
+                      const isHovered = hoveredSubCategory?.category === section.name && hoveredSubCategory?.sub === sub.name;
 
-                      const subHref = `/suppliers?category=${encodeURIComponent(section.name)}&subCategory=${encodeURIComponent(sub)}`;
+                      const subHref = `/suppliers?category=${encodeURIComponent(section.name)}&subCategory=${encodeURIComponent(sub.name)}`;
 
                       return (
                         <Link
-                          key={sub}
+                          key={sub.name}
                           href={subHref}
-                          onMouseEnter={() => onSubMouseEnter(section.name, sub)}
+                          onMouseEnter={() => onSubMouseEnter(section.name, sub.name)}
                           onMouseLeave={onSubMouseLeave}
                           className={`block px-6 py-2 text-sm transition cursor-pointer hover:bg-slate-100 hover:text-[#0b4f82] ${isActive || isHovered
                             ? "text-[#0b4f82] font-semibold bg-slate-100"
                             : "text-slate-600"
                             }`}
                         >
-                          {formatText(sub)}
+                          {formatText(sub.name)}
                         </Link>
                       );
                     })}

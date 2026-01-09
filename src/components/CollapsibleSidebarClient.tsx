@@ -4,8 +4,10 @@ import { useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import ProductSidebarClient from "./ProductSidebarClient";
 
+type SubCategoryItem = { name: string; isHeading?: boolean };
+
 type CollapsibleSidebarClientProps = {
-  sections: { name: string; subCategories: string[] }[];
+  sections: { name: string; subCategories: SubCategoryItem[] }[];
 };
 
 export default function CollapsibleSidebarClient({

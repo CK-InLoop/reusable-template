@@ -120,9 +120,9 @@ export default function ProductSidebarClient({
   const expandedSectionData = sections.find(s => s.name === expandedSection);
 
   return (
-    <div ref={sidebarRef} className="relative h-full flex" onMouseLeave={onFlyoutMouseLeave}>
+    <div ref={sidebarRef} className="relative flex items-start" onMouseLeave={onFlyoutMouseLeave}>
       {/* Categories Panel (Left) */}
-      <aside className="flex flex-col w-[200px] min-w-[280px] rounded-l-lg border border-slate-200 bg-white shadow-sm h-full z-20 relative">
+      <aside className="flex flex-col w-[200px] min-w-[280px] rounded-l-lg border border-slate-200 bg-white shadow-sm z-20 relative">
         <div className="divide-y divide-slate-100 flex-1 overflow-y-auto">
           {sections.map((section) => {
             const isExpanded = expandedSection === section.name;
@@ -156,9 +156,9 @@ export default function ProductSidebarClient({
         </div>
       </aside>
 
-      {/* Subcategories Panel (Middle) - Opens to the right of categories */}
+      {/* Subcategories Panel (Middle) - Opens to the right of categories, positioned absolutely */}
       {expandedSectionData && (
-        <aside className="flex flex-col w-[280px] min-w-[280px] border-y border-r border-slate-200 bg-white shadow-sm h-full z-15 relative">
+        <aside className="absolute left-[280px] top-0 flex flex-col w-[280px] min-w-[280px] border border-slate-200 bg-white shadow-lg rounded-r-lg z-15">
           <div className="flex-1 overflow-y-auto py-2">
             {expandedSectionData.subCategories.map((sub) => {
               if (sub.isHeading) {
@@ -196,10 +196,10 @@ export default function ProductSidebarClient({
         </aside>
       )}
 
-      {/* Supplier Flyout Panel (Right) - Opens when hovering subcategory */}
+      {/* Supplier Flyout Panel (Right) - Opens when hovering subcategory, positioned beside subcategory */}
       {hoveredSubCategory && (
         <div
-          className="flex flex-col w-[650px] min-w-[650px] border-y border-r border-[#0b4f82] bg-white shadow-xl rounded-r-lg h-full z-10 overflow-auto"
+          className="absolute left-[560px] top-0 flex flex-col w-[650px] min-w-[650px] border border-[#0b4f82] bg-white shadow-xl rounded-r-lg z-10 overflow-auto"
           onMouseEnter={onFlyoutMouseEnter}
           onMouseLeave={onFlyoutMouseLeave}
         >

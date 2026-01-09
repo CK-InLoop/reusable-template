@@ -231,7 +231,7 @@ export default function ProductSidebarClient({
                             <img
                               src={getAzureSignedUrl(supplier.profileImage)}
                               alt={supplier.companyName || supplier.name}
-                              className="h-full w-full object-cover"
+                              className="h-full w-full object-contain"
                             />
                           ) : (
                             <div className="flex h-full w-full items-center justify-center bg-slate-100 text-slate-300">

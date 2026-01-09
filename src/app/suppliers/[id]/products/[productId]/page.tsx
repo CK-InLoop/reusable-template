@@ -79,7 +79,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                                 <img
                                     src={getAzureSignedUrl(product.images[0])}
                                     alt={formatText(product.title || product.name || "Product")}
-                                    className="h-full w-full object-cover"
+                                    className="h-full w-full object-contain"
                                 />
                             ) : (
                                 <div className="flex h-full w-full items-center justify-center text-[#94a3b8]">

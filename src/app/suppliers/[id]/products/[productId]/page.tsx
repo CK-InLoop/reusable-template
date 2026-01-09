@@ -74,7 +74,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                     {/* Product Images */}
                     <div className="space-y-4">
                         {/* Main Image */}
-                        <div className="relative aspect-square overflow-hidden rounded-lg bg-[#f8fafc]">
+                        <div className="relative aspect-square overflow-hidden rounded-lg bg-white border border-slate-200">
                             {product.images && product.images.length > 0 ? (
                                 <img
                                     src={getAzureSignedUrl(product.images[0])}

@@ -226,7 +226,7 @@ export default function ProductSidebarClient({
                         href={`/suppliers/${supplier.id}?category=${encodeURIComponent(hoveredSubCategory.category)}&subCategory=${encodeURIComponent(hoveredSubCategory.sub)}`}
                         className="group flex flex-col rounded-lg border border-[#0b4f82] overflow-hidden hover:shadow-md transition bg-white"
                       >
-                        <div className="relative h-20 w-full bg-slate-50">
+                        <div className="relative h-20 w-full bg-white">
                           {supplier.profileImage ? (
                             <img
                               src={getAzureSignedUrl(supplier.profileImage)}

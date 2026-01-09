@@ -157,46 +157,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Corporate Profile Section */}
-      <section className="mt-12 bg-gray-100 pb-12 pt-8 w-[100vw] ml-[calc(50%-50vw)] px-[calc(50vw-50%)]">
-        <div className="mx-auto max-w-7xl px-4 grid gap-8 lg:grid-cols-[1.2fr_1fr] w-full">
-          <div className="rounded-lg border border-[#e2e8f0] bg-white p-6 shadow-sm lg:p-8">
-            <span className="text-xs font-semibold uppercase tracking-wider text-[#64748b]">
-              Corporate Profile
-            </span>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight text-[#0b4f82] md:text-4xl">
-              {formatText(companyName)}
-            </h2>
-            <div className="mt-6 space-y-4 text-base leading-relaxed text-[#171717]">
-              {corporateIntro.map((paragraph) => (
-                <p key={paragraph} className="text-[#64748b]">
-                  {formatText(paragraph)}
-                </p>
-              ))}
-            </div>
-          </div>
 
-          <div className="relative flex h-full flex-col overflow-hidden rounded-lg border border-[#e2e8f0] bg-white text-[#171717] shadow-sm">
-            <div className="relative h-72 w-full flex-1 bg-[#f8fafc]">
-              <Image
-                src={heroImage}
-                alt={formatText(companyName)}
-                fill
-                unoptimized
-                className="object-cover"
-              />
-            </div>
-            <div className="space-y-4 px-6 py-8">
-              <p className="text-xs uppercase tracking-wider text-[#64748b]">
-                Vision & Mission
-              </p>
-              <p className="text-sm leading-relaxed text-[#64748b]">
-                {formatText(corporateIntro[1] ?? "")}
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Strategic Commitments Section */}
       <section className="mt-12 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] p-6 shadow-sm lg:p-8">

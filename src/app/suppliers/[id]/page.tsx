@@ -50,7 +50,7 @@ export default async function SupplierPage({
       <section className="mt-8 rounded-lg border border-[#e2e8f0] bg-white p-6 shadow-sm">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center">
           {/* Profile Image */}
-          <div className="relative h-28 w-28 flex-shrink-0 overflow-hidden rounded-lg bg-[#f8fafc] border border-slate-100 shadow-sm">
+          <div className="relative h-28 w-48 flex-shrink-0 overflow-hidden rounded-lg bg-white border border-slate-100 shadow-sm">
             {(supplier as any).profileImage ? (
               <img
                 src={getAzureSignedUrl((supplier as any).profileImage)}
@@ -59,7 +59,7 @@ export default async function SupplierPage({
                   (supplier as any).name ||
                   "Supplier"
                 )}
-                className="h-full w-full object-cover"
+                className="h-full w-full object-contain"
               />
             ) : (
               <div className="flex h-full w-full items-center justify-center text-[#94a3b8]">
@@ -97,7 +97,7 @@ export default async function SupplierPage({
               <textarea
                 id="inquiry-message"
                 placeholder="Have a question? Drop it here…"
-                className="flex-1 h-10 px-3 py-2 text-sm border border-slate-200 rounded-md resize-none focus:outline-none focus:ring-1 focus:ring-[#0b4f82] focus:border-[#0b4f82]"
+                className="w-64 h-10 px-3 py-2 text-sm border border-slate-200 rounded-md resize-none focus:outline-none focus:ring-1 focus:ring-[#0b4f82] focus:border-[#0b4f82]"
               />
               {/* WhatsApp Button */}
               <a

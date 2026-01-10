@@ -22,6 +22,10 @@ export default function ProductSidebarClient({
   const [flyoutSuppliers, setFlyoutSuppliers] = useState<any[]>([]);
   const [loadingFlyout, setLoadingFlyout] = useState(false);
   const [inquiryMessage, setInquiryMessage] = useState("");
+  const [subCategoryHeight, setSubCategoryHeight] = useState<number | null>(null);
+
+  // Ref for the subcategory panel to measure its height
+  const subCategoryRef = useRef<HTMLElement>(null);
 
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -37,6 +41,13 @@ export default function ProductSidebarClient({
 
   // Ref for the sidebar container to detect outside clicks
   const sidebarRef = useRef<HTMLDivElement>(null);
+
+  // Measure subcategory panel height when it changes
+  useEffect(() => {
+    if (subCategoryRef.current) {
+      setSubCategoryHeight(subCategoryRef.current.offsetHeight);
+    }
+  }, [expandedSection]);
 
   // Close subcategory panel when clicking outside sidebar
   useEffect(() => {
@@ -158,7 +169,7 @@ export default function ProductSidebarClient({
 
       {/* Subcategories Panel (Middle) - Opens to the right of categories, positioned absolutely */}
       {expandedSectionData && (
-        <aside className="absolute left-[280px] top-0 flex flex-col w-[280px] min-w-[280px] border border-slate-200 bg-white shadow-lg rounded-r-lg z-15">
+        <aside ref={subCategoryRef} className="absolute left-[280px] top-0 flex flex-col w-[280px] min-w-[280px] border border-slate-200 bg-white shadow-lg rounded-r-lg z-15">
           <div className="flex-1 overflow-y-auto py-2">
             {expandedSectionData.subCategories.map((sub) => {
               if (sub.isHeading) {
@@ -199,7 +210,8 @@ export default function ProductSidebarClient({
       {/* Supplier Flyout Panel (Right) - Opens when hovering subcategory, positioned beside subcategory */}
       {hoveredSubCategory && (
         <div
-          className="absolute left-[560px] top-0 flex flex-col w-[650px] min-w-[650px] border border-[#0b4f82] bg-white shadow-xl rounded-r-lg z-10 overflow-auto"
+          className="absolute left-[560px] top-0 flex flex-col w-[650px] min-w-[650px] border border-[#0b4f82] bg-white shadow-xl rounded-r-lg z-10 overflow-hidden"
+          style={{ height: subCategoryHeight ? `${subCategoryHeight}px` : 'auto' }}
           onMouseEnter={onFlyoutMouseEnter}
           onMouseLeave={onFlyoutMouseLeave}
         >

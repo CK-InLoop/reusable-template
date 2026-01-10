@@ -91,7 +91,7 @@ export default function FeaturedCarousel({ slides }: FeaturedCarouselProps) {
                 alt={slide.title}
                 fill
                 unoptimized
-                className="bg-white object-contain transition duration-300 group-hover:scale-105"
+                className="bg-white object-fill transition duration-300 group-hover:scale-105"
                 sizes="(min-width: 1024px) 60vw, 100vw"
               />
             </Link>

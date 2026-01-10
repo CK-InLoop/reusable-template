@@ -192,4 +192,22 @@ export const db = {
       return [];
     }
   },
+
+  async getCategories() {
+    try {
+      return await (prisma as any).categories.findMany({
+        where: { isActive: true },
+        orderBy: { order: 'asc' },
+        include: {
+          subCategories: {
+            where: { isActive: true },
+            orderBy: { order: 'asc' },
+          },
+        },
+      });
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+      return [];
+    }
+  },
 };

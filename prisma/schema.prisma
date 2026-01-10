@@ -82,3 +82,28 @@ model carousel_images {
   createdAt   DateTime @default(now()) @db.Date
   updatedAt   DateTime @updatedAt @db.Date
 }
+
+// Categories for organizing suppliers and products
+model categories {
+  id            String          @id @default(auto()) @map("_id") @db.ObjectId
+  name          String          @unique
+  icon          String          @default("Package")
+  order         Int             @default(0)
+  isActive      Boolean         @default(true)
+  createdAt     DateTime        @default(now()) @db.Date
+  updatedAt     DateTime        @updatedAt @db.Date
+  subCategories subcategories[]
+}
+
+// SubCategories within a category
+model subcategories {
+  id         String     @id @default(auto()) @map("_id") @db.ObjectId
+  categoryId String     @db.ObjectId
+  category   categories @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  name       String
+  order      Int        @default(0)
+  isHeading  Boolean    @default(false)
+  isActive   Boolean    @default(true)
+  createdAt  DateTime   @default(now()) @db.Date
+  updatedAt  DateTime   @updatedAt @db.Date
+}

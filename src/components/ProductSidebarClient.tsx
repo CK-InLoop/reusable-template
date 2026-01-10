@@ -163,7 +163,7 @@ export default function ProductSidebarClient({
             {expandedSectionData.subCategories.map((sub) => {
               if (sub.isHeading) {
                 return (
-                  <div key={sub.name} className="px-4 pt-4 pb-1 text-xs font-bold text-slate-500 uppercase tracking-wider">
+                  <div key={sub.name} className="px-4 pt-4 pb-1 text-xs font-bold text-yellow-500 uppercase tracking-wider">
                     {sub.name}
                   </div>
                 );

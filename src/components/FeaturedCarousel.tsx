@@ -90,6 +90,7 @@ export default function FeaturedCarousel({ slides }: FeaturedCarouselProps) {
                 src={slide.image}
                 alt={slide.title}
                 fill
+                unoptimized
                 className="object-cover transition duration-300 group-hover:scale-105"
                 sizes="(min-width: 1024px) 60vw, 100vw"
               />

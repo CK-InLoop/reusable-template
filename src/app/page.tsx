@@ -59,6 +59,9 @@ const productGallery = (productsPage?.image_urls ?? []).slice(1, 7).map(
   })
 );
 
+// Revalidate this page every 60 seconds to pick up carousel changes
+export const revalidate = 60;
+
 export default async function Home() {
   const heroImage = getImagePath(homePage.image_urls[1]);
 

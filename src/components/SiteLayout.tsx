@@ -1,14 +1,29 @@
 import { getHomePage, getMenuItems } from "@/lib/details";
 import { formatText } from "@/lib/text";
 import { getImagePath } from "@/lib/images";
+import { db } from "@/lib/db";
 import SiteLayoutClient from "./SiteLayoutClient";
+
+type SubCategory = {
+  id: string;
+  name: string;
+  isHeading: boolean;
+  order: number;
+};
+
+type Category = {
+  id: string;
+  name: string;
+  order: number;
+  subCategories: SubCategory[];
+};
 
 type SiteLayoutProps = {
   children: React.ReactNode;
   activePath?: string;
 };
 
-export default function SiteLayout({
+export default async function SiteLayout({
   children,
   activePath = "/",
 }: SiteLayoutProps) {
@@ -28,6 +43,16 @@ export default function SiteLayout({
     },
   ];
 
+  // Fetch categories on server-side to pass to client component
+  const categoriesFromDb = await db.getCategories();
+  const sidebarSections = (categoriesFromDb as Category[]).map((cat) => ({
+    name: cat.name,
+    subCategories: cat.subCategories.map((sub) => ({
+      name: sub.name,
+      isHeading: sub.isHeading,
+    })),
+  }));
+
   return (
     <SiteLayoutClient
       activePath={activePath}
@@ -36,6 +61,7 @@ export default function SiteLayout({
       logoUrl={logoUrl}
       menuItems={menuItems}
       brochureLinks={brochureLinks}
+      sidebarSections={sidebarSections}
     >
       {children}
     </SiteLayoutClient>

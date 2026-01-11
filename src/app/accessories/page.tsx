@@ -42,12 +42,13 @@ export default async function AccessoriesPage() {
                 </p>
                 <div className="grid gap-4 sm:grid-cols-2">
                   {accessoryHighlights.map((item) => (
-                    <div
+                    <Link
                       key={item}
-                      className="rounded-lg border border-[#e2e8f0] bg-[#f8fafc] p-4 text-sm font-semibold text-[#171717] transition hover:border-[#0b4f82] hover:bg-white hover:shadow-sm"
+                      href="/products"
+                      className="rounded-lg border border-[#e2e8f0] bg-[#f8fafc] p-4 text-sm font-semibold text-[#171717] transition hover:border-[#0b4f82] hover:bg-white hover:shadow-sm cursor-pointer"
                     >
                       {formatText(item)}
-                    </div>
+                    </Link>
                   ))}
                 </div>
               </div>

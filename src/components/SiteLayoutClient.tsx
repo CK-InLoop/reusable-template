@@ -4,7 +4,9 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { formatText } from "@/lib/text";
 import HeaderNav from "./HeaderNav";
-import CollapsibleSidebar from "./CollapsibleSidebar";
+import ProductSidebarClient from "./ProductSidebarClient";
+
+type SubCategoryItem = { name: string; isHeading?: boolean };
 
 type SiteLayoutClientProps = {
     children: React.ReactNode;
@@ -14,6 +16,7 @@ type SiteLayoutClientProps = {
     logoUrl: string;
     menuItems: { label: string; href: string }[];
     brochureLinks: { label: string; href: string }[];
+    sidebarSections: { name: string; subCategories: SubCategoryItem[] }[];
 };
 
 export default function SiteLayoutClient({
@@ -24,6 +27,7 @@ export default function SiteLayoutClient({
     logoUrl,
     menuItems,
     brochureLinks,
+    sidebarSections,
 }: SiteLayoutClientProps) {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -102,8 +106,8 @@ export default function SiteLayoutClient({
                             onClick={() => setIsSidebarOpen(false)}
                         />
                         {/* Sidebar Panel */}
-                        <div className="absolute left-4 top-0 z-50 w-[280px] h-fit bg-white border border-[#e2e8f0] shadow-2xl rounded-lg">
-                            <CollapsibleSidebar />
+                        <div className="absolute left-4 top-0 z-50 w-[280px] h-fit overflow-visible">
+                            <ProductSidebarClient sections={sidebarSections} />
                         </div>
                     </>
                 )}

@@ -156,12 +156,12 @@ export default async function SupplierPage({
                 href={`/suppliers/${supplierId}/products/${product.id}`}
                 className="group flex flex-col overflow-hidden rounded-lg border border-[#e2e8f0] bg-white shadow-sm transition hover:border-[#0b4f82] hover:shadow-md"
               >
-                <div className="relative h-48 overflow-hidden bg-[#f8fafc]">
+                <div className="relative h-48 overflow-hidden bg-white">
                   {product.images && product.images.length > 0 ? (
                     <img
                       src={getAzureSignedUrl(product.images[0])}
                       alt={formatText(product.title || product.name || "Product")}
-                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105"
                     />
                   ) : (
                     <div className="flex h-full w-full items-center justify-center text-[#94a3b8]">

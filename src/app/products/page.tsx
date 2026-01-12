@@ -59,13 +59,13 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
                       className="absolute inset-0 z-10"
                       aria-label={`View ${product.name}`}
                     />
-                    <div className="relative h-48 overflow-hidden bg-[#f8fafc]">
+                    <div className="relative h-48 overflow-hidden bg-white">
                       {mainImage ? (
                         <Image
                           src={getAzureSignedUrl(mainImage)}
                           alt={formatText(product.name ?? "Product")}
                           fill
-                          className="object-cover transition duration-300 group-hover:scale-105"
+                          className="object-contain transition duration-300 group-hover:scale-105"
                           sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                         />
                       ) : (

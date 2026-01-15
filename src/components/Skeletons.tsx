@@ -68,3 +68,29 @@ export function SupplierProfileSkeleton() {
         </div>
     );
 }
+export function FlyoutSkeleton({ isMobile = false }: { isMobile?: boolean }) {
+    return (
+        <div className={`flex ${isMobile ? 'flex-col' : 'gap-4'} w-full`}>
+            <div className="flex-1">
+                <div className={`grid ${isMobile ? 'grid-cols-2' : 'grid-cols-3'} gap-3 md:gap-4`}>
+                    {[1, 2, 3, 4, 5, 6].map((i) => (
+                        <div key={i} className="rounded-lg border border-[#e2e8f0] overflow-hidden bg-white">
+                            <Skeleton className="h-16 md:h-20 w-full" />
+                            <div className="p-2">
+                                <Skeleton className="h-3 w-3/4 mx-auto" />
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+            {!isMobile && (
+                <div className="w-[180px] flex-shrink-0 border-l border-slate-200 pl-4 space-y-4">
+                    <Skeleton className="h-4 w-3/4 mx-auto" />
+                    <Skeleton className="h-20 w-full" />
+                    <Skeleton className="h-10 w-full rounded-md" />
+                    <Skeleton className="h-10 w-full rounded-md" />
+                </div>
+            )}
+        </div>
+    );
+}

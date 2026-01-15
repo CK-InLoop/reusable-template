@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { formatText } from "@/lib/text";
 import { getAzureSignedUrl } from "@/lib/azure";
+import { FlyoutSkeleton } from "./Skeletons";
 
 type SubCategoryItem = { name: string; isHeading?: boolean };
 
@@ -228,8 +229,8 @@ export default function ProductSidebarClient({
                             type="button"
                             onClick={(e) => onSubClick(e as any, section.name, sub.name)}
                             className={`block w-full text-left px-6 py-3 text-sm transition cursor-pointer border-l-4 ${isSelected
-                                ? "text-[#0b4f82] font-semibold bg-white border-[#0b4f82]"
-                                : "text-slate-600 hover:bg-white hover:text-[#0b4f82] border-transparent"
+                              ? "text-[#0b4f82] font-semibold bg-white border-[#0b4f82]"
+                              : "text-slate-600 hover:bg-white hover:text-[#0b4f82] border-transparent"
                               }`}
                           >
                             {formatText(sub.name)}
@@ -266,9 +267,7 @@ export default function ProductSidebarClient({
             </div>
             <div className="p-4 max-h-[60vh] overflow-y-auto">
               {loadingFlyout ? (
-                <div className="flex items-center justify-center h-32">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#0b4f82]"></div>
-                </div>
+                <FlyoutSkeleton isMobile={true} />
               ) : flyoutSuppliers.length === 0 ? (
                 <div className="text-center py-8">
                   <div className="text-slate-500 text-sm mb-4">No suppliers found in this category.</div>
@@ -446,9 +445,7 @@ export default function ProductSidebarClient({
           </div>
           <div className="flex-1 overflow-y-auto p-4">
             {loadingFlyout ? (
-              <div className="flex items-center justify-center h-40">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#0b4f82]"></div>
-              </div>
+              <FlyoutSkeleton isMobile={false} />
             ) : flyoutSuppliers.length === 0 ? (
               <div className="text-slate-500 text-sm">No suppliers found in this category.</div>
             ) : (

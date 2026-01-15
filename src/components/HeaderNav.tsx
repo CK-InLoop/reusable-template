@@ -31,18 +31,20 @@ const FALLBACK_SECTIONS: CategorySection[] = [
 // Mobile category item with expandable subcategories
 function MobileCategoryItem({
   category,
+  isExpanded,
+  onToggle,
   onSelect
 }: {
   category: CategorySection;
+  isExpanded: boolean;
+  onToggle: () => void;
   onSelect: () => void;
 }) {
-  const [isExpanded, setIsExpanded] = useState(false);
-
   return (
     <div>
       <button
         type="button"
-        onClick={() => setIsExpanded((prev) => !prev)}
+        onClick={onToggle}
         className="flex w-full items-center justify-between px-3 py-2 text-sm font-semibold text-white transition hover:bg-white/10"
       >
         <span>{category.name}</span>
@@ -104,12 +106,14 @@ export default function HeaderNav({
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCatalogsOpen, setIsCatalogsOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
+  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
 
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
   const closeMenu = () => {
     setIsMenuOpen(false);
     setIsCatalogsOpen(false);
     setIsCategoriesOpen(false);
+    setExpandedCategory(null);
   };
   const isActiveLink = (href: string) =>
     href === activePath ||
@@ -286,7 +290,7 @@ export default function HeaderNav({
 
         <div
           id="site-mobile-menu"
-          className={`lg:hidden border-t border-white/20 bg-[#0b4f82] px-4 transition-[max-height,opacity] duration-300 ease-out ${isMenuOpen ? "max-h-[640px] opacity-100" : "max-h-0 opacity-0"
+          className={`lg:hidden border-t border-white/20 bg-[#0b4f82] px-4 transition-[max-height,opacity] duration-300 ease-out overflow-y-auto ${isMenuOpen ? "max-h-[80vh] opacity-100" : "max-h-0 opacity-0"
             }`}
         >
           <div className="flex flex-col gap-3 py-4 text-white">
@@ -320,7 +324,7 @@ export default function HeaderNav({
                 </svg>
               </button>
               <div
-                className={`overflow-hidden px-4 transition-[max-height,opacity] duration-200 ${isCategoriesOpen ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0"
+                className={`overflow-y-auto px-4 transition-[max-height,opacity] duration-200 ${isCategoriesOpen ? "max-h-[400px] opacity-100" : "max-h-0 opacity-0"
                   }`}
               >
                 <div className="space-y-2 pb-4 pt-2">
@@ -328,6 +332,8 @@ export default function HeaderNav({
                     <div key={section.name} className="bg-white/5 rounded-md overflow-hidden">
                       <MobileCategoryItem
                         category={section}
+                        isExpanded={expandedCategory === section.name}
+                        onToggle={() => setExpandedCategory(expandedCategory === section.name ? null : section.name)}
                         onSelect={closeMenu}
                       />
                     </div>

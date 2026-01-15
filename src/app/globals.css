@@ -17,7 +17,7 @@
   --color-input: #e2e8f0;
   --color-ring: #0b4f82;
   --radius: 0.5rem;
-  
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -106,17 +106,16 @@ html {
 
 /* Aurora background - subtle white version */
 .aurora {
-  background: linear-gradient(
-    45deg,
-    rgba(11, 79, 130, 0.05) 0%,
-    rgba(255, 180, 0, 0.05) 50%,
-    rgba(11, 79, 130, 0.05) 100%
-  );
+  background: linear-gradient(45deg,
+      rgba(11, 79, 130, 0.05) 0%,
+      rgba(255, 180, 0, 0.05) 50%,
+      rgba(11, 79, 130, 0.05) 100%);
   background-size: 400% 400%;
   animation: aurora 8s ease-in-out infinite;
 }
 
 @keyframes aurora {
+
   0%,
   100% {
     background-position: 0% 50%;
@@ -132,4 +131,3 @@ html {
     transform: translateX(100%);
   }
 }
-

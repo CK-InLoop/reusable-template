@@ -5,6 +5,7 @@ import Link from "next/link";
 import { formatText } from "@/lib/text";
 import HeaderNav from "./HeaderNav";
 import ProductSidebarClient from "./ProductSidebarClient";
+import { SidebarSkeleton } from "./Skeletons";
 
 type SubCategoryItem = { name: string; isHeading?: boolean };
 
@@ -144,7 +145,7 @@ export default function SiteLayoutClient({
                         />
                         {/* Sidebar Panel */}
                         <div className="absolute left-4 top-0 z-50 w-[280px] h-fit overflow-visible">
-                            <Suspense fallback={<div className="p-4 bg-white rounded-lg shadow-lg border border-[#e2e8f0]">Loading...</div>}>
+                            <Suspense fallback={<div className="bg-white rounded-lg shadow-lg border border-[#e2e8f0] overflow-hidden"><SidebarSkeleton /></div>}>
                                 <ProductSidebarClient sections={sidebarSections} />
                             </Suspense>
                         </div>
@@ -208,7 +209,7 @@ export default function SiteLayoutClient({
                 aria-label="Product categories"
             >
                 <div className="h-full overflow-y-auto p-4">
-                    <Suspense fallback={<div className="p-4 text-center text-gray-500">Loading...</div>}>
+                    <Suspense fallback={<SidebarSkeleton />}>
                         <ProductSidebarClient sections={sidebarSections} isMobile={true} />
                     </Suspense>
                 </div>

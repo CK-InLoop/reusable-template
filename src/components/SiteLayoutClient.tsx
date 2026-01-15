@@ -93,6 +93,7 @@ export default function SiteLayoutClient({
                 brochureLinks={brochureLinks}
                 activePath={activePath}
                 onToggleSidebar={toggleSidebar}
+                categorySections={sidebarSections}
             />
 
             <main className="relative mx-auto max-w-6xl px-4 pb-8 lg:pb-12">

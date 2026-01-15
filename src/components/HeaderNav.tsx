@@ -7,6 +7,9 @@ import { formatText } from "@/lib/text";
 import { MENU_PATHS } from "@/lib/navigation";
 import ServiceIcons from "./ServiceIcons";
 
+type SubCategoryItem = { name: string; isHeading?: boolean };
+type CategorySection = { name: string; subCategories: SubCategoryItem[] };
+
 type HeaderNavProps = {
   companyName: string;
   logoUrl: string;
@@ -14,65 +17,15 @@ type HeaderNavProps = {
   brochureLinks?: { label: string; href: string }[];
   activePath: string;
   onToggleSidebar?: () => void;
+  categorySections?: CategorySection[];
 };
 
-const SECTIONS = [
-  {
-    name: "OIL & GAS Piping Systems",
-    subCategories: [
-      "NG Factory Pipelines and SKIDS Installation",
-      "LNG STORAGE TANKS AND SYSTEM INSTALLATION",
-      "NITROGEN & OXYGEN GENERATORS",
-    ],
-  },
-  {
-    name: "Dairy & Food",
-    subCategories: [
-      "Dairy plants",
-      "Water treatment plants",
-      "CIP Plants",
-      "Pilot plant/Mini plant",
-      "Factory relocation",
-      "SS storage tanks & mixers",
-      "Cleaning stations",
-      "IBC Dosing Stations",
-      "Platforms",
-      "SS pipings",
-    ],
-  },
-  {
-    name: "Industrial",
-    subCategories: [
-      "Home and persona care plants",
-      "Sulphonation plant",
-      "Lab plant",
-      "Tank farms",
-      "Utility & pipings",
-    ],
-  },
-  {
-    name: "Consulting & Services",
-    subCategories: [
-      "AMC Contracts",
-      "Fan Balance and Monitoring",
-      "Thermal Inspections",
-      "Vibration Checks",
-      "Central Lubrication System",
-      "Tightening Checks",
-      "6S Trainings",
-      "TPM (Total Productive Maintenance)",
-      "Focused Improvements",
-      "Autonomous Maintenance",
-      "Planned Maintenance",
-      "Energy Savings Risk Assessment",
-      "Cost Reductions",
-      "Early Equipment Management",
-      "HSE Risk Assessments and Predictions",
-      "Efficiency Monitoring – FOL",
-      "Low Cost Automations",
-      "Supply Chain – Raw Materials",
-    ],
-  },
+// Fallback sections if none provided
+const FALLBACK_SECTIONS: CategorySection[] = [
+  { name: "OIL & GAS Piping Systems", subCategories: [] },
+  { name: "Dairy & Food", subCategories: [] },
+  { name: "Industrial", subCategories: [] },
+  { name: "Consulting & Services", subCategories: [] },
 ];
 
 // Mobile category item with expandable subcategories
@@ -80,7 +33,7 @@ function MobileCategoryItem({
   category,
   onSelect
 }: {
-  category: { name: string; subCategories: string[] };
+  category: CategorySection;
   onSelect: () => void;
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -112,16 +65,26 @@ function MobileCategoryItem({
           }`}
       >
         <div className="space-y-1 pb-2 pl-4 pr-2">
-          {category.subCategories.map((sub) => (
-            <Link
-              key={sub}
-              href={`/suppliers?category=${encodeURIComponent(category.name)}&subCategory=${encodeURIComponent(sub)}`}
-              onClick={onSelect}
-              className="block rounded-md bg-white/10 px-3 py-2 text-xs text-white/90 transition hover:bg-white/20 hover:text-white"
-            >
-              {sub}
-            </Link>
-          ))}
+          {category.subCategories.map((sub) => {
+            // Skip heading items - just show the clickable subcategories
+            if (sub.isHeading) {
+              return (
+                <div key={sub.name} className="px-3 py-1 text-[10px] font-bold text-[#ffb400] uppercase tracking-wider">
+                  {sub.name}
+                </div>
+              );
+            }
+            return (
+              <Link
+                key={sub.name}
+                href={`/suppliers?category=${encodeURIComponent(category.name)}&subCategory=${encodeURIComponent(sub.name)}`}
+                onClick={onSelect}
+                className="block rounded-md bg-white/10 px-3 py-2 text-xs text-white/90 transition hover:bg-white/20 hover:text-white"
+              >
+                {sub.name}
+              </Link>
+            );
+          })}
         </div>
       </div>
     </div>
@@ -134,7 +97,10 @@ export default function HeaderNav({
   brochureLinks = [],
   activePath,
   onToggleSidebar,
+  categorySections = [],
 }: HeaderNavProps) {
+  // Use provided sections or fallback
+  const SECTIONS = categorySections.length > 0 ? categorySections : FALLBACK_SECTIONS;
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCatalogsOpen, setIsCatalogsOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);

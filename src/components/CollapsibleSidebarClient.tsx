@@ -121,8 +121,8 @@ export default function CollapsibleSidebarClient({
         role="complementary"
         aria-label="Product categories"
       >
-        <div className="h-full overflow-y-auto">
-          <ProductSidebarClient sections={sections} />
+        <div className="h-full overflow-y-auto p-4">
+          <ProductSidebarClient sections={sections} isMobile={true} />
         </div>
       </aside>
     </>

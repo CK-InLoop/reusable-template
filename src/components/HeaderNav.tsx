@@ -75,6 +75,58 @@ const SECTIONS = [
   },
 ];
 
+// Mobile category item with expandable subcategories
+function MobileCategoryItem({
+  category,
+  onSelect
+}: {
+  category: { name: string; subCategories: string[] };
+  onSelect: () => void;
+}) {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  return (
+    <div>
+      <button
+        type="button"
+        onClick={() => setIsExpanded((prev) => !prev)}
+        className="flex w-full items-center justify-between px-3 py-2 text-sm font-semibold text-white transition hover:bg-white/10"
+      >
+        <span>{category.name}</span>
+        <svg
+          className={`h-3 w-3 transition-transform ${isExpanded ? "rotate-180" : ""}`}
+          viewBox="0 0 12 12"
+          fill="none"
+        >
+          <path
+            d="M2 4l4 4 4-4"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </button>
+      <div
+        className={`overflow-hidden transition-[max-height,opacity] duration-200 ${isExpanded ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
+          }`}
+      >
+        <div className="space-y-1 pb-2 pl-4 pr-2">
+          {category.subCategories.map((sub) => (
+            <Link
+              key={sub}
+              href={`/suppliers?category=${encodeURIComponent(category.name)}&subCategory=${encodeURIComponent(sub)}`}
+              onClick={onSelect}
+              className="block rounded-md bg-white/10 px-3 py-2 text-xs text-white/90 transition hover:bg-white/20 hover:text-white"
+            >
+              {sub}
+            </Link>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
 export default function HeaderNav({
   companyName,
   logoUrl,
@@ -272,7 +324,7 @@ export default function HeaderNav({
             }`}
         >
           <div className="flex flex-col gap-3 py-4 text-white">
-            {/* Category Section for Mobile */}
+            {/* Category Section for Mobile with Subcategories */}
             <div className="rounded-lg bg-white/5">
               <button
                 type="button"
@@ -302,14 +354,18 @@ export default function HeaderNav({
                 </svg>
               </button>
               <div
-                className={`grid overflow-hidden px-4 transition-[max-height,opacity] duration-200 ${isCategoriesOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                className={`overflow-hidden px-4 transition-[max-height,opacity] duration-200 ${isCategoriesOpen ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0"
                   }`}
               >
                 <div className="space-y-2 pb-4 pt-2">
-                  <Link href="/suppliers?category=OIL & GAS Piping Systems" onClick={closeMenu} className="block rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white transition hover:bg-white/20">OIL & GAS Piping Systems</Link>
-                  <Link href="/suppliers?category=Dairy & Food" onClick={closeMenu} className="block rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white transition hover:bg-white/20">Dairy & Food</Link>
-                  <Link href="/suppliers?category=Industrial" onClick={closeMenu} className="block rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white transition hover:bg-white/20">Industrial</Link>
-                  <Link href="/suppliers?category=Consulting & Services" onClick={closeMenu} className="block rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white transition hover:bg-white/20">Consulting & Services</Link>
+                  {SECTIONS.map((section) => (
+                    <div key={section.name} className="bg-white/5 rounded-md overflow-hidden">
+                      <MobileCategoryItem
+                        category={section}
+                        onSelect={closeMenu}
+                      />
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>

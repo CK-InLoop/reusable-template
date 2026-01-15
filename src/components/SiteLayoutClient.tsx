@@ -144,7 +144,9 @@ export default function SiteLayoutClient({
                         />
                         {/* Sidebar Panel */}
                         <div className="absolute left-4 top-0 z-50 w-[280px] h-fit overflow-visible">
-                            <ProductSidebarClient sections={sidebarSections} />
+                            <Suspense fallback={<div className="p-4 bg-white rounded-lg shadow-lg border border-[#e2e8f0]">Loading...</div>}>
+                                <ProductSidebarClient sections={sidebarSections} />
+                            </Suspense>
                         </div>
                     </>
                 )}

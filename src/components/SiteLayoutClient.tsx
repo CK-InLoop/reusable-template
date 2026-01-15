@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { formatText } from "@/lib/text";
 import HeaderNav from "./HeaderNav";
@@ -30,10 +30,12 @@ export default function SiteLayoutClient({
     sidebarSections,
 }: SiteLayoutClientProps) {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [isFabSidebarOpen, setIsFabSidebarOpen] = useState(false);
+    const fabSidebarRef = useRef<HTMLDivElement>(null);
 
     // Lock body scroll when sidebar is open
     useEffect(() => {
-        if (isSidebarOpen) {
+        if (isSidebarOpen || isFabSidebarOpen) {
             document.body.style.overflow = "hidden";
         } else {
             document.body.style.overflow = "unset";
@@ -41,12 +43,46 @@ export default function SiteLayoutClient({
         return () => {
             document.body.style.overflow = "unset";
         };
-    }, [isSidebarOpen]);
+    }, [isSidebarOpen, isFabSidebarOpen]);
 
     // Close sidebar on path change
     useEffect(() => {
         setIsSidebarOpen(false);
+        setIsFabSidebarOpen(false);
     }, [activePath]);
+
+    // Close FAB sidebar when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (
+                fabSidebarRef.current &&
+                !fabSidebarRef.current.contains(event.target as Node) &&
+                isFabSidebarOpen
+            ) {
+                setIsFabSidebarOpen(false);
+            }
+        };
+
+        if (isFabSidebarOpen) {
+            document.addEventListener("mousedown", handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [isFabSidebarOpen]);
+
+    // Handle escape key for FAB sidebar
+    useEffect(() => {
+        const handleEscape = (event: KeyboardEvent) => {
+            if (event.key === "Escape" && isFabSidebarOpen) {
+                setIsFabSidebarOpen(false);
+            }
+        };
+
+        document.addEventListener("keydown", handleEscape);
+        return () => document.removeEventListener("keydown", handleEscape);
+    }, [isFabSidebarOpen]);
 
     const toggleSidebar = () => {
         setIsSidebarOpen((prev) => !prev);
@@ -113,6 +149,66 @@ export default function SiteLayoutClient({
                     </>
                 )}
             </main>
+
+            {/* Mobile FAB Button - Shows on all pages */}
+            {isFabSidebarOpen && (
+                <div
+                    className="fixed inset-0 bg-black/50 z-40 lg:hidden transition-opacity duration-300"
+                    onClick={() => setIsFabSidebarOpen(false)}
+                    aria-hidden="true"
+                />
+            )}
+
+            <button
+                onClick={() => setIsFabSidebarOpen(!isFabSidebarOpen)}
+                className="lg:hidden fixed bottom-6 right-6 z-50 flex items-center justify-center w-14 h-14 rounded-full bg-[#0b4f82] text-white shadow-lg hover:bg-[#0a3d6b] transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                aria-label={isFabSidebarOpen ? "Close sidebar" : "Open product categories"}
+                aria-expanded={isFabSidebarOpen}
+            >
+                {isFabSidebarOpen ? (
+                    <svg
+                        className="h-6 w-6"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M6 18L18 6M6 6l12 12"
+                        />
+                    </svg>
+                ) : (
+                    <svg
+                        className="h-6 w-6"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M4 6h16M4 12h16M4 18h16"
+                        />
+                    </svg>
+                )}
+            </button>
+
+            {/* Mobile FAB Sidebar - Collapsible overlay */}
+            <aside
+                ref={fabSidebarRef}
+                className={`lg:hidden fixed top-0 left-0 h-full w-80 max-w-[85vw] bg-white shadow-2xl z-50 transform transition-transform duration-300 ease-in-out ${isFabSidebarOpen ? "translate-x-0" : "-translate-x-full"
+                    }`}
+                aria-hidden={!isFabSidebarOpen}
+                role="complementary"
+                aria-label="Product categories"
+            >
+                <div className="h-full overflow-y-auto p-4">
+                    <ProductSidebarClient sections={sidebarSections} isMobile={true} />
+                </div>
+            </aside>
 
             <footer className="border-t border-[#e2e8f0] bg-[#f8fafc] py-12">
                 <div className="mx-auto max-w-6xl px-4">

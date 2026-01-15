@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import Link from "next/link";
 import { formatText } from "@/lib/text";
 import HeaderNav from "./HeaderNav";
@@ -206,7 +206,9 @@ export default function SiteLayoutClient({
                 aria-label="Product categories"
             >
                 <div className="h-full overflow-y-auto p-4">
-                    <ProductSidebarClient sections={sidebarSections} isMobile={true} />
+                    <Suspense fallback={<div className="p-4 text-center text-gray-500">Loading...</div>}>
+                        <ProductSidebarClient sections={sidebarSections} isMobile={true} />
+                    </Suspense>
                 </div>
             </aside>
 

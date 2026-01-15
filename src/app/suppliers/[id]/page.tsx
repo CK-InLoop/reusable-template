@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import SiteLayout from "@/components/SiteLayout";
 import SearchInput from "@/components/SearchInput"; // Added export
 import { db } from "@/lib/db";
@@ -143,7 +144,9 @@ export default async function SupplierPage({
             </p>
           </div>
           <div className="w-full md:w-72">
-            <SearchInput placeholder="Search products..." />
+            <Suspense fallback={<div className="h-10 bg-gray-100 rounded-md animate-pulse"></div>}>
+              <SearchInput placeholder="Search products..." />
+            </Suspense>
           </div>
         </div>
 

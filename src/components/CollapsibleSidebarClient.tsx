@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import { usePathname } from "next/navigation";
 import ProductSidebarClient from "./ProductSidebarClient";
 
@@ -109,7 +109,9 @@ export default function CollapsibleSidebarClient({
       </button>
 
       <aside className="hidden lg:block">
-        <ProductSidebarClient sections={sections} variant="flyout" />
+        <Suspense fallback={<div className="p-4 text-center text-gray-500">Loading...</div>}>
+          <ProductSidebarClient sections={sections} variant="flyout" />
+        </Suspense>
       </aside>
 
       {/* Mobile Sidebar - Collapsible overlay */}
@@ -122,7 +124,9 @@ export default function CollapsibleSidebarClient({
         aria-label="Product categories"
       >
         <div className="h-full overflow-y-auto p-4">
-          <ProductSidebarClient sections={sections} isMobile={true} />
+          <Suspense fallback={<div className="p-4 text-center text-gray-500">Loading...</div>}>
+            <ProductSidebarClient sections={sections} isMobile={true} />
+          </Suspense>
         </div>
       </aside>
     </>

@@ -82,6 +82,22 @@ export function FlyoutSkeleton({ isMobile = false }: { isMobile?: boolean }) {
                         </div>
                     ))}
                 </div>
+                {!isMobile && (
+                    <div className="mt-8 pt-6 border-t border-slate-100">
+                        <Skeleton className="h-4 w-1/4 mb-4" />
+                        <div className="grid grid-cols-3 gap-4">
+                            {[1, 2, 3].map((i) => (
+                                <div key={i} className="rounded-lg border border-[#e2e8f0] overflow-hidden bg-white">
+                                    <Skeleton className="h-24 w-full" />
+                                    <div className="p-2 space-y-2">
+                                        <Skeleton className="h-3 w-3/4" />
+                                        <Skeleton className="h-2 w-1/2" />
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
             </div>
             {!isMobile && (
                 <div className="w-[180px] flex-shrink-0 border-l border-slate-200 pl-4 space-y-4">

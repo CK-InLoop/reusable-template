@@ -18,7 +18,15 @@ export async function GET(req: NextRequest) {
             subCategory: subCategory || undefined,
         });
 
-        return NextResponse.json({ suppliers });
+        let products = [] as any[];
+        if (suppliers.length > 0 && suppliers.length <= 4) {
+            const supplierIds = suppliers.map((s: any) => s.id);
+            products = await db.getProductsBySupplierIds(supplierIds);
+            // Limit to 6 products for the flyout to avoid overcrowding
+            products = products.slice(0, 6);
+        }
+
+        return NextResponse.json({ suppliers, products });
     } catch (error) {
         console.error("Error fetching suppliers:", error);
         return NextResponse.json(

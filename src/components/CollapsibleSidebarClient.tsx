@@ -8,10 +8,12 @@ type SubCategoryItem = { name: string; isHeading?: boolean };
 
 type CollapsibleSidebarClientProps = {
   sections: { name: string; subCategories: SubCategoryItem[] }[];
+  whatsappDigits: string;
 };
 
 export default function CollapsibleSidebarClient({
   sections,
+  whatsappDigits,
 }: CollapsibleSidebarClientProps) {
   const [isOpen, setIsOpen] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
@@ -110,7 +112,7 @@ export default function CollapsibleSidebarClient({
 
       <aside className="hidden lg:block">
         <Suspense fallback={<div className="p-4 text-center text-gray-500">Loading...</div>}>
-          <ProductSidebarClient sections={sections} variant="flyout" />
+          <ProductSidebarClient sections={sections} variant="flyout" whatsappDigits={whatsappDigits} />
         </Suspense>
       </aside>
 
@@ -125,7 +127,7 @@ export default function CollapsibleSidebarClient({
       >
         <div className="h-full overflow-y-auto p-4">
           <Suspense fallback={<div className="p-4 text-center text-gray-500">Loading...</div>}>
-            <ProductSidebarClient sections={sections} isMobile={true} />
+            <ProductSidebarClient sections={sections} isMobile={true} whatsappDigits={whatsappDigits} />
           </Suspense>
         </div>
       </aside>

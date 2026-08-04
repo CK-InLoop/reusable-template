@@ -18,6 +18,8 @@ type SiteLayoutClientProps = {
     menuItems: { label: string; href: string }[];
     brochureLinks: { label: string; href: string }[];
     sidebarSections: { name: string; subCategories: SubCategoryItem[] }[];
+    whatsappPhone: string;
+    whatsappDigits: string;
 };
 
 export default function SiteLayoutClient({
@@ -29,6 +31,8 @@ export default function SiteLayoutClient({
     menuItems,
     brochureLinks,
     sidebarSections,
+    whatsappPhone,
+    whatsappDigits,
 }: SiteLayoutClientProps) {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isFabSidebarOpen, setIsFabSidebarOpen] = useState(false);
@@ -102,7 +106,7 @@ export default function SiteLayoutClient({
                         )}
                     </span>
                     <a
-                        href="tel:+971564332583"
+                        href={`tel:+${whatsappDigits}`}
                         className="flex items-center gap-2 font-semibold text-[#0b4f82] hover:text-[#ffb400] transition-colors"
                     >
                         <svg
@@ -118,7 +122,7 @@ export default function SiteLayoutClient({
                                 d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
                             />
                         </svg>
-                        +971 56 433 2583
+                        {whatsappPhone}
                     </a>
                 </div>
             </div>
@@ -146,7 +150,7 @@ export default function SiteLayoutClient({
                         {/* Sidebar Panel */}
                         <div className="absolute left-4 top-0 z-50 w-[280px] h-fit overflow-visible">
                             <Suspense fallback={<div className="bg-white rounded-lg shadow-lg border border-[#e2e8f0] overflow-hidden"><SidebarSkeleton /></div>}>
-                                <ProductSidebarClient sections={sidebarSections} />
+                                <ProductSidebarClient sections={sidebarSections} whatsappDigits={whatsappDigits} />
                             </Suspense>
                         </div>
                     </>
@@ -210,7 +214,7 @@ export default function SiteLayoutClient({
             >
                 <div className="h-full overflow-y-auto p-4">
                     <Suspense fallback={<SidebarSkeleton />}>
-                        <ProductSidebarClient sections={sidebarSections} isMobile={true} />
+                        <ProductSidebarClient sections={sidebarSections} isMobile={true} whatsappDigits={whatsappDigits} />
                     </Suspense>
                 </div>
             </aside>
@@ -226,7 +230,7 @@ export default function SiteLayoutClient({
                                 {heroTagline}
                             </p>
                             <p className="text-sm font-medium text-[#0b4f82]">
-                                Phone: +971 56 433 2583
+                                Phone: {whatsappPhone}
                             </p>
                         </div>
                         <div className="grid gap-3 text-xs uppercase tracking-wider text-[#64748b] sm:grid-cols-3">

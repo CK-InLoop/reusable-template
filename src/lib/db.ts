@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { toWhatsAppContact, WHATSAPP_SETTING_KEY } from "@/lib/whatsapp";
 
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
@@ -38,6 +39,18 @@ export const db = {
         },
       },
     });
+  },
+
+  async getWhatsAppContact() {
+    try {
+      const setting = await prisma.systemSetting.findUnique({
+        where: { key: WHATSAPP_SETTING_KEY },
+      });
+      return toWhatsAppContact(setting?.value);
+    } catch (error) {
+      console.error('Failed to load WhatsApp contact setting:', error);
+      return toWhatsAppContact(null);
+    }
   },
 
   async getUserByPasswordResetToken(token: string) {

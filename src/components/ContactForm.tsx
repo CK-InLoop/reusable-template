@@ -2,9 +2,7 @@
 
 import { useState } from "react";
 
-const WHATSAPP_NUMBER = "+971564332583";
-
-export default function ContactForm() {
+export default function ContactForm({ whatsappDigits }: { whatsappDigits: string }) {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -38,7 +36,7 @@ ${message || "No message provided"}`;
     const encodedMessage = encodeURIComponent(whatsappMessage);
 
     // Create WhatsApp URL
-    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER.replace(/[^0-9]/g, "")}?text=${encodedMessage}`;
+    const whatsappUrl = `https://wa.me/${whatsappDigits}?text=${encodedMessage}`;
 
     // Open WhatsApp
     window.open(whatsappUrl, "_blank");
@@ -53,11 +51,12 @@ ${message || "No message provided"}`;
     <div className="rounded-lg border border-[#e2e8f0] bg-[#f8fafc] p-6">
       <form onSubmit={handleWhatsAppSubmit} className="space-y-4">
         <div>
-          <label className="text-xs font-semibold uppercase tracking-wider text-[#64748b]">
+          <label htmlFor="contact-name" className="text-xs font-semibold uppercase tracking-wider text-[#64748b]">
             Name
           </label>
           <input
             type="text"
+            id="contact-name"
             name="name"
             value={formData.name}
             onChange={handleChange}
@@ -66,11 +65,12 @@ ${message || "No message provided"}`;
           />
         </div>
         <div>
-          <label className="text-xs font-semibold uppercase tracking-wider text-[#64748b]">
+          <label htmlFor="contact-email" className="text-xs font-semibold uppercase tracking-wider text-[#64748b]">
             Email
           </label>
           <input
             type="email"
+            id="contact-email"
             name="email"
             value={formData.email}
             onChange={handleChange}
@@ -79,10 +79,11 @@ ${message || "No message provided"}`;
           />
         </div>
         <div>
-          <label className="text-xs font-semibold uppercase tracking-wider text-[#64748b]">
+          <label htmlFor="contact-message" className="text-xs font-semibold uppercase tracking-wider text-[#64748b]">
             Message
           </label>
           <textarea
+            id="contact-message"
             name="message"
             value={formData.message}
             onChange={handleChange}

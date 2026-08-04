@@ -24,7 +24,10 @@ interface Category {
 
 async function SidebarContent() {
   // Fetch categories from database (managed through pakmon-supplier dashboard)
-  const categoriesFromDb = await db.getCategories();
+  const [categoriesFromDb, whatsapp] = await Promise.all([
+    db.getCategories(),
+    db.getWhatsAppContact(),
+  ]);
 
   // Transform database categories to the format expected by CollapsibleSidebarClient
   const sections = (categoriesFromDb as Category[]).map((cat) => ({
@@ -40,7 +43,7 @@ async function SidebarContent() {
     console.warn('No categories found in database. Categories can be managed at /dashboard/categories in pakmon-supplier.');
   }
 
-  return <CollapsibleSidebarClient sections={sections} />;
+  return <CollapsibleSidebarClient sections={sections} whatsappDigits={whatsapp.digits} />;
 }
 
 export default function CollapsibleSidebar() {

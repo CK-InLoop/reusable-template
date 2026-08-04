@@ -13,12 +13,14 @@ type ProductSidebarClientProps = {
   sections: { name: string; subCategories: SubCategoryItem[] }[];
   variant?: "flyout" | "accordion";
   isMobile?: boolean;
+  whatsappDigits: string;
 };
 
 export default function ProductSidebarClient({
   sections,
   variant = "accordion",
   isMobile = false,
+  whatsappDigits,
 }: ProductSidebarClientProps) {
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
   const [hoveredSubCategory, setHoveredSubCategory] = useState<{ category: string, sub: string } | null>(null);
@@ -325,7 +327,7 @@ export default function ProductSidebarClient({
                       />
                       <div className="flex gap-2">
                         <a
-                          href={`https://wa.me/971564332583?text=${encodeURIComponent(inquiryMessage || `Hi, I'm interested in ${selectedSubCategory.sub}`)}`}
+                          href={`https://wa.me/${whatsappDigits}?text=${encodeURIComponent(inquiryMessage || `Hi, I'm interested in ${selectedSubCategory.sub}`)}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-[#25D366] text-white text-xs font-semibold rounded-md hover:bg-[#1da851] transition"
@@ -553,7 +555,7 @@ export default function ProductSidebarClient({
                       className="w-full h-20 px-2 py-2 text-xs border border-slate-200 rounded-md resize-none focus:outline-none focus:ring-1 focus:ring-[#0b4f82] focus:border-[#0b4f82]"
                     />
                     <a
-                      href={`https://wa.me/971564332583?text=${encodeURIComponent(inquiryMessage || `Hi, I'm interested in ${hoveredSubCategory.sub}`)}`}
+                      href={`https://wa.me/${whatsappDigits}?text=${encodeURIComponent(inquiryMessage || `Hi, I'm interested in ${hoveredSubCategory.sub}`)}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center justify-center gap-2 w-full px-3 py-2 bg-[#25D366] text-white text-xs font-semibold rounded-md hover:bg-[#1da851] transition"

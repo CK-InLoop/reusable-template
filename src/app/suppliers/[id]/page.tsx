@@ -37,6 +37,7 @@ export default async function SupplierPage({
   if (!supplier) {
     notFound();
   }
+  const whatsapp = await db.getWhatsAppContact();
 
   // Pass search term to db
   const products = await db.getProductsBySupplierId(supplierId, { search: searchTerm });
@@ -104,7 +105,7 @@ export default async function SupplierPage({
               <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                 {/* WhatsApp Button */}
                 <a
-                  href={`https://wa.me/971564332583?text=${encodeURIComponent(`Hi, I'm interested in products from ${(supplier as any).companyName || (supplier as any).name || 'your company'}`)}`}
+                  href={`https://wa.me/${whatsapp.digits}?text=${encodeURIComponent(`Hi, I'm interested in products from ${(supplier as any).companyName || (supplier as any).name || 'your company'}`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2 px-4 md:px-6 py-2.5 bg-[#25D366] text-white text-sm font-semibold rounded-md hover:bg-[#1da851] transition whitespace-nowrap"

@@ -112,3 +112,12 @@ model subcategories {
   createdAt  DateTime   @default(now()) @db.Date
   updatedAt  DateTime   @updatedAt @db.Date
 }
+
+model SystemSetting {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  key       String   @unique
+  value     Json
+  updatedAt DateTime @updatedAt @db.Date
+
+  @@map("system_settings")
+}

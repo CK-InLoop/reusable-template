@@ -25,6 +25,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     }
 
     const supplier = await db.getSupplierById(supplierId);
+    const whatsapp = await db.getWhatsAppContact();
 
     // Fetch similar products (same category or same supplier)
     const similarProducts = await db.getSimilarProducts(
@@ -190,7 +191,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                             />
                             <div className="flex flex-col gap-2 md:gap-3 md:flex-row">
                                 <a
-                                    href={`https://wa.me/971564332583?text=${encodeURIComponent(`Hello, can I get more details about this product: ${product.title || product.name || "Product"}`)}`}
+                                    href={`https://wa.me/${whatsapp.digits}?text=${encodeURIComponent(`Hello, can I get more details about this product: ${product.title || product.name || "Product"}`)}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="inline-flex items-center justify-center gap-2 rounded-md bg-[#25D366] px-4 md:px-6 py-2.5 md:py-3 text-sm font-semibold text-white shadow-md transition hover:bg-[#25D366]/90"

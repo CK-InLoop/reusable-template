@@ -2,6 +2,7 @@ import SiteLayout from "@/components/SiteLayout";
 import ContactForm from "@/components/ContactForm";
 import { getHomePage, getPageByUrl } from "@/lib/details";
 import { formatText } from "@/lib/text";
+import { db } from "@/lib/db";
 
 const homePage = getHomePage();
 const corporatePage = getPageByUrl("corporate");
@@ -15,7 +16,8 @@ const supportItems =
     ? corporatePage.text_blocks.slice(supportIndex, supportIndex + 4)
     : [];
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const whatsapp = await db.getWhatsAppContact();
   return (
     <SiteLayout activePath="/contact">
       <section className="bg-gray-100 pb-12 pt-8 w-[100vw] ml-[calc(50%-50vw)]">
@@ -71,18 +73,18 @@ export default function ContactPage() {
                       WhatsApp
                     </p>
                     <a
-                      href={`https://wa.me/971564332583`}
+                      href={`https://wa.me/${whatsapp.digits}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-sm font-semibold text-[#0b4f82] hover:text-[#25D366] transition-colors"
                     >
-                      +971 56 433 2583
+                      {whatsapp.phone}
                     </a>
                   </div>
                 </div>
               </div>
 
-              <ContactForm />
+              <ContactForm whatsappDigits={whatsapp.digits} />
             </div>
           </section>
         </div>

@@ -3,6 +3,7 @@ import { formatText } from "@/lib/text";
 import { getImagePath } from "@/lib/images";
 import { db } from "@/lib/db";
 import SiteLayoutClient from "./SiteLayoutClient";
+import { connection } from "next/server";
 
 type SubCategory = {
   id: string;
@@ -27,6 +28,7 @@ export default async function SiteLayout({
   children,
   activePath = "/",
 }: SiteLayoutProps) {
+  await connection();
   const homePage = getHomePage();
   const menuItems = getMenuItems();
   const companyName = formatText(homePage.text_blocks[0] ?? "PAKMON");
@@ -44,7 +46,10 @@ export default async function SiteLayout({
   ];
 
   // Fetch categories on server-side to pass to client component
-  const categoriesFromDb = await db.getCategories();
+  const [categoriesFromDb, whatsapp] = await Promise.all([
+    db.getCategories(),
+    db.getWhatsAppContact(),
+  ]);
   const sidebarSections = (categoriesFromDb as Category[]).map((cat) => ({
     name: cat.name,
     subCategories: cat.subCategories.map((sub) => ({
@@ -62,6 +67,8 @@ export default async function SiteLayout({
       menuItems={menuItems}
       brochureLinks={brochureLinks}
       sidebarSections={sidebarSections}
+      whatsappPhone={whatsapp.phone}
+      whatsappDigits={whatsapp.digits}
     >
       {children}
     </SiteLayoutClient>

@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
     const verificationExpires = Date.now() + 24 * 60 * 60 * 1000; // 24 hours
 
     // Create user
-    const userId = `user_${randomBytes(16).toString('hex')}`;
+    const userId = randomBytes(12).toString('hex');
     
     await db.createUser({
       id: userId,

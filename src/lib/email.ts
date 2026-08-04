@@ -59,3 +59,18 @@ export async function sendWelcomeEmail(email: string, name?: string): Promise<vo
   }
 }
 
+export async function sendPasswordResetEmail(email: string, resetToken: string): Promise<void> {
+  const resetUrl = `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/reset-password?token=${resetToken}`;
+  try {
+    await resend.emails.send({
+      from: process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev',
+      to: email,
+      subject: 'Reset your password',
+      html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto"><h1>Reset your password</h1><p>Click below to choose a new password.</p><a href="${resetUrl}" style="display:inline-block;padding:12px 24px;background:#4F46E5;color:#fff;text-decoration:none;border-radius:6px">Reset Password</a><p style="color:#666;word-break:break-all">${resetUrl}</p><p style="color:#999;font-size:12px">This link expires in 30 minutes and can only be used once.</p></div>`,
+    });
+  } catch (error) {
+    console.error('Failed to send password reset email:', error);
+    throw new Error('Failed to send password reset email');
+  }
+}
+

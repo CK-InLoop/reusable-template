@@ -30,15 +30,21 @@ export const db = {
   },
 
   async getUserByVerificationToken(token: string) {
-    // Note: Schema doesn't have emailVerificationToken yet. 
-    // I will need to update the schema next.
-    // For now, mirroring the D1 logic if fields exist.
-    return await (prisma.user as any).findFirst({
+    return await prisma.user.findFirst({
       where: {
         emailVerificationToken: token,
         emailVerificationExpires: {
           gt: new Date(),
         },
+      },
+    });
+  },
+
+  async getUserByPasswordResetToken(token: string) {
+    return await prisma.user.findFirst({
+      where: {
+        passwordResetToken: token,
+        passwordResetExpires: { gt: new Date() },
       },
     });
   },
@@ -58,12 +64,9 @@ export const db = {
         password: data.password,
         name: data.name || null,
         role: 'user',
-        // Assuming fields will be added to schema
-        ...({
-          emailVerified: false,
-          emailVerificationToken: data.emailVerificationToken,
-          emailVerificationExpires: new Date(data.emailVerificationExpires),
-        } as any),
+        emailVerified: false,
+        emailVerificationToken: data.emailVerificationToken,
+        emailVerificationExpires: new Date(data.emailVerificationExpires),
       },
     });
   },

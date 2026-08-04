@@ -4,6 +4,9 @@ import GoogleProvider from 'next-auth/providers/google';
 import { verifyPassword } from '@/lib/auth';
 import { db } from '@/lib/db';
 import { ensureDefaultAdmin, getDefaultAdminEmail } from '@/lib/default-admin';
+import { applyProductionAuthUrl } from '@/lib/app-url';
+
+applyProductionAuthUrl();
 
 const providers = [
   CredentialsProvider({

@@ -1,53 +1,46 @@
-import NextAuth from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import GoogleProvider from "next-auth/providers/google";
-import { randomBytes } from "crypto";
-import { hashPassword, verifyPassword } from "@/lib/auth";
-import { db } from "@/lib/db";
+import NextAuth from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import GoogleProvider from 'next-auth/providers/google';
+import { verifyPassword } from '@/lib/auth';
+import { db } from '@/lib/db';
+import { ensureDefaultAdmin, getDefaultAdminEmail } from '@/lib/default-admin';
 
 const providers = [
   CredentialsProvider({
-    name: "credentials",
+    name: 'credentials',
     credentials: {
-      email: { label: "Email", type: "email" },
-      password: { label: "Password", type: "password" },
+      email: { label: 'Email', type: 'email' },
+      password: { label: 'Password', type: 'password' },
     },
     async authorize(credentials) {
       if (!credentials?.email || !credentials?.password) return null;
-
       const email = String(credentials.email).trim().toLowerCase();
-      const defaultEmail = (process.env.DEFAULT_ADMIN_EMAIL || "ckakadiya1105@gmail.com").trim().toLowerCase();
-      const defaultPassword = process.env.DEFAULT_ADMIN_PASSWORD;
+      const password = String(credentials.password);
 
-      // Bootstrap the requested account once, then authenticate from MongoDB.
-      if (defaultPassword && email === defaultEmail) {
-        let user = await db.getUserByEmail(defaultEmail);
-        if (!user) {
-          user = await db.createUser({
-            id: randomBytes(12).toString("hex"),
-            email: defaultEmail,
-            password: await hashPassword(defaultPassword),
-            name: "Admin",
-            emailVerificationToken: "",
-            emailVerificationExpires: Date.now(),
-          });
+      try {
+        const user = email === getDefaultAdminEmail()
+          ? await ensureDefaultAdmin()
+          : await db.getUserByEmail(email);
+        if (user?.password && await verifyPassword(password, user.password)) {
+          return {
+            id: user.id,
+            email: user.email,
+            name: user.name || undefined,
+            role: user.role,
+            image: user.image || undefined,
+          };
         }
-        if (user.password && await verifyPassword(String(credentials.password), user.password)) {
-          return { id: user.id, email: user.email, name: user.name || "Admin", role: "admin" };
+
+        const legacyEmail = (process.env.ADMIN_EMAIL || '').trim().toLowerCase();
+        const legacyHash = process.env.ADMIN_PASSWORD_HASH;
+        if (email === legacyEmail && legacyHash && await verifyPassword(password, legacyHash)) {
+          return { id: 'admin', email: legacyEmail, name: 'Admin', role: 'admin' };
         }
+        return null;
+      } catch (error) {
+        console.error('Credential authorization failed:', error);
+        return null;
       }
-
-      // Preserve support for the existing hashed admin environment variables.
-      const adminEmail = (process.env.ADMIN_EMAIL || "").trim().toLowerCase();
-      const adminPasswordHash = process.env.ADMIN_PASSWORD_HASH;
-      if (email === adminEmail && adminPasswordHash && await verifyPassword(String(credentials.password), adminPasswordHash)) {
-        return { id: "admin", email: adminEmail, name: "Admin", role: "admin" };
-      }
-
-      const user = await db.getUserByEmail(email);
-      if (!user?.password) return null;
-      if (!await verifyPassword(String(credentials.password), user.password)) return null;
-      return { id: user.id, email: user.email, name: user.name || undefined, role: user.role, image: user.image || undefined };
     },
   }),
   ...(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET
@@ -59,7 +52,7 @@ const handler = NextAuth({
   providers,
   callbacks: {
     async jwt({ token, user }) {
-      if (user && "role" in user) token.role = user.role;
+      if (user && 'role' in user) token.role = user.role;
       return token;
     },
     async session({ session, token }) {
@@ -67,8 +60,9 @@ const handler = NextAuth({
       return session;
     },
   },
-  pages: { signIn: "/login" },
-  session: { strategy: "jwt" },
+  pages: { signIn: '/login' },
+  session: { strategy: 'jwt' },
+  secret: process.env.NEXTAUTH_SECRET,
 });
 
 export { handler as GET, handler as POST };

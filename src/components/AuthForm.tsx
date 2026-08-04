@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useAuth } from "@/lib/auth-context";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function AuthForm() {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -14,28 +15,6 @@ export default function AuthForm() {
   const [loading, setLoading] = useState(false);
   const { signIn } = useAuth();
   const router = useRouter();
-
-  const handleForgotPassword = async () => {
-    const requestedEmail = window.prompt("Enter your account email address:", email);
-    if (!requestedEmail) return;
-    setError("");
-    setSuccess("");
-    setLoading(true);
-    try {
-      const response = await fetch("/api/auth/forgot-password", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: requestedEmail }),
-      });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error || "Unable to request password reset");
-      setSuccess(data.message);
-    } catch (err: any) {
-      setError(err.message || "Unable to request password reset");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -195,9 +174,9 @@ export default function AuthForm() {
       </div>
 
       {!isSignUp && (
-        <button type="button" onClick={handleForgotPassword} className="w-full text-sm text-indigo-600 hover:text-indigo-500">
+        <Link href="/forgot-password" className="flex min-h-11 w-full items-center justify-center text-sm text-indigo-600 hover:text-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500">
           Forgot your password?
-        </button>
+        </Link>
       )}
     </form>
   );

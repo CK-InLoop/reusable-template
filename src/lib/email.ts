@@ -2,11 +2,18 @@ import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+function getAppUrl() {
+  const configuredUrl = process.env.NEXTAUTH_URL;
+  const vercelUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL || process.env.VERCEL_URL;
+  const url = configuredUrl || (vercelUrl ? `https://${vercelUrl}` : 'http://localhost:3000');
+  return url.replace(/\/$/, '');
+}
+
 export async function sendVerificationEmail(
   email: string,
   verificationToken: string
 ): Promise<void> {
-  const verificationUrl = `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/verify-email?token=${verificationToken}`;
+  const verificationUrl = `${getAppUrl()}/verify-email?token=${verificationToken}`;
   
   try {
     await resend.emails.send({
@@ -46,7 +53,7 @@ export async function sendWelcomeEmail(email: string, name?: string): Promise<vo
           <h1 style="color: #333;">Welcome${name ? `, ${name}` : ''}!</h1>
           <p>Your email has been verified and your account is now active.</p>
           <p>You can now log in and start using the platform.</p>
-          <a href="${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/login" 
+          <a href="${getAppUrl()}/login"
              style="display: inline-block; padding: 12px 24px; background-color: #4F46E5; color: white; text-decoration: none; border-radius: 6px; margin: 20px 0;">
             Log In
           </a>
@@ -60,7 +67,7 @@ export async function sendWelcomeEmail(email: string, name?: string): Promise<vo
 }
 
 export async function sendPasswordResetEmail(email: string, resetToken: string): Promise<void> {
-  const resetUrl = `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/reset-password?token=${resetToken}`;
+  const resetUrl = `${getAppUrl()}/reset-password?token=${resetToken}`;
   try {
     await resend.emails.send({
       from: process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev',

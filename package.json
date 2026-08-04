@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "prisma generate && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "setup:admin": "node --env-file=.env scripts/setup-admin.js"
   },
   "dependencies": {
     "@cloudflare/workers-types": "^4.20241127.0",

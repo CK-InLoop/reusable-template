@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
 
     // Update user to mark email as verified
     await db.updateUser(user.id, {
-      emailVerified: 1,
+      emailVerified: true,
       emailVerificationToken: null,
       emailVerificationExpires: null,
     });

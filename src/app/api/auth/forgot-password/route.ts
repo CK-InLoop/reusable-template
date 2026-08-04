@@ -1,23 +1,32 @@
-import { NextRequest, NextResponse } from "next/server";
-import { createHash, randomBytes } from "crypto";
-import { db } from "@/lib/db";
-import { sendPasswordResetEmail } from "@/lib/email";
+import { createHash, randomBytes } from 'crypto';
+import { NextRequest, NextResponse } from 'next/server';
+import { ensureDefaultAdmin, getDefaultAdminEmail } from '@/lib/default-admin';
+import { db } from '@/lib/db';
+import { sendPasswordResetEmail } from '@/lib/email';
+
+const SUCCESS_MESSAGE = 'If an account exists for that email, a password reset link has been sent.';
 
 export async function POST(request: NextRequest) {
-  const { email } = await request.json();
-  const normalizedEmail = String(email || "").trim().toLowerCase();
-  const message = "If an account exists for that email, a password reset link has been sent.";
-  if (!normalizedEmail) return NextResponse.json({ message });
+  try {
+    const body = await request.json();
+    const email = String(body.email || '').trim().toLowerCase();
+    if (!email) return NextResponse.json({ error: 'Email is required.' }, { status: 400 });
 
-  const user = await db.getUserByEmail(normalizedEmail);
-  if (!user) return NextResponse.json({ message });
+    const user = email === getDefaultAdminEmail()
+      ? await ensureDefaultAdmin()
+      : await db.getUserByEmail(email);
+    if (!user) return NextResponse.json({ message: SUCCESS_MESSAGE });
 
-  const rawToken = randomBytes(32).toString("hex");
-  const token = createHash("sha256").update(rawToken).digest("hex");
-  await db.updateUser(user.id, {
-    passwordResetToken: token,
-    passwordResetExpires: new Date(Date.now() + 30 * 60 * 1000),
-  });
-  await sendPasswordResetEmail(user.email, rawToken);
-  return NextResponse.json({ message });
+    const rawToken = randomBytes(32).toString('hex');
+    const token = createHash('sha256').update(rawToken).digest('hex');
+    await db.updateUser(user.id, {
+      passwordResetToken: token,
+      passwordResetExpires: new Date(Date.now() + 30 * 60 * 1000),
+    });
+    await sendPasswordResetEmail(user.email, rawToken);
+    return NextResponse.json({ message: SUCCESS_MESSAGE });
+  } catch (error) {
+    console.error('Forgot password error:', error);
+    return NextResponse.json({ error: 'Unable to send a reset email right now. Please try again.' }, { status: 500 });
+  }
 }

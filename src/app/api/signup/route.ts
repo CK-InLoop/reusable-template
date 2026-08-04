@@ -7,7 +7,8 @@ import { randomBytes } from 'crypto';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { email, password, name } = body;
+    const { password, name } = body;
+    const email = String(body.email || '').trim().toLowerCase();
 
     // Validate input
     if (!email || !password) {

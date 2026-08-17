@@ -380,7 +380,7 @@ export default function ProductSidebarClient({
   return (
     <div
       ref={sidebarRef}
-      className={`relative flex items-start ${hoveredSubCategory ? "z-50" : "z-0"}`}
+      className="relative isolate z-[60] flex items-start"
       onMouseLeave={onFlyoutMouseLeave}
     >
       {/* Categories Panel (Left) */}

@@ -49,7 +49,7 @@ export default async function SuppliersPage({ searchParams }: SuppliersPageProps
             <CollapsibleSidebar />
           </div>
 
-          <section className="overflow-hidden rounded-xl border border-[#0b4f82] bg-white shadow-lg shadow-slate-200/70 lg:mt-0 lg:rounded-l-none" aria-labelledby="supplier-results-heading">
+          <section className="relative z-0 overflow-hidden rounded-xl border border-[#0b4f82] bg-white shadow-lg shadow-slate-200/70 lg:mt-0 lg:rounded-l-none" aria-labelledby="supplier-results-heading">
             <header className="bg-[#0b4f82] px-5 py-4 sm:px-6">
               <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-blue-200">
                 Suppliers & Products

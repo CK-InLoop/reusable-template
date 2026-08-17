@@ -110,7 +110,7 @@ export default function CollapsibleSidebarClient({
         )}
       </button>
 
-      <aside className="hidden lg:block">
+      <aside className="relative z-[60] hidden lg:block">
         <Suspense fallback={<div className="p-4 text-center text-gray-500">Loading...</div>}>
           <ProductSidebarClient sections={sections} variant="flyout" whatsappDigits={whatsappDigits} />
         </Suspense>

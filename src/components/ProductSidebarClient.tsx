@@ -378,7 +378,11 @@ export default function ProductSidebarClient({
 
   // Desktop rendering (unchanged)
   return (
-    <div ref={sidebarRef} className="relative flex items-start" onMouseLeave={onFlyoutMouseLeave}>
+    <div
+      ref={sidebarRef}
+      className={`relative flex items-start ${hoveredSubCategory ? "z-50" : "z-0"}`}
+      onMouseLeave={onFlyoutMouseLeave}
+    >
       {/* Categories Panel (Left) */}
       <aside className="flex flex-col w-[200px] min-w-[280px] rounded-l-lg border border-slate-200 bg-white shadow-sm z-20 relative">
         <div className="divide-y divide-slate-100 flex-1 overflow-y-auto">

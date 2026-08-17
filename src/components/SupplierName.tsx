@@ -1,11 +1,22 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
+import type { CSSProperties } from "react";
 import Link from "next/link";
 
 type SupplierNameProps = {
   name: string;
   href?: string;
+};
+
+const twoLineClampStyle: CSSProperties = {
+  display: "-webkit-box",
+  WebkitBoxOrient: "vertical",
+  WebkitLineClamp: 2,
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  height: "2rem",
+  maxHeight: "2rem",
 };
 
 export default function SupplierName({ name, href }: SupplierNameProps) {
@@ -38,7 +49,8 @@ export default function SupplierName({ name, href }: SupplierNameProps) {
         >
           <span
             ref={nameRef}
-            className="line-clamp-2 block min-h-8 text-xs font-semibold leading-4 text-[#0b4f82]"
+            style={twoLineClampStyle}
+            className="text-xs font-semibold leading-4 text-[#0b4f82]"
           >
             {name}
           </span>
@@ -49,7 +61,8 @@ export default function SupplierName({ name, href }: SupplierNameProps) {
           tabIndex={isTruncated ? 0 : undefined}
           title={isTruncated ? name : undefined}
           aria-describedby={isTruncated ? tooltipId : undefined}
-          className="line-clamp-2 block min-h-8 rounded-sm text-xs font-semibold leading-4 text-[#0b4f82] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0b4f82] focus-visible:ring-offset-2"
+          style={twoLineClampStyle}
+          className="rounded-sm text-xs font-semibold leading-4 text-[#0b4f82] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0b4f82] focus-visible:ring-offset-2"
         >
           {name}
         </span>

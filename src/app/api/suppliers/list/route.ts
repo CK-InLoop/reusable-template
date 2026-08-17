@@ -18,15 +18,50 @@ export async function GET(req: NextRequest) {
             subCategory: subCategory || undefined,
         });
 
+        const publicSuppliers = suppliers.map((supplier: any) => ({
+            id: supplier.id,
+            name: supplier.name,
+            companyName: supplier.companyName,
+            email: supplier.email,
+            phone: supplier.phone,
+            contactPhone: supplier.contactPhone,
+            address: supplier.address,
+            city: supplier.city,
+            state: supplier.state,
+            pincode: supplier.pincode,
+            gstNumber: supplier.gstNumber,
+            description: supplier.description,
+            profileImage: supplier.profileImage,
+            category: supplier.category,
+            subCategory: supplier.subCategory,
+        }));
+
         let products = [] as any[];
-        if (suppliers.length > 0 && suppliers.length <= 4) {
+        if (suppliers.length > 0) {
             const supplierIds = suppliers.map((s: any) => s.id);
             products = await db.getProductsBySupplierIds(supplierIds);
-            // Limit to 6 products for the flyout to avoid overcrowding
-            products = products.slice(0, 6);
+            products = products.map((product: any) => ({
+                id: product.id,
+                supplierId: product.supplierId,
+                name: product.name,
+                title: product.title,
+                category: product.category,
+                description: product.description,
+                shortDescription: product.shortDescription,
+                fullDescription: product.fullDescription,
+                specifications: product.specifications,
+                price: product.price,
+                priceRange: product.priceRange,
+                capacity: product.capacity,
+                unit: product.unit,
+                minOrderQty: product.minOrderQty,
+                availability: product.availability,
+                tags: product.tags,
+                images: product.images,
+            }));
         }
 
-        return NextResponse.json({ suppliers, products });
+        return NextResponse.json({ suppliers: publicSuppliers, products });
     } catch (error) {
         console.error("Error fetching suppliers:", error);
         return NextResponse.json(

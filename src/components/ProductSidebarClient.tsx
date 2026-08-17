@@ -6,6 +6,8 @@ import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { formatText } from "@/lib/text";
 import { getAzureSignedUrl } from "@/lib/azure";
 import { FlyoutSkeleton } from "./Skeletons";
+import SupplierName from "./SupplierName";
+import SupplierWhatsAppLink from "./SupplierWhatsAppLink";
 
 type SubCategoryItem = { name: string; isHeading?: boolean };
 
@@ -31,6 +33,7 @@ export default function ProductSidebarClient({
   const [inquiryMessage, setInquiryMessage] = useState("");
   const [subCategoryHeight, setSubCategoryHeight] = useState<number | null>(null);
   const [isMobileDevice, setIsMobileDevice] = useState(isMobile);
+  const [baseUrl, setBaseUrl] = useState<string>();
 
   // Ref for the subcategory panel to measure its height
   const subCategoryRef = useRef<HTMLElement>(null);
@@ -57,6 +60,7 @@ export default function ProductSidebarClient({
     };
     checkMobile();
     window.addEventListener('resize', checkMobile);
+    setBaseUrl(window.location.origin);
     return () => window.removeEventListener('resize', checkMobile);
   }, [isMobile]);
 
@@ -103,6 +107,8 @@ export default function ProductSidebarClient({
 
   const fetchSuppliers = useCallback(async (category: string, sub: string) => {
     setLoadingFlyout(true);
+    setFlyoutSuppliers([]);
+    setFlyoutProducts([]);
     try {
       const res = await fetch(`/api/suppliers/list?category=${encodeURIComponent(category)}&subCategory=${encodeURIComponent(sub)}`);
       if (res.ok) {
@@ -180,6 +186,9 @@ export default function ProductSidebarClient({
 
   // Use selected subcategory on mobile, hovered on desktop
   const activeSubCat = isMobileDevice ? selectedSubCategory : hoveredSubCategory;
+
+  const productsForSupplier = (supplierId: string) =>
+    flyoutProducts.filter((product) => product.supplierId === supplierId);
 
   // Mobile-specific rendering
   if (isMobileDevice) {
@@ -287,32 +296,41 @@ export default function ProductSidebarClient({
               ) : (
                 <div className="space-y-4">
                   <div className="grid grid-cols-2 gap-3">
-                    {flyoutSuppliers.map((supplier) => (
-                      <Link
-                        key={supplier.id}
-                        href={`/suppliers/${supplier.id}?category=${encodeURIComponent(selectedSubCategory.category)}&subCategory=${encodeURIComponent(selectedSubCategory.sub)}`}
-                        className="group flex flex-col rounded-lg border border-[#0b4f82] overflow-hidden hover:shadow-md transition bg-white"
-                      >
-                        <div className="relative h-20 w-full bg-white">
-                          {supplier.profileImage ? (
-                            <img
-                              src={getAzureSignedUrl(supplier.profileImage)}
-                              alt={supplier.companyName || supplier.name}
-                              className="h-full w-full object-contain"
-                            />
-                          ) : (
-                            <div className="flex h-full w-full items-center justify-center bg-slate-100 text-slate-300">
-                              <span className="text-xl font-bold">{(supplier.companyName || supplier.name || "S").charAt(0)}</span>
-                            </div>
-                          )}
+                    {flyoutSuppliers.map((supplier) => {
+                      const supplierHref = `/suppliers/${supplier.id}?category=${encodeURIComponent(selectedSubCategory.category)}&subCategory=${encodeURIComponent(selectedSubCategory.sub)}`;
+                      const supplierName = formatText(supplier.companyName || supplier.name || "Supplier");
+
+                      return (
+                        <div
+                          key={supplier.id}
+                          className="group relative flex flex-col rounded-lg border border-[#0b4f82] bg-white transition hover:shadow-md"
+                        >
+                          <Link href={supplierHref} className="relative block h-20 w-full overflow-hidden rounded-t-[7px] bg-white">
+                            {supplier.profileImage ? (
+                              <img
+                                src={getAzureSignedUrl(supplier.profileImage)}
+                                alt={supplierName}
+                                className="h-full w-full object-contain"
+                              />
+                            ) : (
+                              <div className="flex h-full w-full items-center justify-center bg-slate-100 text-slate-300">
+                                <span className="text-xl font-bold">{supplierName.charAt(0)}</span>
+                              </div>
+                            )}
+                          </Link>
+                          <SupplierWhatsAppLink
+                            whatsappDigits={whatsappDigits}
+                            supplier={supplier}
+                            products={productsForSupplier(supplier.id)}
+                            baseUrl={baseUrl}
+                            className="absolute right-1.5 top-1.5 z-10"
+                          />
+                          <div className="rounded-b-[7px] border-t border-slate-100 bg-white p-2 text-center">
+                            <SupplierName name={supplierName} href={supplierHref} />
+                          </div>
                         </div>
-                        <div className="p-2 text-center bg-white border-t border-slate-100">
-                          <span className="text-xs font-semibold text-[#0b4f82] line-clamp-2 leading-tight block">
-                            {supplier.companyName || supplier.name}
-                          </span>
-                        </div>
-                      </Link>
-                    ))}
+                      );
+                    })}
                   </div>
 
                   {/* Quick Inquiry for Mobile */}
@@ -459,36 +477,45 @@ export default function ProductSidebarClient({
                 {/* Supplier Grid */}
                 <div className="flex-1">
                   <div className="grid grid-cols-3 gap-4">
-                    {flyoutSuppliers.map((supplier) => (
-                      <Link
-                        key={supplier.id}
-                        href={`/suppliers/${supplier.id}?category=${encodeURIComponent(hoveredSubCategory.category)}&subCategory=${encodeURIComponent(hoveredSubCategory.sub)}`}
-                        className="group flex flex-col rounded-lg border border-[#0b4f82] overflow-hidden hover:shadow-md transition bg-white"
-                      >
-                        <div className="relative h-20 w-full bg-white">
-                          {supplier.profileImage ? (
-                            <img
-                              src={getAzureSignedUrl(supplier.profileImage)}
-                              alt={supplier.companyName || supplier.name}
-                              className="h-full w-full object-contain"
-                            />
-                          ) : (
-                            <div className="flex h-full w-full items-center justify-center bg-slate-100 text-slate-300">
-                              <span className="text-xl font-bold">{(supplier.companyName || supplier.name || "S").charAt(0)}</span>
-                            </div>
-                          )}
+                    {flyoutSuppliers.map((supplier) => {
+                      const supplierHref = `/suppliers/${supplier.id}?category=${encodeURIComponent(hoveredSubCategory.category)}&subCategory=${encodeURIComponent(hoveredSubCategory.sub)}`;
+                      const supplierName = formatText(supplier.companyName || supplier.name || "Supplier");
+
+                      return (
+                        <div
+                          key={supplier.id}
+                          className="group relative flex flex-col rounded-lg border border-[#0b4f82] bg-white transition hover:shadow-md"
+                        >
+                          <Link href={supplierHref} className="relative block h-20 w-full overflow-hidden rounded-t-[7px] bg-white">
+                            {supplier.profileImage ? (
+                              <img
+                                src={getAzureSignedUrl(supplier.profileImage)}
+                                alt={supplierName}
+                                className="h-full w-full object-contain"
+                              />
+                            ) : (
+                              <div className="flex h-full w-full items-center justify-center bg-slate-100 text-slate-300">
+                                <span className="text-xl font-bold">{supplierName.charAt(0)}</span>
+                              </div>
+                            )}
+                          </Link>
+                          <SupplierWhatsAppLink
+                            whatsappDigits={whatsappDigits}
+                            supplier={supplier}
+                            products={productsForSupplier(supplier.id)}
+                            baseUrl={baseUrl}
+                            className="absolute right-1.5 top-1.5 z-10"
+                          />
+                          <div className="rounded-b-[7px] border-t border-slate-100 bg-white p-2 text-center">
+                            <SupplierName name={supplierName} href={supplierHref} />
+                          </div>
                         </div>
-                        <div className="p-2 text-center bg-white border-t border-slate-100">
-                          <span className="text-xs font-semibold text-[#0b4f82] line-clamp-2 leading-tight block">
-                            {supplier.companyName || supplier.name}
-                          </span>
-                        </div>
-                      </Link>
-                    ))}
+                      );
+                    })}
                   </div>
 
                   {/* Products Section to fill whitespace (for few suppliers) */}
-                  {flyoutProducts.length > 0 && (
+                  {flyoutSuppliers.length <= 4 && flyoutProducts.length > 0 && (
                     <div className="mt-8 border-t border-slate-100 pt-6">
                       <div className="flex items-center justify-between mb-4">
                         <h4 className="text-sm font-bold text-[#0b4f82] uppercase tracking-wide">Featured Products</h4>
@@ -500,7 +527,7 @@ export default function ProductSidebarClient({
                         </Link>
                       </div>
                       <div className="grid grid-cols-3 gap-4">
-                        {flyoutProducts.map((product) => {
+                        {flyoutProducts.slice(0, 6).map((product) => {
                           const mainImage = Array.isArray(product.images)
                             ? product.images[0]
                             : (typeof product.images === 'string' ? product.images : null);

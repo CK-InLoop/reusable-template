@@ -13,6 +13,10 @@ export const prisma =
 
 if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
 
+function normalizeCategoryValue(value: string) {
+  return value.normalize("NFKC").replace(/\s+/g, " ").trim().toLocaleLowerCase();
+}
+
 // Re-export User type from Prisma
 export type { User } from "@prisma/client";
 
@@ -102,18 +106,25 @@ export const db = {
 
   async getSuppliers(filters?: { category?: string; subCategory?: string }) {
     const where: Record<string, unknown> = {};
-    // Use case-insensitive matching for category and subCategory
+    // Category values come from the database-backed sidebar.
     if (filters?.category) {
-      where.category = { equals: filters.category, mode: 'insensitive' };
-    }
-    if (filters?.subCategory) {
-      where.subCategory = { equals: filters.subCategory, mode: 'insensitive' };
+      where.category = filters.category;
     }
 
-    return await (prisma as any).suppliers.findMany({
+    const suppliers = await (prisma as any).suppliers.findMany({
       where,
       orderBy: { createdAt: "desc" },
     });
+
+    // Prisma's MongoDB case-insensitive mode treats symbol-heavy names as
+    // regex patterns. Compare these database-backed values literally in
+    // application code while tolerating legacy case/spacing differences.
+    return filters?.subCategory
+      ? suppliers.filter((supplier: any) =>
+          supplier.subCategory &&
+          normalizeCategoryValue(supplier.subCategory) === normalizeCategoryValue(filters.subCategory!),
+        )
+      : suppliers;
   },
 
   async getSupplierById(id: string) {

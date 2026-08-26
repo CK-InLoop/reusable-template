@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useLayoutEffect, useState, useRef, useCallback } from "react";
 import Link from "next/link";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { formatText } from "@/lib/text";
@@ -34,9 +34,11 @@ export default function ProductSidebarClient({
   const [subCategoryHeight, setSubCategoryHeight] = useState<number | null>(null);
   const [isMobileDevice, setIsMobileDevice] = useState(isMobile);
   const [baseUrl, setBaseUrl] = useState<string>();
+  const [featuredProductTitleLines, setFeaturedProductTitleLines] = useState<number | null>(null);
 
   // Ref for the subcategory panel to measure its height
   const subCategoryRef = useRef<HTMLElement>(null);
+  const featuredProductTitleRefs = useRef<(HTMLSpanElement | null)[]>([]);
 
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -70,6 +72,27 @@ export default function ProductSidebarClient({
       setSubCategoryHeight(subCategoryRef.current.offsetHeight);
     }
   }, [expandedSection]);
+
+  // Reset before measuring the newly loaded titles without a clamp.
+  useLayoutEffect(() => {
+    setFeaturedProductTitleLines(null);
+  }, [flyoutProducts, flyoutSuppliers.length]);
+
+  // Use the shortest natural title height as the shared height for every featured product.
+  useLayoutEffect(() => {
+    if (featuredProductTitleLines !== null || flyoutSuppliers.length > 4 || flyoutProducts.length === 0) return;
+
+    const lineCounts = featuredProductTitleRefs.current
+      .filter((title): title is HTMLSpanElement => title !== null)
+      .map((title) => {
+        const lineHeight = Number.parseFloat(window.getComputedStyle(title).lineHeight);
+        return lineHeight ? Math.ceil(title.scrollHeight / lineHeight) : 1;
+      });
+
+    if (lineCounts.length > 0) {
+      setFeaturedProductTitleLines(Math.max(1, Math.min(...lineCounts)));
+    }
+  }, [featuredProductTitleLines, flyoutProducts, flyoutSuppliers.length]);
 
   // Close subcategory panel when clicking outside sidebar (desktop only)
   useEffect(() => {
@@ -437,21 +460,18 @@ export default function ProductSidebarClient({
 
               const isHovered = hoveredSubCategory?.category === expandedSectionData.name && hoveredSubCategory?.sub === sub.name;
 
-              const subHref = `/suppliers?category=${encodeURIComponent(expandedSectionData.name)}&subCategory=${encodeURIComponent(sub.name)}`;
-
               return (
-                <Link
+                <div
                   key={sub.name}
-                  href={subHref}
                   onMouseEnter={() => onSubMouseEnter(expandedSectionData.name, sub.name)}
                   onMouseLeave={onSubMouseLeave}
-                  className={`block px-4 py-2 text-sm transition cursor-pointer hover:bg-slate-100 hover:text-[#0b4f82] ${isActive || isHovered
+                  className={`block px-4 py-2 text-sm transition hover:bg-slate-100 hover:text-[#0b4f82] ${isActive || isHovered
                     ? "text-[#0b4f82] font-semibold bg-slate-100"
                     : "text-slate-600"
                     }`}
                 >
                   {formatText(sub.name)}
-                </Link>
+                </div>
               );
             })}
           </div>
@@ -531,10 +551,11 @@ export default function ProductSidebarClient({
                         </Link>
                       </div>
                       <div className="grid grid-cols-3 gap-4">
-                        {flyoutProducts.slice(0, 6).map((product) => {
+                        {flyoutProducts.slice(0, 6).map((product, index) => {
                           const mainImage = Array.isArray(product.images)
                             ? product.images[0]
                             : (typeof product.images === 'string' ? product.images : null);
+                          const productTitle = formatText(product.title || product.name || "Product");
 
                           return (
                             <Link
@@ -558,8 +579,20 @@ export default function ProductSidebarClient({
                                 )}
                               </div>
                               <div className="p-2 bg-white border-t border-slate-50">
-                                <span className="text-xs font-semibold text-slate-800 line-clamp-1 block">
-                                  {product.title || product.name}
+                                <span
+                                  ref={(element) => {
+                                    featuredProductTitleRefs.current[index] = element;
+                                  }}
+                                  title={productTitle}
+                                  className="block overflow-hidden text-xs font-semibold leading-5 text-slate-800"
+                                  style={featuredProductTitleLines === null ? undefined : {
+                                    display: "-webkit-box",
+                                    WebkitBoxOrient: "vertical",
+                                    WebkitLineClamp: featuredProductTitleLines,
+                                    minHeight: `${featuredProductTitleLines * 20}px`,
+                                  }}
+                                >
+                                  {productTitle}
                                 </span>
                                 {product.priceRange && (
                                   <span className="text-[10px] text-yellow-600 font-bold block mt-0.5">

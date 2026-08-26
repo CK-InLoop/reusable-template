@@ -66,7 +66,7 @@ export default async function AccessoriesPage() {
         </div>
       </section>
 
-      {/* Products Section - Replaces Fabrication Showcase */}
+      {/* Products Section - Replaces Fabrication Showcase
       <section className="mt-12">
         <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
           <div>
@@ -154,7 +154,7 @@ export default async function AccessoriesPage() {
             ))}
           </div>
         )}
-      </section>
+      </section> */}
     </SiteLayout>
   );
 }

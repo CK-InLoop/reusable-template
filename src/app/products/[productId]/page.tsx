@@ -34,7 +34,7 @@ export default async function DirectProductPage({ params }: ProductPageProps) {
     const similarProducts = await db.getSimilarProducts(
         productId,
         product.category,
-        null, // No supplier filter for direct products
+        undefined, // No supplier filter for direct products
         4
     );
 

@@ -367,14 +367,13 @@ export default function ProductSidebarClient({
                       const mainImage = Array.isArray(product.images) && product.images.length > 0
                         ? product.images[0]
                         : null;
+                      const productHref = `/products/${product.id}`;
 
                       return (
-                        <div
+                        <Link
                           key={product.id}
-                          className="group relative flex flex-col rounded-lg border border-[#0b4f82] bg-white transition hover:shadow-md cursor-pointer"
-                          onClick={() => {
-                            console.log('Direct product clicked:', product.id);
-                          }}
+                          href={productHref}
+                          className="group relative flex flex-col rounded-lg border border-[#0b4f82] bg-white transition hover:shadow-md"
                         >
                           <div className="relative block h-20 w-full overflow-hidden rounded-t-[7px] bg-white">
                             {mainImage ? (
@@ -394,7 +393,7 @@ export default function ProductSidebarClient({
                               {productName}
                             </span>
                           </div>
-                        </div>
+                        </Link>
                       );
                     })}
                   </div>
@@ -587,15 +586,13 @@ export default function ProductSidebarClient({
                       const mainImage = Array.isArray(product.images) && product.images.length > 0
                         ? product.images[0]
                         : null;
+                      const productHref = `/products/${product.id}`;
 
                       return (
-                        <div
+                        <Link
                           key={product.id}
-                          className="group relative flex flex-col rounded-lg border border-[#0b4f82] bg-white transition hover:shadow-md cursor-pointer"
-                          onClick={() => {
-                            // You can add a product detail view here if needed
-                            console.log('Direct product clicked:', product.id);
-                          }}
+                          href={productHref}
+                          className="group relative flex flex-col rounded-lg border border-[#0b4f82] bg-white transition hover:shadow-md"
                         >
                           <div className="relative block h-20 w-full overflow-hidden rounded-t-[7px] bg-white">
                             {mainImage ? (
@@ -615,7 +612,7 @@ export default function ProductSidebarClient({
                               {productName}
                             </span>
                           </div>
-                        </div>
+                        </Link>
                       );
                     })}
                   </div>

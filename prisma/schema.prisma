@@ -53,6 +53,7 @@ model products {
   name             String?
   title            String?
   category         String?
+  subCategory      String?  // Direct link to subcategory (for products not under suppliers)
   description      String?
   shortDescription String?
   fullDescription  String?

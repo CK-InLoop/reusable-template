@@ -61,7 +61,38 @@ export async function GET(req: NextRequest) {
             }));
         }
 
-        return NextResponse.json({ suppliers: publicSuppliers, products });
+        // Fetch direct products (products without suppliers but linked to subcategory)
+        let directProducts = [] as any[];
+        if (category && subCategory) {
+            directProducts = await db.getDirectProducts({
+                category: category,
+                subCategory: subCategory,
+            });
+            directProducts = directProducts.map((product: any) => ({
+                id: product.id,
+                supplierId: null, // No supplier for direct products
+                name: product.name,
+                title: product.title,
+                category: product.category,
+                subCategory: product.subCategory,
+                description: product.description,
+                shortDescription: product.shortDescription,
+                fullDescription: product.fullDescription,
+                specifications: product.specifications,
+                price: product.price,
+                priceRange: product.priceRange,
+                capacity: product.capacity,
+                unit: product.unit,
+                minOrderQty: product.minOrderQty,
+                availability: product.availability,
+                tags: product.tags,
+                images: product.images,
+                pdfFiles: product.pdfFiles,
+                youtubeUrl: product.youtubeUrl,
+            }));
+        }
+
+        return NextResponse.json({ suppliers: publicSuppliers, products, directProducts });
     } catch (error) {
         console.error("Error fetching suppliers:", error);
         return NextResponse.json(

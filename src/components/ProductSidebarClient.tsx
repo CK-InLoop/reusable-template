@@ -29,6 +29,7 @@ export default function ProductSidebarClient({
   const [selectedSubCategory, setSelectedSubCategory] = useState<{ category: string, sub: string } | null>(null);
   const [flyoutSuppliers, setFlyoutSuppliers] = useState<any[]>([]);
   const [flyoutProducts, setFlyoutProducts] = useState<any[]>([]);
+  const [flyoutDirectProducts, setFlyoutDirectProducts] = useState<any[]>([]);
   const [loadingFlyout, setLoadingFlyout] = useState(false);
   const [inquiryMessage, setInquiryMessage] = useState("");
   const [subCategoryHeight, setSubCategoryHeight] = useState<number | null>(null);
@@ -132,12 +133,14 @@ export default function ProductSidebarClient({
     setLoadingFlyout(true);
     setFlyoutSuppliers([]);
     setFlyoutProducts([]);
+    setFlyoutDirectProducts([]);
     try {
       const res = await fetch(`/api/suppliers/list?category=${encodeURIComponent(category)}&subCategory=${encodeURIComponent(sub)}`);
       if (res.ok) {
         const data = await res.json();
         setFlyoutSuppliers(data.suppliers || []);
         setFlyoutProducts(data.products || []);
+        setFlyoutDirectProducts(data.directProducts || []);
       }
     } catch (error) {
       console.error("Failed to fetch flyout suppliers", error);
@@ -172,6 +175,7 @@ export default function ProductSidebarClient({
       setHoveredSubCategory(null);
       setFlyoutSuppliers([]);
       setFlyoutProducts([]);
+      setFlyoutDirectProducts([]);
     }, 300);
   };
 
@@ -185,6 +189,7 @@ export default function ProductSidebarClient({
     setHoveredSubCategory(null);
     setFlyoutSuppliers([]);
     setFlyoutProducts([]);
+    setFlyoutDirectProducts([]);
   };
 
   // Mobile click handler for subcategories
@@ -355,6 +360,57 @@ export default function ProductSidebarClient({
                       );
                     })}
                   </div>
+
+                  {/* Direct Products Section for Mobile (products without suppliers) */}
+                  {flyoutDirectProducts.length > 0 && (
+                    <div className="border-t border-slate-100 pt-4 mt-4">
+                      <h4 className="text-sm font-bold text-blue-600 uppercase tracking-wide mb-3">Products</h4>
+                      <div className="grid grid-cols-2 gap-3">
+                        {flyoutDirectProducts.map((product) => {
+                          const mainImage = Array.isArray(product.images)
+                            ? product.images[0]
+                            : (typeof product.images === 'string' ? product.images : null);
+                          const productTitle = formatText(product.title || product.name || "Product");
+
+                          return (
+                            <div
+                              key={product.id}
+                              className="group flex flex-col rounded-lg border border-slate-200 overflow-hidden hover:shadow-md transition bg-white"
+                              onClick={() => {
+                                window.open(`/products/${product.id}`, '_blank');
+                              }}
+                            >
+                              <div className="relative h-20 w-full bg-white">
+                                {mainImage ? (
+                                  <img
+                                    src={getAzureSignedUrl(mainImage)}
+                                    alt={product.title || product.name}
+                                    className="h-full w-full object-contain p-2"
+                                  />
+                                ) : (
+                                  <div className="flex h-full w-full items-center justify-center bg-slate-50 text-slate-300">
+                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                  </div>
+                                )}
+                              </div>
+                              <div className="p-2 bg-white border-t border-slate-50">
+                                <span title={productTitle} className="block overflow-hidden text-xs font-semibold leading-tight text-slate-800 line-clamp-2">
+                                  {productTitle}
+                                </span>
+                                {product.priceRange && (
+                                  <span className="text-[10px] text-yellow-600 font-bold block mt-0.5">
+                                    {product.priceRange}
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
 
                   {/* Quick Inquiry for Mobile */}
                   <div className="border-t border-slate-200 pt-4 mt-4">
@@ -601,6 +657,69 @@ export default function ProductSidebarClient({
                                 )}
                               </div>
                             </Link>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Direct Products Section (products without suppliers) */}
+                  {flyoutDirectProducts.length > 0 && (
+                    <div className="mt-8 border-t border-slate-100 pt-6">
+                      <div className="flex items-center justify-between mb-4">
+                        <h4 className="text-sm font-bold text-blue-600 uppercase tracking-wide">Products</h4>
+                        <Link
+                          href={`/suppliers?category=${encodeURIComponent(hoveredSubCategory.category)}&subCategory=${encodeURIComponent(hoveredSubCategory.sub)}`}
+                          className="text-xs text-blue-600 hover:underline font-medium"
+                        >
+                          View All
+                        </Link>
+                      </div>
+                      <div className="grid grid-cols-3 gap-4">
+                        {flyoutDirectProducts.slice(0, 6).map((product) => {
+                          const mainImage = Array.isArray(product.images)
+                            ? product.images[0]
+                            : (typeof product.images === 'string' ? product.images : null);
+                          const productTitle = formatText(product.title || product.name || "Product");
+
+                          return (
+                            <div
+                              key={product.id}
+                              className="group flex flex-col rounded-lg border border-slate-200 overflow-hidden hover:shadow-md transition bg-white cursor-pointer"
+                              onClick={() => {
+                                // You can add a modal or detail view here
+                                window.open(`/products/${product.id}`, '_blank');
+                              }}
+                            >
+                              <div className="relative h-28 w-full bg-white">
+                                {mainImage ? (
+                                  <img
+                                    src={getAzureSignedUrl(mainImage)}
+                                    alt={product.title || product.name}
+                                    className="h-full w-full object-contain p-2"
+                                  />
+                                ) : (
+                                  <div className="flex h-full w-full items-center justify-center bg-slate-50 text-slate-300">
+                                    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                  </div>
+                                )}
+                              </div>
+                              <div className="p-2 bg-white border-t border-slate-50">
+                                <span
+                                  title={productTitle}
+                                  className="block overflow-hidden text-xs font-semibold leading-5 text-slate-800 line-clamp-2"
+                                >
+                                  {productTitle}
+                                </span>
+                                {product.priceRange && (
+                                  <span className="text-[10px] text-yellow-600 font-bold block mt-0.5">
+                                    {product.priceRange}
+                                  </span>
+                                )}
+                              </div>
+                            </div>
                           );
                         })}
                       </div>

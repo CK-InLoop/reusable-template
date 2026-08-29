@@ -157,6 +157,23 @@ export const db = {
     });
   },
 
+  async getDirectProducts(filters: { category: string; subCategory: string }) {
+    // Fetch products that are directly linked to a subcategory (no supplier)
+    const products = await (prisma as any).products.findMany({
+      where: {
+        supplierId: null,
+        category: filters.category,
+      },
+      orderBy: { createdAt: "desc" },
+    });
+
+    // Filter by subcategory using normalized comparison
+    return products.filter((product: any) =>
+      product.subCategory &&
+      normalizeCategoryValue(product.subCategory) === normalizeCategoryValue(filters.subCategory)
+    );
+  },
+
   async getProductById(id: string) {
     return await (prisma as any).products.findUnique({
       where: { id },

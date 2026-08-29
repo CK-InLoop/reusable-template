@@ -9,7 +9,14 @@ export async function GET(req: NextRequest) {
         const category = searchParams.get("category");
         const subCategory = searchParams.get("subCategory");
 
+        console.log('\n🔍 API /suppliers/list called:', {
+            category,
+            subCategory,
+            timestamp: new Date().toISOString()
+        });
+
         if (!category) {
+            console.log('❌ No category provided, returning empty');
             return NextResponse.json({ suppliers: [] });
         }
 
@@ -65,10 +72,12 @@ export async function GET(req: NextRequest) {
         let directProducts = [] as any[];
         if (category && subCategory) {
             try {
+                console.log('📦 Fetching direct products...');
                 directProducts = await db.getDirectProducts({
                     category: category,
                     subCategory: subCategory,
                 });
+                console.log(`✓ Found ${directProducts.length} direct products`);
                 directProducts = directProducts.map((product: any) => ({
                     id: product.id,
                     supplierId: null, // No supplier for direct products
@@ -92,12 +101,19 @@ export async function GET(req: NextRequest) {
                     youtubeUrl: product.youtubeUrl,
                 }));
             } catch (directProductError) {
-                console.error("Error fetching direct products:", directProductError);
+                console.error("❌ Error fetching direct products:", directProductError);
                 // Continue without direct products if there's an error
             }
         }
 
-        return NextResponse.json({ suppliers: publicSuppliers, products, directProducts });
+        const response = { suppliers: publicSuppliers, products, directProducts };
+        console.log('📤 Returning:', {
+            suppliers: publicSuppliers.length,
+            products: products.length,
+            directProducts: directProducts.length
+        });
+        
+        return NextResponse.json(response);
     } catch (error) {
         console.error("Error fetching suppliers:", error);
         return NextResponse.json(

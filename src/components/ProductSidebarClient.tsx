@@ -311,9 +311,9 @@ export default function ProductSidebarClient({
             <div className="p-4 max-h-[60vh] overflow-y-auto">
               {loadingFlyout ? (
                 <FlyoutSkeleton isMobile={true} />
-              ) : flyoutSuppliers.length === 0 ? (
+              ) : flyoutSuppliers.length === 0 && flyoutDirectProducts.length === 0 ? (
                 <div className="text-center py-8">
-                  <div className="text-slate-500 text-sm mb-4">No suppliers found in this category.</div>
+                  <div className="text-slate-500 text-sm mb-4">No suppliers or products found in this category.</div>
                   <Link
                     href={`/suppliers?category=${encodeURIComponent(selectedSubCategory.category)}&subCategory=${encodeURIComponent(selectedSubCategory.sub)}`}
                     className="inline-flex items-center justify-center px-4 py-2 bg-[#0b4f82] text-white text-sm font-semibold rounded-md hover:bg-[#0a3d6b] transition"
@@ -537,8 +537,8 @@ export default function ProductSidebarClient({
           <div className="flex-1 overflow-y-auto p-4">
             {loadingFlyout ? (
               <FlyoutSkeleton isMobile={false} />
-            ) : flyoutSuppliers.length === 0 ? (
-              <div className="text-slate-500 text-sm">No suppliers found in this category.</div>
+            ) : flyoutSuppliers.length === 0 && flyoutDirectProducts.length === 0 ? (
+              <div className="text-slate-500 text-sm">No suppliers or products found in this category.</div>
             ) : (
               <div className="flex gap-4">
                 {/* Supplier Grid */}

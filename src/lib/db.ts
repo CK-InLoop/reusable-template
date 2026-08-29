@@ -159,16 +159,18 @@ export const db = {
 
   async getDirectProducts(filters: { category: string; subCategory: string }) {
     // Fetch products that are directly linked to a subcategory (no supplier)
+    // Due to Prisma MongoDB limitations with null queries, we fetch all products
+    // in the category and filter in JavaScript
     const products = await (prisma as any).products.findMany({
       where: {
-        supplierId: null,
         category: filters.category,
       },
       orderBy: { createdAt: "desc" },
     });
 
-    // Filter by subcategory using normalized comparison
+    // Filter by subcategory and no supplier using normalized comparison
     return products.filter((product: any) =>
+      !product.supplierId && // Must not have a supplier
       product.subCategory &&
       normalizeCategoryValue(product.subCategory) === normalizeCategoryValue(filters.subCategory)
     );

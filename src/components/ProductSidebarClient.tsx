@@ -557,6 +557,7 @@ export default function ProductSidebarClient({
                 {/* Supplier Grid */}
                 <div className="flex-1">
                   <div className="grid grid-cols-3 gap-4">
+                    {/* First show all suppliers */}
                     {flyoutSuppliers.map((supplier) => {
                       const supplierHref = `/suppliers/${supplier.id}?category=${encodeURIComponent(hoveredSubCategory.category)}&subCategory=${encodeURIComponent(hoveredSubCategory.sub)}`;
                       const supplierName = formatText(supplier.companyName || supplier.name || "Supplier");
@@ -588,6 +589,44 @@ export default function ProductSidebarClient({
                           />
                           <div className="rounded-b-[7px] border-t border-slate-100 bg-white p-2 text-center">
                             <SupplierName name={supplierName} href={supplierHref} />
+                          </div>
+                        </div>
+                      );
+                    })}
+
+                    {/* Then show direct products as supplier-style cards */}
+                    {flyoutDirectProducts.map((product) => {
+                      const productName = formatText(product.title || product.name || "Product");
+                      const mainImage = Array.isArray(product.images) && product.images.length > 0
+                        ? product.images[0]
+                        : null;
+
+                      return (
+                        <div
+                          key={product.id}
+                          className="group relative flex flex-col rounded-lg border border-[#0b4f82] bg-white transition hover:shadow-md cursor-pointer"
+                          onClick={() => {
+                            // You can add a product detail view here if needed
+                            console.log('Direct product clicked:', product.id);
+                          }}
+                        >
+                          <div className="relative block h-20 w-full overflow-hidden rounded-t-[7px] bg-white">
+                            {mainImage ? (
+                              <img
+                                src={getAzureSignedUrl(mainImage)}
+                                alt={productName}
+                                className="h-full w-full object-contain"
+                              />
+                            ) : (
+                              <div className="flex h-full w-full items-center justify-center bg-slate-100 text-slate-300">
+                                <span className="text-xl font-bold">{productName.charAt(0)}</span>
+                              </div>
+                            )}
+                          </div>
+                          <div className="rounded-b-[7px] border-t border-slate-100 bg-white p-2 text-center">
+                            <span className="text-xs font-semibold text-slate-800 line-clamp-2">
+                              {productName}
+                            </span>
                           </div>
                         </div>
                       );
@@ -657,69 +696,6 @@ export default function ProductSidebarClient({
                                 )}
                               </div>
                             </Link>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Direct Products Section (products without suppliers) */}
-                  {flyoutDirectProducts.length > 0 && (
-                    <div className="mt-8 border-t border-slate-100 pt-6">
-                      <div className="flex items-center justify-between mb-4">
-                        <h4 className="text-sm font-bold text-blue-600 uppercase tracking-wide">Products</h4>
-                        <Link
-                          href={`/suppliers?category=${encodeURIComponent(hoveredSubCategory.category)}&subCategory=${encodeURIComponent(hoveredSubCategory.sub)}`}
-                          className="text-xs text-blue-600 hover:underline font-medium"
-                        >
-                          View All
-                        </Link>
-                      </div>
-                      <div className="grid grid-cols-3 gap-4">
-                        {flyoutDirectProducts.slice(0, 6).map((product) => {
-                          const mainImage = Array.isArray(product.images)
-                            ? product.images[0]
-                            : (typeof product.images === 'string' ? product.images : null);
-                          const productTitle = formatText(product.title || product.name || "Product");
-
-                          return (
-                            <div
-                              key={product.id}
-                              className="group flex flex-col rounded-lg border border-slate-200 overflow-hidden hover:shadow-md transition bg-white cursor-pointer"
-                              onClick={() => {
-                                // You can add a modal or detail view here
-                                window.open(`/products/${product.id}`, '_blank');
-                              }}
-                            >
-                              <div className="relative h-28 w-full bg-white">
-                                {mainImage ? (
-                                  <img
-                                    src={getAzureSignedUrl(mainImage)}
-                                    alt={product.title || product.name}
-                                    className="h-full w-full object-contain p-2"
-                                  />
-                                ) : (
-                                  <div className="flex h-full w-full items-center justify-center bg-slate-50 text-slate-300">
-                                    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                    </svg>
-                                  </div>
-                                )}
-                              </div>
-                              <div className="p-2 bg-white border-t border-slate-50">
-                                <span
-                                  title={productTitle}
-                                  className="block overflow-hidden text-xs font-semibold leading-5 text-slate-800 line-clamp-2"
-                                >
-                                  {productTitle}
-                                </span>
-                                {product.priceRange && (
-                                  <span className="text-[10px] text-yellow-600 font-bold block mt-0.5">
-                                    {product.priceRange}
-                                  </span>
-                                )}
-                              </div>
-                            </div>
                           );
                         })}
                       </div>

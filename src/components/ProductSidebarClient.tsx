@@ -7,7 +7,6 @@ import { formatText } from "@/lib/text";
 import { getAzureSignedUrl } from "@/lib/azure";
 import { FlyoutSkeleton } from "./Skeletons";
 import SupplierName from "./SupplierName";
-import SupplierWhatsAppLink from "./SupplierWhatsAppLink";
 
 type SubCategoryItem = { name: string; isHeading?: boolean };
 
@@ -34,7 +33,6 @@ export default function ProductSidebarClient({
   const [inquiryMessage, setInquiryMessage] = useState("");
   const [subCategoryHeight, setSubCategoryHeight] = useState<number | null>(null);
   const [isMobileDevice, setIsMobileDevice] = useState(isMobile);
-  const [baseUrl, setBaseUrl] = useState<string>();
   const [featuredProductTitleLines, setFeaturedProductTitleLines] = useState<number | null>(null);
 
   // Ref for the subcategory panel to measure its height
@@ -63,7 +61,6 @@ export default function ProductSidebarClient({
     };
     checkMobile();
     window.addEventListener('resize', checkMobile);
-    setBaseUrl(window.location.origin);
     return () => window.removeEventListener('resize', checkMobile);
   }, [isMobile]);
 
@@ -215,9 +212,6 @@ export default function ProductSidebarClient({
   // Use selected subcategory on mobile, hovered on desktop
   const activeSubCat = isMobileDevice ? selectedSubCategory : hoveredSubCategory;
 
-  const productsForSupplier = (supplierId: string) =>
-    flyoutProducts.filter((product) => product.supplierId === supplierId);
-
   // Mobile-specific rendering
   if (isMobileDevice) {
     return (
@@ -347,13 +341,6 @@ export default function ProductSidebarClient({
                               </div>
                             )}
                           </Link>
-                          <SupplierWhatsAppLink
-                            whatsappDigits={whatsappDigits}
-                            supplier={supplier}
-                            products={productsForSupplier(supplier.id)}
-                            baseUrl={baseUrl}
-                            className="absolute right-1.5 top-1.5 z-10"
-                          />
                           <div className="rounded-b-[7px] border-t border-slate-100 bg-white p-2 text-center">
                             <SupplierName name={supplierName} href={supplierHref} />
                           </div>
@@ -566,13 +553,6 @@ export default function ProductSidebarClient({
                               </div>
                             )}
                           </Link>
-                          <SupplierWhatsAppLink
-                            whatsappDigits={whatsappDigits}
-                            supplier={supplier}
-                            products={productsForSupplier(supplier.id)}
-                            baseUrl={baseUrl}
-                            className="absolute right-1.5 top-1.5 z-10"
-                          />
                           <div className="rounded-b-[7px] border-t border-slate-100 bg-white p-2 text-center">
                             <SupplierName name={supplierName} href={supplierHref} />
                           </div>

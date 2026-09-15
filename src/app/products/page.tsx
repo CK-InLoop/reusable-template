@@ -51,6 +51,9 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
                 const mainImage = Array.isArray(product.images)
                   ? product.images[0]
                   : (typeof product.images === 'string' ? product.images : null);
+                const productHref = product.supplierId
+                  ? `/suppliers/${product.supplierId}/products/${product.id}`
+                  : `/products/${product.id}`;
 
                 return (
                   <article
@@ -58,7 +61,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
                     className="group flex flex-col overflow-hidden rounded-lg border border-[#e2e8f0] bg-white shadow-sm transition hover:border-[#0b4f82] hover:shadow-md relative"
                   >
                     <Link
-                      href={`/suppliers/${product.supplierId}/products/${product.id}`}
+                      href={productHref}
                       className="absolute inset-0 z-10"
                       aria-label={`View ${product.name}`}
                     />

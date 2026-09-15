@@ -4,6 +4,7 @@ import SiteLayout from "@/components/SiteLayout";
 import { db } from "@/lib/db";
 import { formatText } from "@/lib/text";
 import { getAzureSignedUrl } from "@/lib/azure";
+import ProductImageGallery from "@/components/ProductImageGallery";
 
 export const dynamic = "force-dynamic";
 
@@ -73,58 +74,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 {/* Product Hero */}
                 <div className="grid gap-6 md:gap-8 lg:grid-cols-2">
                     {/* Product Images */}
-                    <div className="space-y-3 md:space-y-4">
-                        {/* Main Image */}
-                        <div className="relative aspect-square overflow-hidden rounded-lg bg-white border border-slate-200">
-                            {product.images && product.images.length > 0 ? (
-                                <img
-                                    src={getAzureSignedUrl(product.images[0])}
-                                    alt={formatText(product.title || product.name || "Product")}
-                                    className="h-full w-full object-contain"
-                                />
-                            ) : (
-                                <div className="flex h-full w-full items-center justify-center text-[#94a3b8]">
-                                    <svg
-                                        className="h-16 w-16 md:h-24 md:w-24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                        aria-hidden="true"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={1}
-                                            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                                        />
-                                    </svg>
-                                </div>
-                            )}
-                        </div>
-
-                        {/* Thumbnail Gallery */}
-                        {product.images && product.images.length > 1 && (
-                            <div className="grid grid-cols-4 gap-2 md:gap-3">
-                                {product.images.slice(0, 4).map((image: string, index: number) => (
-                                    <div
-                                        key={index}
-                                        className="relative aspect-square overflow-hidden rounded-md bg-[#f8fafc] border border-[#e2e8f0]"
-                                    >
-                                        <img
-                                            src={getAzureSignedUrl(image)}
-                                            alt={`${formatText(product.title || product.name || "Product")} - ${index + 1}`}
-                                            className="h-full w-full object-cover"
-                                        />
-                                        {index === 3 && product.images.length > 4 && (
-                                            <div className="absolute inset-0 flex items-center justify-center bg-black/50 text-white font-semibold text-sm">
-                                                +{product.images.length - 4}
-                                            </div>
-                                        )}
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                    </div>
+                    <ProductImageGallery
+                        imageUrls={(product.images || []).map((image: string) => getAzureSignedUrl(image))}
+                        productName={formatText(product.title || product.name || "Product")}
+                    />
 
                     {/* Product Details */}
                     <div className="space-y-4 md:space-y-6">

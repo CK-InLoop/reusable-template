@@ -541,7 +541,7 @@ export default function ProductSidebarClient({
                           key={supplier.id}
                           className={`group relative flex flex-col rounded-lg border border-[#0b4f82] bg-white transition hover:shadow-md ${isFeaturedCard ? "col-span-3 aspect-square" : ""}`}
                         >
-                          <Link href={supplierHref} className={`relative block w-full overflow-hidden rounded-t-[7px] bg-white ${isFeaturedCard ? "h-[59%]" : "h-20"}`}>
+                          <Link href={supplierHref} className={`relative block w-full overflow-hidden rounded-t-[7px] bg-white ${isFeaturedCard ? "h-3/4" : "h-20"}`}>
                             {supplier.profileImage ? (
                               <img
                                 src={getAzureSignedUrl(supplier.profileImage)}
@@ -576,7 +576,7 @@ export default function ProductSidebarClient({
                           href={productHref}
                           className={`group relative flex flex-col rounded-lg border border-[#0b4f82] bg-white transition hover:shadow-md ${isFeaturedCard ? "col-span-3 aspect-square" : ""}`}
                         >
-                          <div className={`relative block w-full overflow-hidden rounded-t-[7px] bg-white ${isFeaturedCard ? "h-[59%]" : "h-20"}`}>
+                          <div className={`relative block w-full overflow-hidden rounded-t-[7px] bg-white ${isFeaturedCard ? "h-3/4" : "h-20"}`}>
                             {mainImage ? (
                               <img
                                 src={getAzureSignedUrl(mainImage)}

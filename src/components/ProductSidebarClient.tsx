@@ -531,16 +531,17 @@ export default function ProductSidebarClient({
                 <div className="flex-1">
                   <div className="grid grid-cols-3 gap-4">
                     {/* First show all suppliers */}
-                    {flyoutSuppliers.map((supplier) => {
+                    {flyoutSuppliers.map((supplier, index) => {
                       const supplierHref = `/suppliers/${supplier.id}?category=${encodeURIComponent(hoveredSubCategory.category)}&subCategory=${encodeURIComponent(hoveredSubCategory.sub)}`;
                       const supplierName = formatText(supplier.companyName || supplier.name || "Supplier");
+                      const isFeaturedCard = index === 0;
 
                       return (
                         <div
                           key={supplier.id}
-                          className="group relative flex flex-col rounded-lg border border-[#0b4f82] bg-white transition hover:shadow-md"
+                          className={`group relative flex flex-col rounded-lg border border-[#0b4f82] bg-white transition hover:shadow-md ${isFeaturedCard ? "col-span-3 aspect-square" : ""}`}
                         >
-                          <Link href={supplierHref} className="relative block h-20 w-full overflow-hidden rounded-t-[7px] bg-white">
+                          <Link href={supplierHref} className={`relative block w-full overflow-hidden rounded-t-[7px] bg-white ${isFeaturedCard ? "h-[59%]" : "h-20"}`}>
                             {supplier.profileImage ? (
                               <img
                                 src={getAzureSignedUrl(supplier.profileImage)}
@@ -553,7 +554,7 @@ export default function ProductSidebarClient({
                               </div>
                             )}
                           </Link>
-                          <div className="rounded-b-[7px] border-t border-slate-100 bg-white p-2 text-center">
+                          <div className={`rounded-b-[7px] border-t border-slate-100 bg-white p-2 text-center ${isFeaturedCard ? "flex flex-1 items-center justify-center" : ""}`}>
                             <SupplierName name={supplierName} href={supplierHref} />
                           </div>
                         </div>
@@ -561,20 +562,21 @@ export default function ProductSidebarClient({
                     })}
 
                     {/* Then show direct products as supplier-style cards */}
-                    {flyoutDirectProducts.map((product) => {
+                    {flyoutDirectProducts.map((product, index) => {
                       const productName = formatText(product.title || product.name || "Product");
                       const mainImage = Array.isArray(product.images) && product.images.length > 0
                         ? product.images[0]
                         : null;
                       const productHref = `/products/${product.id}`;
+                      const isFeaturedCard = flyoutSuppliers.length === 0 && index === 0;
 
                       return (
                         <Link
                           key={product.id}
                           href={productHref}
-                          className="group relative flex flex-col rounded-lg border border-[#0b4f82] bg-white transition hover:shadow-md"
+                          className={`group relative flex flex-col rounded-lg border border-[#0b4f82] bg-white transition hover:shadow-md ${isFeaturedCard ? "col-span-3 aspect-square" : ""}`}
                         >
-                          <div className="relative block h-20 w-full overflow-hidden rounded-t-[7px] bg-white">
+                          <div className={`relative block w-full overflow-hidden rounded-t-[7px] bg-white ${isFeaturedCard ? "h-[59%]" : "h-20"}`}>
                             {mainImage ? (
                               <img
                                 src={getAzureSignedUrl(mainImage)}
@@ -587,7 +589,7 @@ export default function ProductSidebarClient({
                               </div>
                             )}
                           </div>
-                          <div className="rounded-b-[7px] border-t border-slate-100 bg-white p-2 text-center">
+                          <div className={`rounded-b-[7px] border-t border-slate-100 bg-white p-2 text-center ${isFeaturedCard ? "flex flex-1 items-center justify-center" : ""}`}>
                             <span className="text-xs font-semibold text-slate-800 line-clamp-2">
                               {productName}
                             </span>
